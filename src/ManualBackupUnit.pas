@@ -86,7 +86,7 @@ var
 begin
   if EditTaskName.Text = '' then
   begin
-    MesajDlg('Task Name cannot be empty !', 'c', PrgName);
+    MessageDlg('Task Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -95,14 +95,14 @@ begin
     DD := FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text);
     if (DD = '') then
     begin
-      MesajDlg('Database Path cannot be empty !', 'c', PrgName);
+      MessageDlg('Database Path cannot be empty!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(DD) = false then
       begin
-        MesajDlg('Database doesn''t exist onto given path !' + #13#10 + '(' + DD + ')', 'c', PrgName);
+        MessageDlg('Database doesn''t exist onto given path!' + #13#10 + '(' + DD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
@@ -110,14 +110,14 @@ begin
   bd := trim(EditDestinationDir.Text);
   if (bd = '') then
   begin
-    MesajDlg('Backup Directory cannot be empty !', 'c', PrgName);
+    MessageDlg('Backup Directory cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end
   else
     if DirectoryExists(bd) = false then
     begin
-      MesajDlg('Backup directory is not exist !' + #13#10 + '(' + bd + ')', 'c', PrgName);
+      MessageDlg('Backup directory is not exist !' + #13#10 + '(' + bd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
@@ -133,14 +133,14 @@ begin
     else
       if DirectoryExists(MD) = false then
       begin
-        MesajDlg('Mirror directory is not exist !' + #13#10 + '(' + MD + ')', 'c', PrgName);
+        MessageDlg('Mirror directory is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end
       else
         if (MD = bd) then
         begin
-          MesajDlg('Mirror directory must be different than Backup Directory !', 'c', PrgName);
+          MessageDlg('Mirror directory must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end;
@@ -165,14 +165,14 @@ begin
     else
       if DirectoryExists(MD) = false then
       begin
-        MesajDlg('Mirror directory 2 is not exist !' + #13#10 + '(' + MD + ')', 'c', PrgName);
+        MessageDlg('Mirror directory 2 is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end
       else
         if (MD = bd) then
         begin
-          MesajDlg('Mirror directory 2 must be different than Backup Directory !', 'c', PrgName);
+          MessageDlg('Mirror directory 2 must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end;
@@ -197,14 +197,14 @@ begin
     else
       if DirectoryExists(MD) = false then
       begin
-        MesajDlg('Mirror directory 3 is not exist !' + #13#10 + '(' + MD + ')', 'c', PrgName);
+        MessageDlg('Mirror directory 3 is not exist!' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end
       else
         if (MD = bd) then
         begin
-          MesajDlg('Mirror directory 3 must be different than Backup Directory !', 'c', PrgName);
+          MessageDlg('Mirror directory 3 must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end;
@@ -221,48 +221,48 @@ begin
   gd := trim(EditGBakDir.Text);
   if gd = '' then
   begin
-    MesajDlg('GBAK Directory is empty !', 'c', PrgName);
+    MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
     ModalResult := mrNone; //1.0.1
     exit;
   end
   else
     if DirectoryExists(gd) = false then
     begin
-      MesajDlg('Gbak Directory doesn''t exists !!' + #13#10 + '(' + gd + ')', 'c', PrgName);
+      MessageDlg('Gbak Directory doesn''t exists!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = false then
       begin
-        MesajDlg('Gbak.exe cannot be found onto given Gbak Dir !' + #13#10 + '(' + gd + ')', 'c', PrgName);
+        MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
   ld := trim(DModule.OptionsTableLOGDIR.Value);
   if (ld = '') then
   begin
-    MesajDlg('LOG Directory is empty !', 'c', PrgName);
+    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end
   else
     if DirectoryExists(ld) = false then
     begin
-      MesajDlg('Given LOG Directory doesn''t exists !!!' + #13#10 + '(' + ld + ')', 'c', PrgName);
+      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
 
   if EditUserName.Text = '' then
   begin
-    MesajDlg('User Name cannot be empty !', 'c', PrgName);
+    MessageDlg('User Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
   if EditPassword.Text = '' then
   begin
-    MesajDlg('Password cannot be empty !', 'c', PrgName);
+    MessageDlg('Password cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;

@@ -121,7 +121,7 @@ var
 begin
   if trim(EditTaskDef.Text) = '' then
   begin
-    MesajDlg('Task Name cannot be empty !', 'c', PrgName);
+    MessageDlg('Task Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -129,14 +129,14 @@ begin
   begin
     if trim(EditDatabaseName.Text) = '' then
     begin
-      MesajDlg('Path to database cannot be empty !', 'c', PrgName);
+      MessageDlg('Path to database cannot be empty!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(trim(FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text))) = false then
       begin
-        MesajDlg('Database doesn''t exist onto given path !', 'c', PrgName);
+        MessageDlg('Database doesn''t exist onto given path!', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
@@ -144,14 +144,14 @@ begin
 
   if trim(EditDestinationDir.Text) = '' then
   begin
-    MesajDlg('Backup Directory cannot be empty !', 'c', PrgName);
+    MessageDlg('Backup Directory cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end
   else
     if DirectoryExists(EditDestinationDir.Text) = false then
     begin
-      MesajDlg('Backup directory is not exist !', 'c', PrgName);
+      MessageDlg('Backup directory is not exist !', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
@@ -167,14 +167,14 @@ begin
       else
         if DirectoryExists(EditMirrorDir.Text) = false then
         begin
-          MesajDlg('Mirror directory is not exist !', 'c', PrgName);
+          MessageDlg('Mirror directory is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end
         else
           if (EditMirrorDir.Text = EditDestinationDir.Text) then
           begin
-            MesajDlg('Mirror directory must be different than Backup Directory !', 'c', PrgName);
+            MessageDlg('Mirror directory must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
             exit;
           end;
@@ -198,14 +198,14 @@ begin
       else
         if DirectoryExists(EditMirror2Dir.Text) = false then
         begin
-          MesajDlg('Mirror directory 2 is not exist !', 'c', PrgName);
+          MessageDlg('Mirror directory 2 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end
         else
           if (EditMirror2Dir.Text = EditDestinationDir.Text) then
           begin
-            MesajDlg('Mirror directory 2 must be different than Backup Directory !', 'c', PrgName);
+            MessageDlg('Mirror directory 2 must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
             exit;
           end;
@@ -229,14 +229,14 @@ begin
       else
         if DirectoryExists(EditMirror3Dir.Text) = false then
         begin
-          MesajDlg('Mirror directory 3 is not exist !', 'c', PrgName);
+          MessageDlg('Mirror directory 3 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
           exit;
         end
         else
           if (EditMirror3Dir.Text = EditDestinationDir.Text) then
           begin
-            MesajDlg('Mirror directory 3 must be different than Backup Directory !', 'c', PrgName);
+            MessageDlg('Mirror directory 3 must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
             exit;
           end;
@@ -253,13 +253,13 @@ begin
 
   if EditUserName.Text = '' then
   begin
-    MesajDlg('User name cannot be empty !', 'c', PrgName);
+    MessageDlg('User name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
   if EditPassword.Text = '' then
   begin
-    MesajDlg('Password cannot be empty !', 'c', PrgName);
+    MessageDlg('Password cannot be empty !', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -273,7 +273,7 @@ begin
       kk := 0;
   if kk = 0 then
   begin
-    MesajDlg('At least one Hour must be checked !', 'c', PrgName);
+    MessageDlg('At least one Hour must be checked!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -287,7 +287,7 @@ begin
       kk := 0;
   if kk = 0 then
   begin
-    MesajDlg('At least one Minute must be checked !', 'c', PrgName);
+    MessageDlg('At least one Minute must be checked!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -296,21 +296,21 @@ begin
     1:
       if StrToInt(DBEAdet.Text) > 24 then
       begin
-        MesajDlg('You can not enter greater values then 24 as preserving time-limit. If you need to, please select "Day''s Copies" item..', 'c', PrgName);
+        MessageDlg('You can not enter greater values then 24 as preserving time-limit. If you need to, please select "Day''s Copies" item.', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
     2:
       if StrToInt(DBEAdet.Text) > 30 then
       begin
-        MesajDlg('You can not enter greater values then 30 as preserving time-limit. If you need to, please select "Month''s Copies" item..', 'c', PrgName);
+        MessageDlg('You can not enter greater values then 30 as preserving time-limit. If you need to, please select "Month''s Copies" item.', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
     3:
       if StrToInt(DBEAdet.Text) > 12 then
       begin
-        MesajDlg('You can not enter greater values then 12 as preserving time-limit.', 'c', PrgName);
+        MessageDlg('You can not enter greater values then 12 as preserving time-limit.', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
@@ -320,7 +320,7 @@ begin
   begin
     if FileExists(trim(FileEditBtnBatchFile.Text)) = false then
     begin
-      MesajDlg('ERROR !!'#13#10'File "' + FileEditBtnBatchFile.Text + '" is not exist !!', 'c', PrgName);
+      MessageDlg('ERROR !!'#13#10'File "' + FileEditBtnBatchFile.Text + '" is not exist!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
@@ -348,7 +348,7 @@ procedure TEditTaskForm.EditTaskDefKeyPress(Sender: TObject;
 begin
   if Key in [',', '/', '\', '!', '*', '{', '(', ')', '}', '"', '''', '%'] then
   begin
-    MesajDlg('You cannot use illegal chars in Task Name!'#13#10'/ , \ ! { ( ) } " '' %', 'c', PrgName);
+    MessageDlg('You cannot use illegal chars in Task Name!'#13#10'/ , \ ! { ( ) } " '' %', mtError, [mbOk], 0);
     Key := #0;
   end;
 end;
@@ -369,7 +369,7 @@ begin
   if trim(EditDatabaseName.Text) = '' then
     exit;
   if FileExists(EditDatabaseName.Text) = false then
-    MesajDlg('File "' + EditDatabaseName.Text + '" is not Exists !!', 'c', PrgName);
+    MessageDlg('File "' + EditDatabaseName.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;
 
 procedure TEditTaskForm.EditDestinationDirBeforeBtnClick(Sender: TObject);
@@ -377,7 +377,7 @@ begin
   if trim(EditDestinationDir.Text) = '' then
     exit;
   if DirectoryExists(EditDestinationDir.Text) = false then
-    MesajDlg('Directory "' + EditDestinationDir.Text + '" is not Exists !!', 'c', PrgName);
+    MessageDlg('Directory "' + EditDestinationDir.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;
 
 procedure TEditTaskForm.DBCBConnectionClick(Sender: TObject);

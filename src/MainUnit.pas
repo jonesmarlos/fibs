@@ -382,7 +382,7 @@ begin
       DModule.AlarmTable.Cancel;
   end
   else
-    MesajDlg('No Task to Edit !', 'c', PrgName);
+    MessageDlg('No Task to Edit!', mtError, [mbOk], 0);
 end;
 
 procedure TMainForm.DeleteCurrentTaskFromTimeList;
@@ -541,7 +541,7 @@ begin
   end;
   if bul then
   begin
-    MesajDlg('You MUST DEACTIVE all active Tasks before adding a new Task !!', 'c', PrgName);
+    MessageDlg('You MUST DEACTIVE all active Tasks before adding a new Task!', mtError, [mbOk], 0);
     exit;
   end;
   DModule.AlarmTable.Append;
@@ -635,9 +635,9 @@ procedure TMainForm.MenuExitClick(Sender: TObject);
 begin
   if BackupIsService then
   begin
-    MesajDlg(PrgName + ' is running as a Windows Service now..'#13#10 +
+    MessageDlg(PrgName + ' is running as a Windows Service now.'#13#10 +
       'If you want to stop FIBSBackupService please use FIBS tray icon''s "Stop Service" menu'#13#10 +
-      'or use FIBSSM FIBS Service Manager..', 'c', PrgName);
+      'or use FIBSSM FIBS Service Manager.', mtInformation, [mbOk], 0);
     exit;
   end
   else
@@ -657,39 +657,39 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No backup task to be activated !!', 'c', PrgName);
+    MessageDlg('No backup task to be activated!', mtError, [mbOk], 0);
     exit;
   end;
   gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
   if gd = '' then
   begin
-    MesajDlg('GBAK Directory is empty !', 'c', PrgName);
+    MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(gd) = false then
     begin
-      MesajDlg('Gbak Directory doesn''t exists !!', 'c', PrgName);
+      MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = false then
       begin
-        MesajDlg('Gbak.exe cannot be found onto given Gbak Dir !', 'c', PrgName);
+        MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
   ld := trim(DModule.OptionsTableLOGDIR.Value);
   if (ld = '') then
   begin
-    MesajDlg('LOG Directory is empty !', 'c', PrgName);
+    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(ld) = false then
     begin
-      MesajDlg('Given LOG Directory doesn''t exists !!!' + #13#10 + '(' + ld + ')', 'c', PrgName);
+      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
@@ -1225,7 +1225,7 @@ begin
   begin
     if DModule.AlarmTableACTIVE.AsInteger = 0 then
     begin
-      if YesNoDlg('Do you want to DELETE' + DModule.AlarmTableTASKNAME.Value + ' ?', 'c', PrgName) = mrYes then
+      if MessageDlg('Do you want to DELETE' + DModule.AlarmTableTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       begin
         DeleteAlarmsFromTimeList;
         DModule.AlarmTable.Delete;
@@ -1233,10 +1233,10 @@ begin
       end;
     end
     else
-      MesajDlg('Deactivate Task before Delete !', 'c', PrgName);
+      MessageDlg('Deactivate Task before Delete!', mtWarning, [mbOk], 0);
   end
   else
-    MesajDlg('No Task to Delete !', 'c', PrgName);
+    MessageDlg('No Task to Delete!', mtError, [mbOk], 0);
 end;
 
 procedure TMainForm.TaskGridKeyPress(Sender: TObject; var Key: Char);
@@ -1254,7 +1254,7 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No backup task to be seen the backup executing times !!', 'c', PrgName);
+    MessageDlg('No backup task to be seen the backup executing times!', mtError, [mbOk], 0);
     exit;
   end;
   ts := TStringList.Create;
@@ -1304,7 +1304,7 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No backup task to be seen the backup time settings !!', 'c', PrgName);
+    MessageDlg('No backup task to be seen the backup time settings!', mtError, [mbOk], 0);
     exit;
   end;
   PlanListForm := TPlanListForm.Create(self);
@@ -1343,7 +1343,7 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No task log to be viewed !!', 'c', PrgName);
+    MessageDlg('No task log to be viewed!', mtError, [mbOk], 0);
     exit;
   end;
   TaskName := FunctionsUnit.RemoveDatabaseSequenceTokens(DModule.AlarmTableTASKNAME.Value);
@@ -1354,18 +1354,18 @@ begin
   LogPath := MakeFull(LogDir, LogNameExt);
   if (LogPath = '') then
   begin
-    MesajDlg('LOG Directory is empty !', 'c', PrgName);
+    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(LogDir) = false then
     begin
-      MesajDlg('Given LOG Directory doesn''t exists !!!' + #13#10 + '(' + LogDir + ')', 'c', PrgName);
+      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + LogDir + ')', mtError, [mbOk], 0);
       exit;
     end;
   if FileExists(LogPath) = false then
   begin
-    MesajDlg('LOG File for Task " ' + TaskName + ' " is not exist !!' + #13#10 + 'Log File will be created after executing a backup task ', 'c', PrgName);
+    MessageDlg('LOG File for Task "' + TaskName + '" is not exist!' + #13#10 + 'Log File will be created after executing a backup task.', mtError, [mbOk], 0);
     exit;
   end;
   LogForm := TLogForm.Create(self);
@@ -1470,10 +1470,10 @@ begin
           end;
         end
         else
-          MesajDlg('This Task can''t be Activated'#13#10'Because Directory "' + DModule.AlarmTableBACKUPDIR.Value + '" is not Exists !!', 'c', PrgName); //1.0.12
+          MessageDlg('This Task can''t be Activated'#13#10'Because Directory "' + DModule.AlarmTableBACKUPDIR.Value + '" is not Exists!', mtError, [mbOk], 0); //1.0.12
       end
       else
-        MesajDlg('This Task can''t be Activated'#13#10 + 'Because Database "' + DModule.AlarmTableDBNAME.Value + '" is not exists !!', 'c', PrgName); //1.0.12
+        MessageDlg('This Task can''t be Activated'#13#10 + 'Because Database "' + DModule.AlarmTableDBNAME.Value + '" is not exists!', mtError, [mbOk], 0); //1.0.12
     end;
   finally
     DModule.AlarmTable.EnableControls;
@@ -1539,45 +1539,45 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No backup task to be activated !!', 'c', PrgName);
+    MessageDlg('No backup task to be activated!', mtError, [mbOk], 0);
     exit;
   end;
   gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
   if gd = '' then
   begin
-    MesajDlg('GBAK Directory is empty !', 'c', PrgName);
+    MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(gd) = false then
     begin
-      MesajDlg('Gbak Directory doesn''t exists !!', 'c', PrgName);
+      MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = false then
       begin
-        MesajDlg('Gbak.exe cannot be found onto given Gbak Dir !', 'c', PrgName);
+        MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
   ld := trim(DModule.OptionsTableLOGDIR.Value);
   if (ld = '') then
   begin
-    MesajDlg('LOG Directory is empty !', 'c', PrgName);
+    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(ld) = false then
     begin
-      MesajDlg('Given LOG Directory doesn''t exists !!!' + #13#10 + '(' + ld + ')', 'c', PrgName);
+      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
-  if YesNoDlg('Only error-free-defined tasks will be activated !!'#13#10 +
+  if MessageDlg('Only error-free-defined tasks will be activated !!'#13#10 +
     '(But no error message will be shown !)'#13#10#13#10 +
-    'Do you want to ACTIVATE all deactive tasks ?', 'c', PrgName) = mrYes then
+    'Do you want to ACTIVATE all deactive tasks?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     ActivateAll;
   end;
@@ -1614,7 +1614,7 @@ end;
 
 procedure TMainForm.MenuDeactivateAllClick(Sender: TObject);
 begin
-  if YesNoDlg('Do you want to activate All deactive tasks ?', 'c', PrgName) = mrYes then
+  if MessageDlg('Do you want to activate All deactive tasks ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     DeactivateAll;
   end;
@@ -1629,7 +1629,7 @@ var
 begin
   if DModule.AlarmTable.RecordCount < 1 then
   begin
-    MesajDlg('No backup task to execute !!', 'c', PrgName);
+    MessageDlg('No backup task to execute!', mtError, [mbOk], 0);
     ModalResult := mrNone;
     exit;
   end;
@@ -1698,7 +1698,7 @@ begin
     MainFormHidden := true;
   end
   else
-    MesajDlg('Close window "' + screen.ActiveForm.caption + '" first !!', 'c', PrgName);
+    MessageDlg('Close window "' + screen.ActiveForm.caption + '" first!', mtError, [mbOk], 0);
 end;
 
 // Below codes hides mainform when minimize button is pressed.
@@ -1736,16 +1736,16 @@ begin
   HelpPath := GetCurrentDir + '\fibs.hlp';
   res := ShellExecute(Handle, 'open', PChar(HelpPath), nil, nil, SW_SHOWNORMAL);
   if res = 0 then
-    MesajDlg('Error opening help file "' + HelpPath + '"'#13#10'The operating system is out of memory or resources.', 'c', PrgName)
+    MessageDlg('Error opening help file "' + HelpPath + '"'#13#10'The operating system is out of memory or resources.', mtError, [mbOk], 0)
   else
     if res = SE_ERR_FNF then
-      MesajDlg('Error opening help file !!'#13#10'Help file "' + HelpPath + '" couldn''t found.', 'c', PrgName)
+      MessageDlg('Error opening help file !!'#13#10'Help file "' + HelpPath + '" couldn''t found.', mtError, [mbOk], 0)
     else
       if res = SE_ERR_OOM then
-        MesajDlg('Error opening help file "' + HelpPath + '"'#13#10'There was not enough memory to complete the operation.', 'c', PrgName)
+        MessageDlg('Error opening help file "' + HelpPath + '"'#13#10'There was not enough memory to complete the operation.', mtError, [mbOk], 0)
       else
         if res = SE_ERR_SHARE then
-          MesajDlg('Error opening help file "' + HelpPath + '"'#13#10'A sharing violation occurred.', 'c', PrgName);
+          MessageDlg('Error opening help file "' + HelpPath + '"'#13#10'A sharing violation occurred.', mtError, [mbOk], 0);
   {
   0	The operating system is out of memory or resources.
   ERROR_FILE_NOT_FOUND	The specified file was not found.

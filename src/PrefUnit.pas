@@ -84,32 +84,32 @@ procedure TPrefForm.BitBtn1Click(Sender: TObject);
 begin
   if DirectoryEdit1.Text = '' then
   begin
-    MesajDlg('Directory Name cannot be empty !', 'c', PrgName);
+    MessageDlg('Directory Name cannot be empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(trim(DirectoryEdit1.Text)) = false then
     begin
-      MesajDlg('There is No Directory given name !!', 'c', PrgName);
+      MessageDlg('There is No Directory given name!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
       if FileExists(trim(DirectoryEdit1.Text) + '\gbak.exe') = false then
       begin
-        MesajDlg('Gbak.exe cannot be found onto given dir !', 'c', PrgName);
+        MessageDlg('Gbak.exe cannot be found onto given dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
         exit;
       end;
   if DirectoryLogDir.Text = '' then
   begin
-    MesajDlg('LOG Directory Name cannot be empty !', 'c', PrgName);
+    MessageDlg('LOG Directory Name cannot be empty!', mtError, [mbOk], 0);
     exit;
   end
   else
     if DirectoryExists(trim(DirectoryLogDir.Text)) = false then
     begin
-      MesajDlg('Given LOG Directory is not exists !!!', 'c', PrgName);
+      MessageDlg('Given LOG Directory is not exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
@@ -146,20 +146,20 @@ begin
             EditUserName.Text := Reg.ReadString('POP3 User Name');
             EditPassword.Text := '';
             Reg.CloseKey;
-            MesajDlg('Warning !!'#13#10'Reading Default Mail Account from registry clears the password box..'#13#10 +
-              'Please do not forget entering the correct password..', 'c', PrgName);
+            MessageDlg('Warning !!'#13#10'Reading Default Mail Account from registry clears the password box..'#13#10 +
+              'Please do not forget entering the correct password.', mtError, [mbOk], 0);
           end
           else
-            MesajDlg('Default Mail Account hasn''t been found !!', 'c', PrgName);
+            MessageDlg('Default Mail Account hasn''t been found!', mtError, [mbOk], 0);
         end
         else
-          MesajDlg('No Mail Account has been found !!', 'c', PrgName);
+          MessageDlg('No Mail Account has been found!', mtError, [mbOk], 0);
       end
       else
-        MesajDlg('FIBS can''t get email related data while it''s running as a service !'#13#10'Please run FIBS as an application to get email-related-data and then restart FIBS as a service..', 'c', PrgName);
+        MessageDlg('FIBS can''t get email related data while it''s running as a service !'#13#10'Please run FIBS as an application to get email-related-data and then restart FIBS as a service.', mtError, [mbOk], 0);
     end
     else
-      MesajDlg('Firebird key couldn''t been found in the registry !!', 'c', PrgName);
+      MessageDlg('Firebird key couldn''t been found in the registry!', mtError, [mbOk], 0);
   finally
     Reg.Free;
   end;

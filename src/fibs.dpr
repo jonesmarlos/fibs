@@ -45,14 +45,14 @@ begin
   // Check if FIBS is running as a servic.e
   if ServiceRunning(nil, 'FIBSBackupService') then
   begin
-    MesajDlg('FIBS is still running as a service !!!', 'c', PrgName);
+    MessageDlg('FIBS is still running as a service!', mtError, [mbOk], 0);
     exit;
   end;
   // FIBS is not running as a service.
   // Check if FIBS is running as an application.
   if AlreadyRun then
   begin
-    MesajDlg('FIBS is still running as a desktop Application !!!', 'c', PrgName);
+    MessageDlg('FIBS is still running as a desktop Application!', mtError, [mbOk], 0);
     exit;
   end;
   // FIBS is not running as a service nor an application.
@@ -71,7 +71,7 @@ begin
       begin
         DModule.Free;
         MainForm.Free;
-        MesajDlg('ERROR !!' + 'prefs.dat or tasks.dat is not exists or corrupt or old version!!'#13#10'FIBS cannot start !!!', 'c', PrgName);
+        MessageDlg('ERROR!' + 'prefs.dat or tasks.dat is not exists or corrupt or old version!!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         PostThreadMessage(BackupService.ServiceThread.ThreadID, WM_QUIT, 0, 0);
         exit;
       end;
@@ -101,7 +101,7 @@ begin
       begin
         DModule.Free;
         MainForm.Free;
-        MesajDlg('ERROR !!'#13#10 + 'prefs.dat and/or tasks.dat is/are not exist, old version or corrupt !!'#13#10'FIBS cannot start !!!', 'c', PrgName);
+        MessageDlg('ERROR!'#13#10 + 'prefs.dat and/or tasks.dat is/are not exist, old version or corrupt!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         Application.Terminate;
         exit;
       end;
@@ -111,6 +111,6 @@ begin
     end;
   end
   else
-    MesajDlg('FIBS Firebird-Interbase Backup Scheduler can run only one instance !!!', 'c', PrgName);
+    MessageDlg('FIBS Firebird-Interbase Backup Scheduler can run only one instance!', mtError, [mbOk], 0);
 end.
 

@@ -52,10 +52,10 @@ begin
       result := true;
     end
     else
-      MesajDlg(DataFilesPath + 'tasks.dat is not exist !!!'#13#10'Program will be closed.. ', 'c', PrgName);
+      MessageDlg(DataFilesPath + 'tasks.dat is not exist !!!'#13#10'Program will be closed.', mtError, [mbOk], 0);
   end
   else
-    MesajDlg(DataFilesPath + 'prefs.dat is not exist !!!'#13#10'Program will be closed.. ', 'c', PrgName);
+    MessageDlg(DataFilesPath + 'prefs.dat is not exist !!!'#13#10'Program will be closed.', mtError, [mbOk], 0);
 end;
 
 function AlreadyRun: Boolean;
@@ -115,7 +115,7 @@ begin
       (p2 = 0)) {// @ is not exist} then
     begin
       result := false;
-      MesajDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', 'c', PrgName);
+      MessageDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', mtError, [mbOk], 0);
     end;
   end;
 end;
@@ -143,7 +143,7 @@ begin
       (p2 = 0)) {// @ is not exist} then
     begin
       result := false;
-      MesajDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', 'c', PrgName);
+      MessageDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', mtError, [mbOk], 0);
     end
     else
     begin

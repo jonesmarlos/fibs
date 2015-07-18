@@ -77,7 +77,7 @@ object ManualBackupForm: TManualBackupForm
   object Label13: TLabel
     Left = 13
     Top = 308
-    Width = 224
+    Width = 222
     Height = 13
     Caption = 'GBAK Options                                                    '
     Font.Charset = DEFAULT_CHARSET
