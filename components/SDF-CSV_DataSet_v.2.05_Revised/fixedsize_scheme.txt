@@ -1,0 +1,4 @@
+first_name=20
+last_name=20
+ind=1
+date=10

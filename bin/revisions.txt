@@ -1,0 +1,68 @@
+
+
+                                 REVISION NOTES OF FIBS SOURCE
+
+
+
+
+
+1. Revision 2.0.0 - June 27, 2006
+   Base Release 
+
+
+2. Revision 2.0.1 - July 24, 2006
+   -Fixed the scheduling problem which is troubled and reported some of FIBS users. 
+    Fixed by Julien Ferraro as below:
+    Line 65 of ConstUnit is changed to "ExecutedItem     : integer = -1;"  
+
+   -Fixed the bug which caused exception when the last task was tried to delete. ( This bug is       reported by tJey on on Jul 15, 2006.
+    1. First line of the procedure TMainForm.MenuTaskClick is changed as below;                         MenuActivate.Enabled:=DModule.AlarmTableACTIVE.AsString='0';
+    2. Property "FistLineAsSchema" of both AlarmTable and OptionsTable are setted to False;
+    3. Property "Schema" of both AlarmTable and OptionsTable are revised as below:
+       
+       PATHTOGBAK=100 ----|                           TASKNO=10     --------|                           TASKNO=10          |                           TASKNAME=30           |                           LOGDIR=100         |                           DBNAME=100            |                    
+       AUTORUN=1          |                           BACKUPDIR=100         | 
+       SMTPSERVER=250     | OptionsTable              MIRRORDIR=100         |
+       SENDERSMAIL=250    |                           MIRROR2DIR=100        |
+       MAILUSERNAME=80    |                           MIRROR3DIR=100        |
+       MAILPASSWORD=80    |                           USER=20               |
+       FTPCONNTYPE=1 -----|                           PASSWORD=24           |
+                                                      ROLE=32               |  
+                                                      PVAL=10               | 
+                                                      PUNIT=16              |  
+                                                      ZIPBACKUP=5           | AlarmTable 
+                                                      BOPTIONS=32           |  
+                                                      DELETEALL=1           |
+                                                      BOXES=115             |
+                                                      COMPRESS=10           |
+                                                      LOCALCONN=5           |
+                                                      BCOUNTER=6            |
+                                                      ACTIVE=1              |   
+                                                      DOVAL=5               |
+                                                      MAILTO=250            |
+                                                      BATCHFILE=250         |
+                                                      SHOWBATCHWIN=5        |
+                                                      USEPARAMS=5-----------|
+                                                 
+    4. The first line of both tasks.dat and prefs.dat are deleted.
+ 
+
+3. Revision 2.0.2 - June 29, 2006
+   - No code modification has been done.
+   - EditTaskUnit.dfm and PrefUnit.dfm  files have been updated to make it ready FIBS to compile 
+     with TDirectoryEditBtn ver.1.1.
+    (TDirectoryEditBtn v1.1 make it possible for user to set root directory to any predefined
+     directories like "MyComputers" not only "Desktop" which gives annoying message.  
+     
+
+4. Revision 2.0.3 - February 7, 2014
+   - Activation of some task even when the mirror is invalid.
+   - Option to duplicate the current task.
+   - Option to indicate an automatic sequence database.
+
+
+Talat Dogan
+July 29, 2006
+Jones Marlos Pinheiro da Rosa
+February 7, 2014
+                                          END OF THE REVISION NOTES
