@@ -151,7 +151,7 @@ implementation
 uses Registry, Variants, StrUtils, PrefUnit, EditTaskUnit, ConstUnit, DModuleUnit, BackupUnit,
   uTBase64, MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, YesNoUnit, PresetsUnit, DateUtils,
-  RetMonitorTools, BackupServiceUnit, DB;
+  RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
 {$R *.DFM}
 
@@ -260,8 +260,6 @@ begin
 end;
 
 procedure TMainForm.MenuPrefsClick(Sender: TObject);
-var
-  s: string;
 begin
   PrefForm := TPrefForm.Create(Self);
   try
@@ -271,8 +269,7 @@ begin
     PrefForm.EditSMTPServer.Text := DModule.OptionsTableSMTPSERVER.Value;
     PrefForm.EditMailAdress.Text := DModule.OptionsTableSENDERSMAIL.Value;
     PrefForm.EditUserName.Text := DModule.OptionsTableMAILUSERNAME.Value;
-    DecodeData(DModule.OptionsTableMAILPASSWORD.Value, s);
-    PrefForm.EditPassword.Text := s;
+    PrefForm.EditPassword.Text := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
     if PrefForm.ShowModal = mrOk then
     begin
       DModule.OptionsTable.edit;
@@ -283,9 +280,7 @@ begin
       DModule.OptionsTableSMTPSERVER.Value := PrefForm.EditSMTPServer.Text;
       DModule.OptionsTableSENDERSMAIL.Value := PrefForm.EditMailAdress.Text;
       DModule.OptionsTableMAILUSERNAME.Value := PrefForm.EditUserName.Text;
-
-      EncodeData(PrefForm.EditPassword.Text, s);
-      DModule.OptionsTableMAILPASSWORD.Value := s;
+      DModule.OptionsTableMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(PrefForm.EditPassword.Text);
       DModule.OptionsTable.Post;
     end;
   finally
@@ -739,8 +734,7 @@ begin
     TaskName := DModule.AlarmTableTASKNAME.Value;
     GBakPath := DModule.OptionsTablePATHTOGBAK.Value;
     UserName := DModule.AlarmTableUSER.Value;
-    //  Password:=DModule.AlarmTablePASSWORD.Value;
-    DecodeData(DModule.AlarmTablePASSWORD.Value, Password);
+    Password := DCPbase64.Base64DecodeStr(DModule.AlarmTablePASSWORD.AsString);
     DoValidate := DModule.AlarmTableDOVAL.AsBoolean;
     BatchFile := DModule.AlarmTableBATCHFILE.Value;
     ShowBatchWin := DModule.AlarmTableSHOWBATCHWIN.AsBoolean;
@@ -749,7 +743,7 @@ begin
     SmtpServer := DModule.OptionsTableSMTPSERVER.Value;
     SendersMail := DModule.OptionsTableSENDERSMAIL.Value;
     MailUserName := DModule.OptionsTableMAILUSERNAME.Value;
-    DecodeData(DModule.OptionsTableMAILPASSWORD.Value, MailPassword);
+    MailPassword := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
 
     MailTo := DModule.AlarmTableMAILTO.Value;
     FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.AsString, 0);
@@ -983,7 +977,7 @@ begin
   SmtpServer := DModule.OptionsTableSMTPSERVER.Value;
   SendersMail := DModule.OptionsTableSENDERSMAIL.Value;
   MailUserName := DModule.OptionsTableMAILUSERNAME.Value;
-  DecodeData(DModule.OptionsTableMAILPASSWORD.Value, MailPassword);
+  MailPassword := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
 
   BatchFile := DModule.AlarmTableBATCHFILE.Value;
   ShowBatchWin := DModule.AlarmTableSHOWBATCHWIN.AsBoolean;
@@ -1643,8 +1637,7 @@ begin
   ManualBackupForm.EditMirror3Dir.Text := DModule.AlarmTableMIRROR3DIR.Value;
   ManualBackupForm.EditGBakDir.Text := DModule.OptionsTablePATHTOGBAK.Value;
   ManualBackupForm.EditUserName.Text := DModule.AlarmTableUSER.Value;
-  DecodeData(DModule.AlarmTablePASSWORD.Value, passw);
-  ManualBackupForm.EditPassword.Text := passw;
+  ManualBackupForm.EditPassword.Text := DCPbase64.Base64DecodeStr(DModule.AlarmTablePASSWORD.AsString);
   ManualBackupForm.EditCompDeg.Text := DModule.AlarmTableCOMPRESS.Value;
   ManualBackupForm.EditPriority.Text := DModule.OptionsTableBPRIORTY.Value;
   ManualBackupForm.EditMailTo.Text := DModule.AlarmTableMAILTO.Value;

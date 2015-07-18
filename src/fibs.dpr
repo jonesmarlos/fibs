@@ -17,6 +17,7 @@ uses
   Dialogs,
   WinSvc,
   Classes,
+  DCPbase64,
   MainUnit in 'MainUnit.pas' {MainForm},
   PrefUnit in 'PrefUnit.pas' {PrefForm},
   ConstUnit in 'ConstUnit.pas',

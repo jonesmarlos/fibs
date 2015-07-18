@@ -98,7 +98,7 @@ var
 
 implementation
 
-uses Variants, uTBase64, ConstUnit, IBDatabase, FunctionsUnit, StrUtils;
+uses Variants, uTBase64, ConstUnit, IBDatabase, FunctionsUnit, StrUtils, DCPbase64;
 
 {$R *.dfm}
 
@@ -147,31 +147,25 @@ end;
 procedure TDModule.AlarmTablePASSWORDGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
-  DecodeData(AlarmTablePASSWORD.Value, Text);
+  Text := DCPbase64.Base64DecodeStr(Self.AlarmTablePASSWORD.AsString);
 end;
 
 procedure TDModule.AlarmTablePASSWORDSetText(Sender: TField;
   const Text: string);
-var
-  s: string;
 begin
-  EncodeData(Text, s);
-  AlarmTablePASSWORD.Value := s;
+  Self.AlarmTablePASSWORD.AsString := DCPbase64.Base64EncodeStr(Text);
 end;
 
 procedure TDModule.OptionsTableMAILPASSWORDSetText(Sender: TField;
   const Text: string);
-var
-  s: string;
 begin
-  EncodeData(Text, s);
-  OptionsTableMAILPASSWORD.Value := s;
+  Self.OptionsTableMAILPASSWORD.AsString := DCPbase64.Base64EncodeStr(Text);
 end;
 
 procedure TDModule.OptionsTableMAILPASSWORDGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
-  DecodeData(OptionsTableMAILPASSWORD.Value, Text);
+  Text := DCPbase64.Base64DecodeStr(Self.OptionsTableMAILPASSWORD.AsString);
 end;
 
 function TDModule.CheckDatabaseSequenceIncrement: Boolean;
