@@ -3,7 +3,7 @@ unit RetMonitorTools;
 //Author : retnyg @ http://krazz.net/retnyg
 
 interface
-uses windows, Types, Graphics;
+uses Windows, Types, Graphics;
 
 const
   MinFact = 125;
@@ -47,7 +47,7 @@ begin
   DC := GetDC(0);
   Cn := TCanvas.Create;
   Cn.Handle := DC;
-  result := Cn.ClipRect;
+  Result := Cn.ClipRect;
   Cn.Free;
   ReleaseDc(0, DC);
 end;
@@ -56,11 +56,11 @@ function GuessNumberMonitors: Byte;
 var
   dr: TRect;
 begin
-  result := 1;
+  Result := 1;
   dr := GetDesktopDimensions;
   while (dr.Right * 100) div dr.Bottom > MaxFact do
   begin
-    inc(result);
+    inc(Result);
     dr.Right := (dr.Right) - ((dr.Bottom * MinFact) div 100);
   end;
 end;
@@ -71,7 +71,7 @@ var
   LastMon, NewMon: pointer;
   dr: TRect;
 begin
-  result := 0;
+  Result := 0;
   LastMon := nil;
   dr := GetDesktopDimensions;
   while dr.Right > 0 do
@@ -79,7 +79,7 @@ begin
     NewMon := MonitorFromPoint(dr.BottomRight, MONITOR_DEFAULTTONEAREST);
     if NewMon <> LastMon then
     begin
-      inc(result);
+      inc(Result);
       LastMon := NewMon;
     end;
     dec(dr.Right, 100);
@@ -92,7 +92,7 @@ var
   NumMon: Byte;
   PxpMon, NewX: DWORD;
 begin
-  result := false;
+  Result := False;
   NumMon := GuessNumberMonitors;
   if (NumMon > 0) and (monNum > 0) then
   begin
@@ -101,8 +101,8 @@ begin
     if GetwindowRect(hnd, dr) then
     begin
       NewX := (dr.Left mod PxpMon) + ((PxpMon * monNum) - PxpMon);
-      if MoveWindow(hnd, NewX, dr.Top, dr.Right - dr.Left, dr.Bottom - dr.Top, true) then
-        result := true;
+      if MoveWindow(hnd, NewX, dr.Top, dr.Right - dr.Left, dr.Bottom - dr.Top, True) then
+        Result := True;
     end;
   end;
 end;
@@ -113,16 +113,15 @@ var
   NumMon: Byte;
   PxpMon: DWORD;
 begin
-  result := 1;
+  Result := 1;
   NumMon := GuessNumberMonitors;
   if (NumMon > 1) then
   begin
     dr := GetDesktopDimensions;
     PxpMon := dr.Right div NumMon;
     if GetwindowRect(hnd, dr) then
-      result := (dr.Left div PxpMon) + 1;
+      Result := (dr.Left div PxpMon) + 1;
   end;
 end;
 
 end.
-

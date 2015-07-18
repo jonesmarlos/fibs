@@ -28,7 +28,7 @@ unit BackupServiceUnit;
 interface
 
 uses
-  SysUtils, Classes, windows, SvcMgr, WinSvc;
+  SysUtils, Classes, Windows, SvcMgr, WinSvc;
 
 type
   TBackupService = class(TService)
@@ -71,7 +71,7 @@ end;
 
 function TBackupService.GetServiceController: TServiceController;
 begin
-  result := ServiceController;
+  Result := ServiceController;
 end;
 
 procedure TBackupService.CreateForm(InstanceClass: TComponentClass; var Reference);
@@ -92,8 +92,8 @@ end;
 constructor TBackupService.CreateNew(AOwner: TComponent; Dummy: Integer);
 begin
   inherited;
-  AllowPause := false;
-  Interactive := true;
+  AllowPause := False;
+  Interactive := True;
   DisplayName := FDisplayName;
   Name := FServiceName;
   OnStart := Start;
@@ -102,25 +102,25 @@ end;
 
 procedure TBackupService.Start(Sender: TService; var Started: Boolean);
 begin
-  Started := true;
+  Started := True;
 end;
 
 procedure TBackupService.Execute(Sender: TService);
 begin
   while not Terminated do
-    ServiceThread.ProcessRequests(true);
+    ServiceThread.ProcessRequests(True);
 end;
 
 procedure TBackupService.Stop(Sender: TService; var Stopped: Boolean);
 begin
-  Stopped := true;
+  Stopped := True;
 end;
 
 { Utilities}
 
 function BackupIsService: Boolean;
 begin
-  result := FIsService;
+  Result := FIsService;
 end;
 
 function BackupStartService(DisplayName: string): Boolean;
@@ -137,14 +137,14 @@ begin
   for n := 1 to Length(FServiceName) do
     if FServiceName[n] = ' ' then
       FServiceName[n] := '_';
-  FIsService := FindCmdLineSwitch('install', ['-', '\', '/'], true) or
-    FindCmdLineSwitch('uninstall', ['-', '\', '/'], true);
+  FIsService := FindCmdLineSwitch('install', ['-', '\', '/'], True) or
+    FindCmdLineSwitch('uninstall', ['-', '\', '/'], True);
 
   if FIsService then
   begin
     SvcMgr.Application.Initialize;
     BackupService := TBackupService.CreateNew(SvcMgr.Application, 0);
-    result := true;
+    Result := True;
     exit;
   end;
 
@@ -180,7 +180,7 @@ begin
     FIsService := CompareText(UserName, ServiceStartName) = 0;
   end;
 
-  result := FIsService;
+  Result := FIsService;
   if FIsService then
   begin
     SvcMgr.Application.Initialize;
@@ -225,7 +225,7 @@ begin
     end;
     CloseServiceHandle(SCManHandle);
   end;
-  result := dwStat;
+  Result := dwStat;
 end;
 {
   Windows 2000 and earlier: All processes are granted the SC_MANAGER_CONNECT,
@@ -243,8 +243,7 @@ end;
 
 function ServiceRunning(sMachine, sService: PChar): Boolean;
 begin
-  result := SERVICE_RUNNING = ServiceGetStatus(sMachine, sService);
+  Result := SERVICE_RUNNING = ServiceGetStatus(sMachine, sService);
 end;
 
 end.
-

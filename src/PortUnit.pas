@@ -33,7 +33,7 @@ function PreparePORTString(APortToConnect: Word): string;
 
 implementation
 
-uses windows, winsock, SysUtils;
+uses Windows, winsock, SysUtils;
 
 function GetSysComputerName: string;
 {gets local computer name via WinAPI}
@@ -41,13 +41,13 @@ var
   size: DWORD;
 begin
   size := MAX_COMPUTERNAME_LENGTH + 1; {set + 1 to be sure}
-  SetLength(result, size);
-  if GetComputerName(PChar(result), size) then
-    SetLength(result, StrLen(PChar(result)))
+  SetLength(Result, size);
+  if GetComputerName(PChar(Result), size) then
+    SetLength(Result, StrLen(PChar(Result)))
   else
   begin
     {error handling}
-    result := 'Error ' + IntToStr(GetLastError);
+    Result := 'Error ' + IntToStr(GetLastError);
   end; {else begin..}
 end; {function TconWhoAmI.GetSysComputerName}
 
@@ -60,7 +60,7 @@ var
   host: string;
   SockAddr: TSockAddrIn;
 begin
-  result := '';
+  Result := '';
   r := WSAStartup(MakeWord(1, 1), WSAData);
   if (r = 0) then
   try
@@ -74,7 +74,7 @@ begin
     if HostEnt <> nil then
     begin
       SockAddr.sin_addr.S_addr := Longint(PLongint(HostEnt^.h_addr_list^)^);
-      result := inet_ntoa(SockAddr.sin_addr);
+      Result := inet_ntoa(SockAddr.sin_addr);
     end;
   finally
     WSACleanup;
@@ -85,11 +85,10 @@ function PreparePORTString(APortToConnect: Word): string;
 var
   IPStr: string;
 begin
-  result := '';
+  Result := '';
   IPStr := GetSysIPAddress(GetSysComputerName);
-  result := StringReplace(IPStr, '.', ',', [rfReplaceAll]) + ',' +
+  Result := StringReplace(IPStr, '.', ',', [rfReplaceAll]) + ',' +
     IntToStr(APortToConnect div 256) + ',' + IntToStr(APortToConnect mod 256);
 end;
 
 end.
-

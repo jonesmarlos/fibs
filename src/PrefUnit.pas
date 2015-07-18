@@ -28,7 +28,7 @@ unit PrefUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, EditBtn, ComCtrls;
 
 type
@@ -88,14 +88,14 @@ begin
     exit;
   end
   else
-    if DirectoryExists(trim(DirectoryEdit1.Text)) = false then
+    if DirectoryExists(trim(DirectoryEdit1.Text)) = False then
     begin
       MessageDlg('There is No Directory given name!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
-      if FileExists(trim(DirectoryEdit1.Text) + '\gbak.exe') = false then
+      if FileExists(trim(DirectoryEdit1.Text) + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -107,7 +107,7 @@ begin
     exit;
   end
   else
-    if DirectoryExists(trim(DirectoryLogDir.Text)) = false then
+    if DirectoryExists(trim(DirectoryLogDir.Text)) = False then
     begin
       MessageDlg('Given LOG Directory is not exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
@@ -128,18 +128,18 @@ begin
   Reg := TRegistry.Create;
   try
     Reg.RootKey := HKEY_LOCAL_MACHINE;
-    if Reg.OpenKey('\SOFTWARE\Firebird Project\Firebird Server\Instances', false) then
+    if Reg.OpenKey('\SOFTWARE\Firebird Project\Firebird Server\Instances', False) then
     begin
       DirectoryEdit1.Text := Reg.ReadString('DefaultInstance') + 'bin';
       Reg.CloseKey;
-      if RunningAsService = false then
+      if RunningAsService = False then
       begin
         Reg.RootKey := HKEY_CURRENT_USER;
-        if Reg.OpenKey('\Software\Microsoft\Internet Account Manager', false) then
+        if Reg.OpenKey('\Software\Microsoft\Internet Account Manager', False) then
         begin
           DefMail := Reg.ReadString('Default Mail Account');
           Reg.CloseKey;
-          if Reg.OpenKey('\Software\Microsoft\Internet Account Manager\Accounts\' + DefMail, false) then
+          if Reg.OpenKey('\Software\Microsoft\Internet Account Manager\Accounts\' + DefMail, False) then
           begin
             EditSMTPServer.Text := Reg.ReadString('SMTP Server');
             EditMailAdress.Text := Reg.ReadString('SMTP Email Address');
@@ -166,4 +166,3 @@ begin
 end;
 
 end.
-

@@ -28,7 +28,7 @@ unit ManualBackupUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ExtCtrls, Spin, CheckLst, DBCtrls;
 
 type
@@ -90,7 +90,7 @@ begin
     ModalResult := mrNone;
     exit;
   end;
-  if DModule.AlarmTableLOCALCONN.AsBoolean = true then
+  if DModule.AlarmTableLOCALCONN.AsBoolean = True then
   begin
     DD := FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text);
     if (DD = '') then
@@ -100,7 +100,7 @@ begin
       exit;
     end
     else
-      if FileExists(DD) = false then
+      if FileExists(DD) = False then
       begin
         MessageDlg('Database doesn''t exist onto given path!' + #13#10 + '(' + DD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -115,14 +115,14 @@ begin
     exit;
   end
   else
-    if DirectoryExists(bd) = false then
+    if DirectoryExists(bd) = False then
     begin
       MessageDlg('Backup directory is not exist !' + #13#10 + '(' + bd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
 
-  if IsFtpPath(EditMirrorDir.Text) = false then
+  if IsFtpPath(EditMirrorDir.Text) = False then
   begin
     MD := trim(EditMirrorDir.Text);
     if trim(MD) = '' then
@@ -131,7 +131,7 @@ begin
       // dikkat !!! mrNone yok ..exit yok..
     end
     else
-      if DirectoryExists(MD) = false then
+      if DirectoryExists(MD) = False then
       begin
         MessageDlg('Mirror directory is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -147,14 +147,14 @@ begin
   end
   else
   begin
-    if CheckFtpPath(EditMirrorDir.Text) = false then
+    if CheckFtpPath(EditMirrorDir.Text) = False then
     begin
       ModalResult := mrNone;
       exit;
     end;
   end;
 
-  if IsFtpPath(EditMirror2Dir.Text) = false then
+  if IsFtpPath(EditMirror2Dir.Text) = False then
   begin
     MD := trim(EditMirror2Dir.Text);
     if trim(MD) = '' then
@@ -163,7 +163,7 @@ begin
       // dikkat !!! mrNone yok ..exit yok..
     end
     else
-      if DirectoryExists(MD) = false then
+      if DirectoryExists(MD) = False then
       begin
         MessageDlg('Mirror directory 2 is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -179,14 +179,14 @@ begin
   end
   else
   begin
-    if CheckFtpPath(EditMirror2Dir.Text) = false then
+    if CheckFtpPath(EditMirror2Dir.Text) = False then
     begin
       ModalResult := mrNone;
       exit;
     end;
   end;
 
-  if IsFtpPath(EditMirror3Dir.Text) = false then
+  if IsFtpPath(EditMirror3Dir.Text) = False then
   begin
     MD := trim(EditMirror3Dir.Text);
     if trim(MD) = '' then
@@ -195,7 +195,7 @@ begin
       // dikkat !!! mrNone yok ..exit yok..
     end
     else
-      if DirectoryExists(MD) = false then
+      if DirectoryExists(MD) = False then
       begin
         MessageDlg('Mirror directory 3 is not exist!' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -211,7 +211,7 @@ begin
   end
   else
   begin
-    if CheckFtpPath(EditMirror3Dir.Text) = false then
+    if CheckFtpPath(EditMirror3Dir.Text) = False then
     begin
       ModalResult := mrNone;
       exit;
@@ -226,14 +226,14 @@ begin
     exit;
   end
   else
-    if DirectoryExists(gd) = false then
+    if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
-      if FileExists(gd + '\gbak.exe') = false then
+      if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -247,7 +247,7 @@ begin
     exit;
   end
   else
-    if DirectoryExists(ld) = false then
+    if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
@@ -271,8 +271,7 @@ end;
 procedure TManualBackupForm.FormShow(Sender: TObject);
 begin
   Self.EditTaskName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditTaskName.Text);
-  Self.EditDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditDatabaseName.Text); 
+  Self.EditDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditDatabaseName.Text);
 end;
 
 end.
-

@@ -28,7 +28,7 @@ unit AboutUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, ComCtrls, Buttons, jpeg, TDLinkLabel;
 
 type
@@ -97,4 +97,3 @@ begin
 end;
 
 end.
-

@@ -10,12 +10,13 @@ program fibs;
 
 uses
   ExceptionLog,
-  windows,
-  messages,
+  Windows,
+  Messages,
   SysUtils,
   Forms,
   Dialogs,
   WinSvc,
+  Classes,
   MainUnit in 'MainUnit.pas' {MainForm},
   PrefUnit in 'PrefUnit.pas' {PrefForm},
   ConstUnit in 'ConstUnit.pas',
@@ -36,24 +37,23 @@ uses
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',
   smtpsend in 'Synapse\smtpsend.pas',
   PortUnit in 'PortUnit.pas',
-  EditBtn in '..\components\EditBtb-DBEditBtn_v1.1_Revised\EditBtn.pas',
   EmailUnit in 'EmailUnit.pas';
 
 {$R *.RES}
 
 begin
-  // Check if FIBS is running as a servic.e
+  // Check if FIBS is running as a service
   if ServiceRunning(nil, 'FIBSBackupService') then
   begin
     MessageDlg('FIBS is still running as a service!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
   // FIBS is not running as a service.
   // Check if FIBS is running as an application.
   if AlreadyRun then
   begin
     MessageDlg('FIBS is still running as a desktop Application!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
   // FIBS is not running as a service nor an application.
   // Check if FIBS is installed as a service.
@@ -64,7 +64,7 @@ begin
     if DataFilesExists then
     begin
       BackupService.SetTitle('FIBS');
-      RunningAsService := true;
+      RunningAsService := True;
       BackupService.CreateForm(TMainForm, MainForm);
       // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
@@ -73,18 +73,18 @@ begin
         MainForm.Free;
         MessageDlg('ERROR!' + 'prefs.dat or tasks.dat is not exists or corrupt or old version!!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         PostThreadMessage(BackupService.ServiceThread.ThreadID, WM_QUIT, 0, 0);
-        exit;
+        Exit;
       end;
       SetCurrentDir(ExtractFileDir(ServiceExeName));
       // Create MainForm
       BackupService.CreateForm(TEditTaskForm, EditTaskForm);
       BackupService.Run;
     end;
-    exit;
+    Exit;
   end;
   // FIBS is not installed as a service.
   // Check again if FIBS is running as an application.
-  if AlreadyRun = false then
+  if AlreadyRun = False then
   begin
     // FIBS is not running as an application.
     // Run it as an application.
@@ -94,16 +94,16 @@ begin
     // Check Datafiles are exist.
     if DataFilesExists then
     begin
-      RunningAsService := false;
+      RunningAsService := False;
       Application.CreateForm(TMainForm, MainForm);
-  // Check Datafiles are not corrupt nor old version.
+      // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         DModule.Free;
         MainForm.Free;
         MessageDlg('ERROR!'#13#10 + 'prefs.dat and/or tasks.dat is/are not exist, old version or corrupt!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         Application.Terminate;
-        exit;
+        Exit;
       end;
       SetCurrentDir(ExtractFileDir(Application.ExeName)); //Beta-13
       Application.CreateForm(TEditTaskForm, EditTaskForm);

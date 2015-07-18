@@ -28,7 +28,7 @@ unit EditTaskUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Spin, CheckLst, DBCtrls, ComCtrls, EditBtn, Mask, StdCtrls,
   ExtCtrls, Buttons, Menus, FunctionsUnit;
 
@@ -125,7 +125,7 @@ begin
     ModalResult := mrNone;
     exit;
   end;
-  if DModule.AlarmTableLOCALCONN.AsBoolean = true then
+  if DModule.AlarmTableLOCALCONN.AsBoolean = True then
   begin
     if trim(EditDatabaseName.Text) = '' then
     begin
@@ -134,7 +134,7 @@ begin
       exit;
     end
     else
-      if FileExists(trim(FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text))) = false then
+      if FileExists(trim(FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text))) = False then
       begin
         MessageDlg('Database doesn''t exist onto given path!', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -149,7 +149,7 @@ begin
     exit;
   end
   else
-    if DirectoryExists(EditDestinationDir.Text) = false then
+    if DirectoryExists(EditDestinationDir.Text) = False then
     begin
       MessageDlg('Backup directory is not exist !', mtError, [mbOk], 0);
       ModalResult := mrNone;
@@ -157,7 +157,7 @@ begin
     end;
   if ActiveTaskValidMirrorDirectory then
   begin
-    if IsFtpPath(EditMirrorDir.Text) = false then
+    if IsFtpPath(EditMirrorDir.Text) = False then
     begin
       if trim(EditMirrorDir.Text) = '' then
       begin
@@ -165,7 +165,7 @@ begin
         // dikkat !!! mrNone yok ..exit yok..
       end
       else
-        if DirectoryExists(EditMirrorDir.Text) = false then
+        if DirectoryExists(EditMirrorDir.Text) = False then
         begin
           MessageDlg('Mirror directory is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
@@ -181,14 +181,14 @@ begin
     end
     else
     begin
-      if CheckFtpPath(EditMirrorDir.Text) = false then
+      if CheckFtpPath(EditMirrorDir.Text) = False then
       begin
         ModalResult := mrNone;
         exit;
       end;
     end;
 
-    if IsFtpPath(EditMirror2Dir.Text) = false then
+    if IsFtpPath(EditMirror2Dir.Text) = False then
     begin
       if trim(EditMirror2Dir.Text) = '' then
       begin
@@ -196,7 +196,7 @@ begin
         // dikkat !!! mrNone yok ..exit yok..
       end
       else
-        if DirectoryExists(EditMirror2Dir.Text) = false then
+        if DirectoryExists(EditMirror2Dir.Text) = False then
         begin
           MessageDlg('Mirror directory 2 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
@@ -212,14 +212,14 @@ begin
     end
     else
     begin
-      if CheckFtpPath(EditMirror2Dir.Text) = false then
+      if CheckFtpPath(EditMirror2Dir.Text) = False then
       begin
         ModalResult := mrNone;
         exit;
       end;
     end;
 
-    if IsFtpPath(EditMirror3Dir.Text) = false then
+    if IsFtpPath(EditMirror3Dir.Text) = False then
     begin
       if trim(EditMirror3Dir.Text) = '' then
       begin
@@ -227,7 +227,7 @@ begin
         // dikkat !!! mrNone yok ..exit yok..
       end
       else
-        if DirectoryExists(EditMirror3Dir.Text) = false then
+        if DirectoryExists(EditMirror3Dir.Text) = False then
         begin
           MessageDlg('Mirror directory 3 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
@@ -243,7 +243,7 @@ begin
     end
     else
     begin
-      if CheckFtpPath(EditMirror3Dir.Text) = false then
+      if CheckFtpPath(EditMirror3Dir.Text) = False then
       begin
         ModalResult := mrNone;
         exit;
@@ -264,7 +264,7 @@ begin
     exit;
   end;
   for i := 0 to 23 do
-    if CGHours.checked[i] = true then
+    if CGHours.checked[i] = True then
     begin
       kk := 1;
       break;
@@ -278,7 +278,7 @@ begin
     exit;
   end;
   for i := 0 to 59 do
-    if CGMinutes.checked[i] = true then
+    if CGMinutes.checked[i] = True then
     begin
       kk := 1;
       break;
@@ -318,7 +318,7 @@ begin
 
   if trim(FileEditBtnBatchFile.Text) <> '' then
   begin
-    if FileExists(trim(FileEditBtnBatchFile.Text)) = false then
+    if FileExists(trim(FileEditBtnBatchFile.Text)) = False then
     begin
       MessageDlg('ERROR !!'#13#10'File "' + FileEditBtnBatchFile.Text + '" is not exist!', mtError, [mbOk], 0);
       ModalResult := mrNone;
@@ -368,7 +368,7 @@ procedure TEditTaskForm.EditDatabaseNameBeforeBtnClick(Sender: TObject);
 begin
   if trim(EditDatabaseName.Text) = '' then
     exit;
-  if FileExists(EditDatabaseName.Text) = false then
+  if FileExists(EditDatabaseName.Text) = False then
     MessageDlg('File "' + EditDatabaseName.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;
 
@@ -376,7 +376,7 @@ procedure TEditTaskForm.EditDestinationDirBeforeBtnClick(Sender: TObject);
 begin
   if trim(EditDestinationDir.Text) = '' then
     exit;
-  if DirectoryExists(EditDestinationDir.Text) = false then
+  if DirectoryExists(EditDestinationDir.Text) = False then
     MessageDlg('Directory "' + EditDestinationDir.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;
 
@@ -391,4 +391,3 @@ begin
 end;
 
 end.
-

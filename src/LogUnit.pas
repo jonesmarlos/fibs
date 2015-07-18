@@ -28,7 +28,7 @@ unit LogUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, Grids, StdCtrls;
 
 type
@@ -296,7 +296,7 @@ begin { PrintStrings }
   Assert(Assigned(aFont),
     'PrintString: requires a valid aFont parameter!');
 
-  continuePrint := true;
+  continuePrint := True;
   pagecount := 1;
   textstart := 0;
   Printer.BeginDoc;
@@ -320,9 +320,9 @@ begin { PrintStrings }
   end;
 
   if continuePrint then
-    result := pagecount
+    Result := pagecount
   else
-    result := 0;
+    Result := 0;
 end; { PrintStrings }
 
 procedure TLogForm.PrintFooter(aCanvas: TCanvas; aPageCount: Integer;
@@ -386,7 +386,7 @@ var
 begin
   //  Tarih:=DateTimeTostr(Now);
   DateTimeTostring(Tarih, 'dd mmmm yyyy, dddd   hh:nn:ss', Now);
-  pc := PrintStrings(StringGrid1.Cols[0], 0.75, 0.5, 0.75, 1, 6, StringGrid1.Font, true, PrintHeader, PrintFooter);
+  pc := PrintStrings(StringGrid1.Cols[0], 0.75, 0.5, 0.75, 1, 6, StringGrid1.Font, True, PrintHeader, PrintFooter);
   if pc > 0 then
   begin
     PrintDialog1.FromPage := 1;
@@ -398,11 +398,10 @@ begin
       0.75, 0.5, 0.75, 1,
       6,
       StringGrid1.Font,
-      false,
+      False,
       PrintHeader, PrintFooter);
   end;
 
 end;
 
 end.
-

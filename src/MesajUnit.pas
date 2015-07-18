@@ -28,7 +28,7 @@ unit MesajUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls, ComCtrls;
 
 type
@@ -83,21 +83,21 @@ end;
 
 function ShowProsesDlg(AMessage: string; AAlignment: Char; ACaption: string): TMesajForm;
 begin
-  result := TMesajForm.Create(Application);
-  result.caption := ACaption;
-  result.MesajLabel.caption := AMessage;
+  Result := TMesajForm.Create(Application);
+  Result.caption := ACaption;
+  Result.MesajLabel.caption := AMessage;
   case AAlignment of
-    'L', 'l': result.MesajLabel.Alignment := taLeftJustify;
-    'R', 'r': result.MesajLabel.Alignment := taRightJustify;
-    'C', 'c': result.MesajLabel.Alignment := taCenter;
+    'L', 'l': Result.MesajLabel.Alignment := taLeftJustify;
+    'R', 'r': Result.MesajLabel.Alignment := taRightJustify;
+    'C', 'c': Result.MesajLabel.Alignment := taCenter;
   end;
-  result.ButtonOK.Visible := false;
-  result.Panel1.Visible := false;
-  result.ResizeForm;
+  Result.ButtonOK.Visible := False;
+  Result.Panel1.Visible := False;
+  Result.ResizeForm;
   if MainFormHidden then
-    result.Hide
+    Result.Hide
   else
-    result.Show;
+    Result.Show;
   Application.ProcessMessages;
 end;
 
@@ -141,30 +141,29 @@ procedure TMesajForm.ResizeForm;
 begin
   if MesajLabel.width < ButtonOK.width then
     MesajLabel.width := ButtonOK.width;
-  if (self.width < MesajLabel.width + 50) then
-    self.width := MesajLabel.width + 50;
-  MesajLabel.Left := ((self.width - MesajLabel.width) div 2);
+  if (Self.width < MesajLabel.width + 50) then
+    Self.width := MesajLabel.width + 50;
+  MesajLabel.Left := ((Self.width - MesajLabel.width) div 2);
   if Panel1.Visible then
-    self.height := MesajLabel.Top + MesajLabel.height + 50 + Panel1.height + PanelIcon.height
+    Self.height := MesajLabel.Top + MesajLabel.height + 50 + Panel1.height + PanelIcon.height
   else
-    self.height := MesajLabel.Top + MesajLabel.height + PanelIcon.height + 50;
-  if self.height > 500 then
-    self.height := 500;
-  if self.width > 700 then
-    self.width := 700;
-  PrgIcon.Left := (self.width div 2) - (PrgIcon.width div 2) - 2;
-  ButtonOK.Left := (self.width div 2) - (ButtonOK.width div 2) - 2;
+    Self.height := MesajLabel.Top + MesajLabel.height + PanelIcon.height + 50;
+  if Self.height > 500 then
+    Self.height := 500;
+  if Self.width > 700 then
+    Self.width := 700;
+  PrgIcon.Left := (Self.width div 2) - (PrgIcon.width div 2) - 2;
+  ButtonOK.Left := (Self.width div 2) - (ButtonOK.width div 2) - 2;
 end;
 
 procedure TMesajForm.FormCreate(Sender: TObject);
 begin
-  SBox.DoubleBuffered := true;
+  SBox.DoubleBuffered := True;
 end;
 
 procedure TMesajForm.FormResize(Sender: TObject);
 begin
-  self.Position := poMainFormCenter;
+  Self.Position := poMainFormCenter;
 end;
 
 end.
-

@@ -27,7 +27,7 @@ unit ServiceUtilsUnit;
 
 interface
 uses
-  windows;
+  Windows;
 
 function StartService(ServiceName: string): Boolean;
 function StopService(ServiceName: string): Boolean;
@@ -51,7 +51,7 @@ begin
   if Svc = 0 then
     RaiseLastOSError;
   try
-    result := ChangeServiceConfig(
+    Result := ChangeServiceConfig(
       Svc, // handle to service
       SERVICE_NO_CHANGE, // service Type
       ServiceStartType, // start Type
@@ -83,7 +83,7 @@ begin
   if Svc = 0 then
     RaiseLastOSError;
   try
-    result := ControlService(Svc, SERVICE_CONTROL_STOP, Status);
+    Result := ControlService(Svc, SERVICE_CONTROL_STOP, Status);
   finally
     CloseServiceHandle(Svc);
   end;
@@ -102,7 +102,7 @@ begin
   if Svc = 0 then
     RaiseLastOSError;
   try
-    result := ControlService(Svc, SERVICE_CONTROL_CONTINUE, Status);
+    Result := ControlService(Svc, SERVICE_CONTROL_CONTINUE, Status);
   finally
     CloseServiceHandle(Svc);
   end;
@@ -122,7 +122,7 @@ begin
     SERVICE_DISABLED              = 4
     ERROR                         = 5 //  Talat
   }
-  result := 5;
+  Result := 5;
   Mgr := OpenSCManager(nil, nil, SC_MANAGER_ALL_ACCESS);
   if Mgr <> 0 then
   begin
@@ -133,7 +133,7 @@ begin
       Config := AllocMem(size);
       try
         QueryServiceConfig(Svc, Config, size, size);
-        result := PQueryServiceConfig(Config)^.dwStartType;
+        Result := PQueryServiceConfig(Config)^.dwStartType;
       finally
         Dispose(Config);
       end;
@@ -144,4 +144,3 @@ begin
 end;
 
 end.
-

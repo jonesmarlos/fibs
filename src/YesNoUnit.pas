@@ -28,7 +28,7 @@ unit YesNoUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls;
 
 type
@@ -70,7 +70,7 @@ begin
     'R', 'r': YesNoForm.MesajLabel.Alignment := taRightJustify;
     'C', 'c': YesNoForm.MesajLabel.Alignment := taCenter;
   end;
-  result := YesNoForm.ShowModal;
+  Result := YesNoForm.ShowModal;
   YesNoForm.Free;
 end;
 
@@ -83,15 +83,15 @@ procedure TYesNoForm.ResizeYesNoForm;
 var
   orta, ara: Integer;
 begin
-  self.width := MesajLabel.width + 75;
-  MesajLabel.Left := ((self.width - MesajLabel.width) div 2);
-  self.height := MesajLabel.Top + MesajLabel.height + 50 + Panel1.height;
-  if self.height > 500 then
-    self.height := 500;
-  if self.width > 700 then
-    self.width := 500;
-  PrgIcon.Left := (self.width div 2) - (PrgIcon.width div 2) - 2;
-  orta := self.width div 2;
+  Self.width := MesajLabel.width + 75;
+  MesajLabel.Left := ((Self.width - MesajLabel.width) div 2);
+  Self.height := MesajLabel.Top + MesajLabel.height + 50 + Panel1.height;
+  if Self.height > 500 then
+    Self.height := 500;
+  if Self.width > 700 then
+    Self.width := 500;
+  PrgIcon.Left := (Self.width div 2) - (PrgIcon.width div 2) - 2;
+  orta := Self.width div 2;
   ara := (orta - Button1.width) div 3;
   Button1.Left := orta - ara - Button1.width;
   Button2.Left := orta + ara;
@@ -99,8 +99,7 @@ end;
 
 procedure TYesNoForm.FormResize(Sender: TObject);
 begin
-  self.Position := poMainFormCenter;
+  Self.Position := poMainFormCenter;
 end;
 
 end.
-

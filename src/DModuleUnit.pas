@@ -115,7 +115,7 @@ begin
     DModule.OptionsTable.Open;
     DModule.AlarmTable.Open;
   except
-    DataFilesInvalid := true;
+    DataFilesInvalid := True;
   end;
 end;
 
@@ -124,7 +124,7 @@ var
   TN: int64;
   StrTN: string;
 begin
-  StrTN := OptionsTableTASKNO.ASString;
+  StrTN := OptionsTableTASKNO.AsString;
   if StrTN = '' then
     TN := 0;
   TN := StrToInt(OptionsTableTASKNO.Value);
@@ -183,8 +183,8 @@ begin
   try
     try
       // Test a connection with next sequence
-      dbDatabase.DatabaseName := FunctionsUnit.RemoveDatabaseSequenceTokens(FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.ASString));
-      dbDatabase.Params.Add('user_name=' + self.AlarmTableUSER.ASString);
+      dbDatabase.DatabaseName := FunctionsUnit.RemoveDatabaseSequenceTokens(FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString));
+      dbDatabase.Params.Add('user_name=' + self.AlarmTableUSER.AsString);
       dbDatabase.Params.Add('password=' + self.AlarmTablePASSWORD.Text);
       dbDatabase.LoginPrompt := false;
       dbDatabase.SQLDialect := 3;
@@ -194,8 +194,8 @@ begin
       if dbDatabase.TestConnected then
       begin
         Self.AlarmTable.Edit;
-        Self.AlarmTableTASKNAME.ASString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableTASKNAME.ASString);
-        Self.AlarmTableDBNAME.ASString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.ASString);
+        Self.AlarmTableTASKNAME.AsString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableTASKNAME.AsString);
+        Self.AlarmTableDBNAME.AsString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString);
         Self.AlarmTable.Post;
         Result := True;
       end;
@@ -216,7 +216,7 @@ var
   i: Integer;
   iTaskNo: Integer;
 begin
-  iTaskNo := Self.AlarmTable.RecordCount + 1;;
+  iTaskNo := Self.AlarmTable.RecordCount + 1;
   varCopyData := VarArrayCreate([0, Self.AlarmTable.FieldCount - 1], varVariant);
   for i := 0 to Self.AlarmTable.FieldCount - 1 do
     varCopyData[i] := Self.AlarmTable.Fields[i].Value;

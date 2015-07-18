@@ -46,8 +46,8 @@ end;
 
 function RemoveDatabaseSequenceTokens(ADatabasePath: string): string;
 begin
-  result := StringReplace(ADatabasePath, DatabaseSequenceBeginToken, '', [rfReplaceAll]);
-  result := StringReplace(result, DatabaseSequenceEndToken, '', [rfReplaceAll]);
+  Result := StringReplace(ADatabasePath, DatabaseSequenceBeginToken, '', [rfReplaceAll]);
+  Result := StringReplace(Result, DatabaseSequenceEndToken, '', [rfReplaceAll]);
 end;
 
 function IncrementDatabaseSequence(AString: string): string;
@@ -61,7 +61,7 @@ begin
   iBegin := 0;
   sTmp := '';
   iSequence := 0;
-  result := '';
+  Result := '';
   for i := 1 to Length(AString) do
   begin
     if AString[i] = DatabaseSequenceBeginToken then
@@ -77,7 +77,7 @@ begin
           sFormat := StringOfChar('0', Length(sTmp));
           iSequence := StrToIntDef(sTmp, 0);
           inc(iSequence);
-          result := result + DatabaseSequenceBeginToken + FormatFloat(sFormat, iSequence) + DatabaseSequenceEndToken;
+          Result := Result + DatabaseSequenceBeginToken + FormatFloat(sFormat, iSequence) + DatabaseSequenceEndToken;
           iBegin := 0;
         end;
         // Discartes a DatabaseSequenceEndToken char
@@ -85,7 +85,7 @@ begin
       else
         if iBegin = 0 then
         begin
-          result := result + AString[i];
+          Result := Result + AString[i];
         end;
   end;
 end;
@@ -99,7 +99,7 @@ var
 begin
   iBegin := 0;
   sTmp := '';
-  result := 0;
+  Result := 0;
   for i := 1 to Length(AString) do
   begin
     if AString[i] = DatabaseSequenceBeginToken then
@@ -112,7 +112,7 @@ begin
         if iBegin > 0 then
         begin
           sTmp := copy(AString, iBegin + 1, i - iBegin - 1);
-          result := StrToIntDef(sTmp, 0);
+          Result := StrToIntDef(sTmp, 0);
           Exit;
         end;
         // Discartes a DatabaseSequenceEndToken char
@@ -122,21 +122,21 @@ end;
 
 function MyDateTimeToStr(ADT: TDateTime): string;
 var
-  Saat: double;
+  Saat: Double;
 begin
   Saat := Frac(ADT);
   if Saat = 0 then
-    result := DateTimeToStr(ADT) + ' 00:00:00'
+    Result := DateTimeToStr(ADT) + ' 00:00:00'
   else
-    result := DateTimeToStr(ADT);
+    Result := DateTimeToStr(ADT);
 end;
 
 function FileExistsRem(const FileName: string; AEnableControl: Boolean): Boolean;
 begin
   if AEnableControl then
-    result := FileExists(FileName)
+    Result := FileExists(FileName)
   else
-    result := true;
+    Result := True;
 end;
 
 {

@@ -30,7 +30,7 @@ unit BackupUnit;
 interface
 
 uses
-  windows, Classes, SysUtils, MesajUnit;
+  Windows, Classes, SysUtils, MesajUnit;
 
 type
 
@@ -144,27 +144,27 @@ var
   FDFT: DWORD;
   w: Word;
 begin
-  result := 0;
+  Result := 0;
   if FileTimeToDosDateTime(LFT, w, LongRec(FDFT).Lo) then
-    result := FileDateToDateTime(FDFT);
+    Result := FileDateToDateTime(FDFT);
 end;
 
 function TBackUp.ExtractFilePathEx(const AFullPath: string): string;
 begin
   if AnsiLowerCase(AnsiLeftStr(trim(AFullPath), 6)) = 'ftp://' then
   begin
-    result := copy(AFullPath, 1, LastDelimiter('/', AFullPath) - 1);
+    Result := copy(AFullPath, 1, LastDelimiter('/', AFullPath) - 1);
   end
   else
-    result := ExtractFilePath(AFullPath);
+    Result := ExtractFilePath(AFullPath);
 end;
 
 function TBackUp.GetTempPath: string;
 var
   Buffer: array[0..MAX_PATH] of Char;
 begin
-  windows.GetTempPath(sizeof(Buffer), @Buffer);
-  result := Buffer;
+  Windows.GetTempPath(sizeof(Buffer), @Buffer);
+  Result := Buffer;
 end;
 
 function TBackUp.GetTempBackupFileSize(const ATempFile: string): string;
@@ -175,13 +175,13 @@ begin
   begin
     hFile := TFileStream.Create(ATempFile, fmOpenRead + fmShareDenyNone);
     try
-      result := FormatFloat('#,', hFile.size, FSettings);
+      Result := FormatFloat('#,', hFile.size, FSettings);
     finally
       hFile.Free;
     end;
   end
   else
-    result := ATempFile + ' is not exists !!';
+    Result := ATempFile + ' is not exists !!';
 end;
 
 function TBackUp.CreateEmail(const EmailAddr, cc, Subject, Body, Attach: string): Boolean;
@@ -192,14 +192,14 @@ end;
 function TBackUp.DeleteOldest(ACurrentDir, ADirInfo: string): string;
 begin
   if AnsiLowerCase(AnsiLeftStr(trim(ACurrentDir), 6)) = 'ftp://' then
-    result := DeleteRemoteOldest(ACurrentDir, ADirInfo)
+    Result := DeleteRemoteOldest(ACurrentDir, ADirInfo)
   else
-    result := DeleteLocalOldest(ACurrentDir, ADirInfo);
+    Result := DeleteLocalOldest(ACurrentDir, ADirInfo);
 end;
 
 function TBackUp.DeleteRemoteOldest(ACurrentDir, ADirInfo: string): string;
 begin
-  result := 'No Backup File has been deleted in ' + ADirInfo + ' because of not supporting the remote file deletion on FTP Mirrors yet !!'#13#10'   ';
+  Result := 'No Backup File has been deleted in ' + ADirInfo + ' because of not supporting the remote file deletion on FTP Mirrors yet !!'#13#10'   ';
 end;
 
 {
@@ -402,7 +402,7 @@ var
   DeletedFilesCount, TryCount: Integer;
   DeletedFiles: string;
 begin
-  result := '';
+  Result := '';
   TryCount := 0;
   DeletedFiles := '';
   DeletedFilesCount := 0;
@@ -412,7 +412,7 @@ begin
     ACurrentDir := ACurrentDir + '\';
   Key := ACurrentDir + FTaskName + '*';
   ts := TStringList.Create;
-  ts.Sorted := true;
+  ts.Sorted := True;
   try
     if FindFirst(Key, faAnyFile, SearchRec) = 0 then
     begin
@@ -433,7 +433,7 @@ begin
       if (FDeleteAll = 0) then
       begin
         //Delete only the oldest file
-        Deleted := false;
+        Deleted := False;
         OldestFileAge := StrToFloat((copy(ts[0], 1, Pos(' - ', ts[0]) - 1)), FSettings); // En eski dosya
         OldestFileAgeStr := DateTimeToStr(OldestFileAge, FSettings);
         FOldestFileName := RightStr(ts[0], Length(ts[0]) - Pos(' - ', ts[0]) - 3 + 1);
@@ -466,19 +466,19 @@ begin
         if TryCount > 0 then
         begin
           if (DeletedFilesCount = TryCount) then
-            result := 'The oldest backup file in ' + ADirInfo + ' (' + FOldestFileName + ' ' + OldestFileAgeStr + ') has been deleted.'#13#10
+            Result := 'The oldest backup file in ' + ADirInfo + ' (' + FOldestFileName + ' ' + OldestFileAgeStr + ') has been deleted.'#13#10
           else
-            result := 'ERROR !! The oldest backup file in ' + ADirInfo + ' (' + FOldestFileName + ' ' + OldestFileAgeStr + ') couldn''t deleted.'#13#10
+            Result := 'ERROR !! The oldest backup file in ' + ADirInfo + ' (' + FOldestFileName + ' ' + OldestFileAgeStr + ') couldn''t deleted.'#13#10
         end
         else
-          result := 'There is no out-of-criteria backup file to delete in ' + ADirInfo + ''#13#10;
+          Result := 'There is no out-of-criteria backup file to delete in ' + ADirInfo + ''#13#10;
       end
       else
       begin
         // Delete all out-of-criteriaa files
         for i := 0 to ts.Count - 1 do
         begin
-          Deleted := false;
+          Deleted := False;
           OldestFileAge := StrToFloat((copy(ts[0], 1, Pos(' - ', ts[0]) - 1)), FSettings); // En eski dosya
           OldestFileAgeStr := DateTimeToStr(OldestFileAge, FSettings);
           FOldestFileName := RightStr(ts[0], Length(ts[0]) - Pos(' - ', ts[0]) - 3 + 1);
@@ -516,15 +516,15 @@ begin
         if TryCount > 0 then
         begin
           if (DeletedFilesCount = 0) then
-            result := 'ERROR !! None of Out-of-criteria backup files in ' + ADirInfo + ' has been deleted.'#13#10
+            Result := 'ERROR !! None of Out-of-criteria backup files in ' + ADirInfo + ' has been deleted.'#13#10
           else
             if DeletedFilesCount = TryCount then
-              result := 'All Out-of-criteria backup files (' + DeletedFiles + ') in the ' + ADirInfo + ' has been deleted.'#13#10
+              Result := 'All Out-of-criteria backup files (' + DeletedFiles + ') in the ' + ADirInfo + ' has been deleted.'#13#10
             else
-              result := 'ERROR !! Only ' + IntToStr(DeletedFilesCount) + ' of ' + IntToStr(TryCount) + ' Out-of-criteria backup files (' + DeletedFiles + ') in ' + ADirInfo + ' has been deleted.'#13#10;
+              Result := 'ERROR !! Only ' + IntToStr(DeletedFilesCount) + ' of ' + IntToStr(TryCount) + ' Out-of-criteria backup files (' + DeletedFiles + ') in ' + ADirInfo + ' has been deleted.'#13#10;
         end
         else
-          result := 'There is no out-of-criteria backup file to delete in ' + ADirInfo + ''#13#10;
+          Result := 'There is no out-of-criteria backup file to delete in ' + ADirInfo + ''#13#10;
       end;
     end;
   finally
@@ -538,11 +538,11 @@ const
 var
   TemporaryFileName: array[0..MAX_PATH - 1] of Char;
 begin
-  result := false;
+  Result := False;
   ATempFileName := '';
   if GetTempFileName(PChar(TempDirectory), TMP_FILE_PREFIX, 0, TemporaryFileName) > 0 then
   begin
-    result := true;
+    Result := True;
     ATempFileName := TemporaryFileName;
   end;
 end;
@@ -554,7 +554,7 @@ begin
   dwConnectionTypes := INTERNET_CONNECTION_MODEM +
     INTERNET_CONNECTION_LAN +
     INTERNET_CONNECTION_PROXY;
-  result := InternetGetConnectedState(@dwConnectionTypes, 0);
+  Result := InternetGetConnectedState(@dwConnectionTypes, 0);
 end;
 
 //Author Talat Dogan. I've inspirated Thomas Stutz.
@@ -564,7 +564,7 @@ var
   hNet, hFTP: HINTERNET;
   PutFile: Boolean;
 begin
-  result := false;
+  Result := False;
   //  Open an internet session
   hNet := InternetOpen('Program_Name', // Agent
     InternetAccessType, // AccessType
@@ -596,9 +596,9 @@ begin
 
   if (RemoteDir <> '') then
   begin
-    if FtpSetCurrentDirectory(hFTP, PChar(RemoteDir)) = false then
+    if FtpSetCurrentDirectory(hFTP, PChar(RemoteDir)) = False then
     begin
-      if FtpCreateDirectory(hFTP, PChar(RemoteDir)) = false then
+      if FtpCreateDirectory(hFTP, PChar(RemoteDir)) = False then
       begin
         InternetCloseHandle(hFTP);
         InternetCloseHandle(hNet);
@@ -615,7 +615,7 @@ begin
     PChar(RemoteFilePath), // filename
     TransferType, // dwFlags
     0); // This is the context used for callbacks.
-  if PutFile = false then
+  if PutFile = False then
   begin
     InternetCloseHandle(hFTP);
     InternetCloseHandle(hNet);
@@ -624,7 +624,7 @@ begin
   end;
   InternetCloseHandle(hFTP);
   InternetCloseHandle(hNet);
-  result := true;
+  Result := True;
 end;
 
 function TBackUp.MirrorFileEx(ASourceFile: string; var ADestFile, AFtpErrorMesaj: string; AConnectionType: DWORD): LongBool;
@@ -653,7 +653,7 @@ begin
     FtpFile := copy(ADestFile, LLDirPos + 1, LenPath - LLDirPos);
     FtpPort := 21;
 
-    result := FtpUploadFileEX(INTERNET_OPEN_TYPE_PRECONFIG,
+    Result := FtpUploadFileEX(INTERNET_OPEN_TYPE_PRECONFIG,
       '', '',
       FtpHost, FtpUserName, FtpPassword,
       //                     INTERNET_SERVICE_FTP,21,
@@ -664,7 +664,7 @@ begin
       AFtpErrorMesaj := AFtpErrorMesaj + #13#10;
   end
   else
-    result := CopyFile(PChar(ASourceFile), PChar(ADestFile), false);
+    Result := CopyFile(PChar(ASourceFile), PChar(ADestFile), False);
 end;
 
 function TBackUp.WriteLog(ALogInfo: string): Integer;
@@ -672,12 +672,12 @@ var
   F: TextFile;
   LogDir: string;
 begin
-  result := 0;
+  Result := 0;
   LogDir := ExtractFileDir(FLogFile);
   try
     AssignFile(F, FLogFile);
     FileMode := fmOpenWrite + fmShareDenyWrite;
-    if FileExists(FLogFile) = false then
+    if FileExists(FLogFile) = False then
       Rewrite(F);
     Append(F);
     write(F, ALogInfo);
@@ -695,7 +695,7 @@ var
   ExitCode: DWORD;
   CreResult: LongBool;
 begin
-  result := false;
+  Result := False;
   //Fill the record with 0's so you don't pass in random bollox to the API call
   FillChar(StartupInfo, sizeof(StartupInfo), 0);
   //and tell it the size of itself
@@ -708,8 +708,8 @@ begin
   else
     pCurrentDir := nil;
   //Now do the API call
-  CreResult := CreateProcess(nil, PChar(CommandLine), nil, nil, false, 0, nil, pCurrentDir, StartupInfo, ProcessInfo);
-  if CreResult = true then
+  CreResult := CreateProcess(nil, PChar(CommandLine), nil, nil, False, 0, nil, pCurrentDir, StartupInfo, ProcessInfo);
+  if CreResult = True then
     //lpApplication??
   begin
     try
@@ -726,7 +726,7 @@ begin
           //            MessageBox(0, PChar('WAIT_FAILED'), PChar('Process returned'), 0);
         end;
         GetExitCodeProcess(ProcessInfo.hProcess, ExitCode);
-        result := (ExitCode = 0);
+        Result := (ExitCode = 0);
       end;
     finally
       CloseHandle(ProcessInfo.hThread);
@@ -734,7 +734,7 @@ begin
     end;
   end
   else
-    result := false;
+    Result := False;
 end;
 
 function TBackUp.ProgramRunWaitRedirected(TempFileName, CommandLine, DatabaseToVal, CurrentDir: string; var Info: string; Wait: Boolean): Boolean;
@@ -746,17 +746,17 @@ var
   CreResult: LongBool;
 
   tmpName: string;
-  tmp: windows.THandle;
+  tmp: Windows.THandle;
   tmpSec: TSecurityAttributes;
   res: TStringList;
 begin
-  result := false;
+  Result := False;
   //  tmpName := 'Test.tmp';
   tmpName := TempFileName;
   FillChar(tmpSec, sizeof(tmpSec), #0);
   tmpSec.nLength := sizeof(tmpSec);
-  tmpSec.bInheritHandle := true;
-  tmp := windows.CreateFile(PChar(tmpName),
+  tmpSec.bInheritHandle := True;
+  tmp := Windows.CreateFile(PChar(tmpName),
     Generic_Write, File_Share_Write,
     @tmpSec, Create_Always, File_Attribute_Normal, 0);
 
@@ -773,8 +773,8 @@ begin
   else
     pCurrentDir := nil;
   //Now do the API call
-  CreResult := CreateProcess(nil, PChar(CommandLine + ' ' + DatabaseToVal), nil, nil, true, 0, nil, pCurrentDir, StartupInfo, ProcessInfo);
-  if CreResult = true then
+  CreResult := CreateProcess(nil, PChar(CommandLine + ' ' + DatabaseToVal), nil, nil, True, 0, nil, pCurrentDir, StartupInfo, ProcessInfo);
+  if CreResult = True then
     //lpApplication??
   begin
     try
@@ -791,7 +791,7 @@ begin
           //            MessageBox(0, PChar('WAIT_FAILED'), PChar('Process returned'), 0);
         end;
         GetExitCodeProcess(ProcessInfo.hProcess, ExitCode);
-        result := (ExitCode = 0);
+        Result := (ExitCode = 0);
       end;
     finally
       CloseHandle(ProcessInfo.hThread);
@@ -805,13 +805,13 @@ begin
       finally
         res.Free;
       end;
-      windows.DeleteFile(PChar(tmpName));
+      Windows.DeleteFile(PChar(tmpName));
     end;
   end
   else
   begin
     Info := CommandLine + ' couldn''t been executed ..';
-    result := false;
+    Result := False;
   end;
 end;
 
@@ -877,7 +877,7 @@ begin
   FBackupOptions := ABackupOptions;
   FSequenceIncremented := ASequenceIncremented;
   FArchiveDir := AArchiveDir;
-  FreeOnTerminate := true;
+  FreeOnTerminate := True;
   Priority := FPriority;
 end;
 
@@ -967,18 +967,18 @@ begin
     //    try
     AStartTime := Now;
     FTempDir := GetTempPath;
-    TempOK := false;
+    TempOK := False;
     FErrorInfo := '';
     MailBody := 'Below listed errors has been encountered at the backup of Task ' + FTaskName + ' BackupNo :' + FBackupNo;
     //****** Validating Routines  ***************
-    ValidateOK := false;
+    ValidateOK := False;
     if FDoValidate then
     begin
       Synchronize(RefreshPD11);
-      ProgramRunWaitRedirected(FTempValFileName, FGFixParams, '"' + FDatabaseFile + '"', '', GFixOut, true);
+      ProgramRunWaitRedirected(FTempValFileName, FGFixParams, '"' + FDatabaseFile + '"', '', GFixOut, True);
       if GFixOut = '' then
       begin
-        ValidateOK := true;
+        ValidateOK := True;
         GFixOut := 'Database was validated (before backup) by using gfix with -v -n switches. No validation error was found..'#13#10;
       end
       else
@@ -995,7 +995,7 @@ begin
           TX.Free;
         end;
         MailBody := MailBody + #13#10#13#10 + FTaskName + ' has encountered database Validating Error !!';
-        ValidateOK := false;
+        ValidateOK := False;
       end;
     end;
     //****** ***********************************
@@ -1014,15 +1014,15 @@ begin
     //  FZippedBackupFile:=ChangeFileExt(FBackupFile,'.GZ');
     //  FZippedMirrorFile:=ChangeFileExt(FMirrorFile,'.GZ');
 
-    if DirectoryExists(BUPath) = false then
-      BCreOK := false
+    if DirectoryExists(BUPath) = False then
+      BCreOK := False
     else
-      BCreOK := true;
-    if BCreOK = true then
+      BCreOK := True;
+    if BCreOK = True then
     begin
       if FCompressBackup then
       begin
-        if DirectoryExists(FTempDir) = false then
+        if DirectoryExists(FTempDir) = False then
         begin
           if CreateDir(FTempDir) then
             TempOK := CreateTemporaryFilename(FTempDir, FTempBackFileName);
@@ -1033,7 +1033,7 @@ begin
 
         if TempOK then //Eðer ZIP isteniyorsa Temp yaratýlmýþ olmalý
         begin
-          BackOK := ProgramRunWait(FGBakParams + ' "' + FDatabaseFile + '" ' + FTempBackFileName, FDir, true);
+          BackOK := ProgramRunWait(FGBakParams + ' "' + FDatabaseFile + '" ' + FTempBackFileName, FDir, True);
           FFullGBakParams := FGBakParams + ' ' + FDatabaseFile + ' ' + FTempBackFileName;
           FTempOrBackupFileSize := GetTempBackupFileSize(FTempBackFileName);
           if BackOK then
@@ -1042,17 +1042,17 @@ begin
             // Yoksa yarým kalmýþ bir backup 'ýn boyutu 0'dan farklý olduðu için BackOK
             // olmasý iþten bile deðil !!!
             if FTempOrBackupFileSize > '0' then
-              BackOK := true
+              BackOK := True
             else
-              BackOK := false;
+              BackOK := False;
           end;
         end
         else
-          BackOK := false;
+          BackOK := False;
       end
       else
       begin
-        BackOK := ProgramRunWait(FGBakParams + ' "' + FDatabaseFile + '" ' + ' "' + FBackupFile + '" ', FDir, true);
+        BackOK := ProgramRunWait(FGBakParams + ' "' + FDatabaseFile + '" ' + ' "' + FBackupFile + '" ', FDir, True);
         FFullGBakParams := FGBakParams + ' ' + FDatabaseFile + ' ' + ' ' + FBackupFile + ' ';
         FTempOrBackupFileSize := GetTempBackupFileSize(FBackupFile);
         if BackOK then
@@ -1061,16 +1061,16 @@ begin
           // Yoksa yarým kalmýþ bir backup 'ýn boyutu 0'dan farklý olduðu için BackOK
           // olmasý iþten bile deðil !!!
           if FTempOrBackupFileSize > '0' then
-            BackOK := true
+            BackOK := True
           else
-            BackOK := false;
+            BackOK := False;
         end;
       end;
     end
     else
-      BackOK := false;
+      BackOK := False;
 
-    if BackOK = false then
+    if BackOK = False then
     begin
       TX := TStringList.Create;
       try
@@ -1087,12 +1087,12 @@ begin
     end
     else
       GOut := '';
-    windows.DeleteFile(PChar(GetTempPath + '~fibs_gbakout_' + FBackupNo + '.tmp'));
+    Windows.DeleteFile(PChar(GetTempPath + '~fibs_gbakout_' + FBackupNo + '.tmp'));
 
-    CopyOK := false;
-    CopyOK2 := false;
-    CopyOK3 := false;
-    ZipOK := false;
+    CopyOK := False;
+    CopyOK2 := False;
+    CopyOK3 := False;
+    ZipOK := False;
     if (BackOK and FCompressBackup) then // Backup tamam ise ve Zip Ýsteniyorsa
     begin
       Synchronize(RefreshPD10);
@@ -1121,7 +1121,7 @@ begin
           cmd7z := ExtractFilePath(Application.ExeName) + '7za a -y -tgzip -mx "' + Self.FZippedBackupFile + '" "' + Self.FTempBackFileName + '"';
           ZipOK := Self.ProgramRunWait(cmd7z, Self.FDir, True);
         except
-          ZipOK := false;
+          ZipOK := False;
         end;
       finally
 
@@ -1131,7 +1131,7 @@ begin
     if TempOK then
       DeleteFile(PChar(FTempBackFileName)); //Let's delete *.TMP yý silelim
     // if task is running in auto mode then delete oldest backup file
-    if FManAuto = true then
+    if FManAuto = True then
     begin
       //if new backup is created then delete oldest backup file
       if BackOK then
@@ -1139,26 +1139,26 @@ begin
         FDeletedBU := DeleteOldest(BUPath, 'the Backup Dir');
       end;
     end;
-    MirrorIsFtp := false;
+    MirrorIsFtp := False;
     if (BackOK and FDoMirror) then // Backup is OK and Mirroring onto #1 is wanted..
     begin
       Synchronize(RefreshPD20);
       MirrorPath := ExtractFilePathEx(FMirrorFile);
       if (lowercase(copy(MirrorPath, 1, 6)) = 'ftp://') then
-        MirrorIsFtp := true
+        MirrorIsFtp := True
       else
-        MirrorIsFtp := false;
+        MirrorIsFtp := False;
       if FCompressBackup then
       begin
         if ZipOK then
           CopyOK := MirrorFileEx(FZippedBackupFile, FZippedMirrorFile, MFtpCopy, FConnectionType)
         else
-          CopyOK := false;
+          CopyOK := False;
       end
       else
         CopyOK := MirrorFileEx(FBackupFile, FMirrorFile, MFtpCopy, FConnectionType);
       // if task is running in auto mode then delete oldest file in the Mirror #1 directory.
-      if FManAuto = true then
+      if FManAuto = True then
       begin
         // if mirroring onto Mirror #1 is OK then delete oldest file in the Mirror #1 directory.
         if CopyOK then
@@ -1168,26 +1168,26 @@ begin
       end;
     end;
 
-    Mirror2IsFtp := false;
+    Mirror2IsFtp := False;
     if (BackOK and FDoMirror2) then // Backup tamam ise ve Mirroring Ýsteniyorsa
     begin
       Synchronize(RefreshPD22);
       MirrorPath2 := ExtractFilePathEx(FMirrorFile2);
       if (lowercase(copy(MirrorPath2, 1, 6)) = 'ftp://') then
-        Mirror2IsFtp := true
+        Mirror2IsFtp := True
       else
-        Mirror2IsFtp := false;
+        Mirror2IsFtp := False;
       if FCompressBackup then
       begin
         if ZipOK then
           CopyOK2 := MirrorFileEx(FZippedBackupFile, FZippedMirrorFile2, MFtpCopy2, FConnectionType)
         else
-          CopyOK2 := false;
+          CopyOK2 := False;
       end
       else
         CopyOK2 := MirrorFileEx(FBackupFile, FMirrorFile2, MFtpCopy2, FConnectionType);
       // if task is running in auto mode then delete oldest file in the Mirror #2 directory.
-      if FManAuto = true then
+      if FManAuto = True then
       begin
         // if mirroring onto Mirror #2 is OK then delete oldest file in the Mirror #2 directory.
         if CopyOK2 then
@@ -1197,26 +1197,26 @@ begin
       end;
     end;
 
-    Mirror3IsFtp := false;
+    Mirror3IsFtp := False;
     if (BackOK and FDoMirror3) then // Backup tamam ise ve Mirroring Ýsteniyorsa
     begin
       Synchronize(RefreshPD23);
       MirrorPath3 := ExtractFilePathEx(FMirrorFile3);
       if (lowercase(copy(MirrorPath3, 1, 6)) = 'ftp://') then
-        Mirror3IsFtp := true
+        Mirror3IsFtp := True
       else
-        Mirror3IsFtp := false;
+        Mirror3IsFtp := False;
       if FCompressBackup then
       begin
         if ZipOK then
           CopyOK3 := MirrorFileEx(FZippedBackupFile, FZippedMirrorFile3, MFtpCopy3, FConnectionType)
         else
-          CopyOK3 := false;
+          CopyOK3 := False;
       end
       else
         CopyOK3 := MirrorFileEx(FBackupFile, FMirrorFile3, MFtpCopy3, FConnectionType);
       // if task is running in auto mode then delete oldest file in the Mirror #3 directory.
-      if FManAuto = true then
+      if FManAuto = True then
       begin
         // if mirroring onto Mirror #3 is OK then delete oldest file in the Mirror #3 directory.
         if CopyOK3 then
@@ -1233,7 +1233,7 @@ begin
       AEndTimeStr := DateTimeToStr(AEndTime, FSettings);
     //  EMail   Synchronize(RefreshPD30);
 
-    if FManAuto = false then
+    if FManAuto = False then
       MAuto := 'MANUAL '
     else
       MAuto := '';
@@ -1241,7 +1241,7 @@ begin
     begin
       if FCompressBackup then // Zip istenmiþse
       begin
-        if (ZipOK = false) then
+        if (ZipOK = False) then
         begin
           MBack := 'ERROR !!  NEW BACKUP FILE ( ' + FBackupFile + ' ) COULDN''T BEEN ZIPPED !'#13#10 + FErrorInfo + #13#10;
           MailBody := MailBody + #13#10 + FTaskName + ' has encountered Backup Error !! (2)'#13#10 + '          ' + MBack;
@@ -1256,7 +1256,7 @@ begin
     begin
       if FCompressBackup then
       begin
-        if TempOK = false then
+        if TempOK = False then
           MBack := 'ERROR !!  NEW BACKUP FILE ( ' + FBackupFile + ' ) COULDN''T BEEN CREATED Because of not creating Temporary File !'#13#10 + '   GBak Params : >' + FFullGBakParams + '< ' + #13#10
         else
           MBack := 'ERROR !!  NEW BACKUP FILE ( ' + FBackupFile + ' ) COULDN''T BEEN CREATED !'#13#10 + '   GBak Params : >' + FFullGBakParams + '< ' + #13#10;
@@ -1298,7 +1298,7 @@ begin
     end
     else
     begin
-      if FDoMirror = false then
+      if FDoMirror = False then
       begin
         MCopy := 'Mirroring #1 is disable..'#13#10
       end
@@ -1335,7 +1335,7 @@ begin
     end
     else
     begin
-      if FDoMirror2 = false then
+      if FDoMirror2 = False then
       begin
         MCopy2 := 'Mirroring #2 is disable..'#13#10
       end
@@ -1372,7 +1372,7 @@ begin
     end
     else
     begin
-      if FDoMirror3 = false then
+      if FDoMirror3 = False then
       begin
         MCopy3 := 'Mirroring #3 is disable..'#13#10
       end
@@ -1387,7 +1387,7 @@ begin
     end;
     MDel := '';
     Synchronize(RefreshPD30);
-    if FManAuto = true then
+    if FManAuto = True then
     begin
       MDel := FDeletedBU + FDeletedMR + FDeletedMR2 + FDeletedMR3;
     end
@@ -1406,9 +1406,9 @@ begin
       else
         ParamsToBatch := FBackupFile;
       ParamsToBatch := '"' + ParamsToBatch + '"';
-      if FUseParams = true then
+      if FUseParams = True then
       begin
-        if FShowExternalWin = true then
+        if FShowExternalWin = True then
         begin
           ExternalResultCode := ShellExecute(Handle, 'open', PChar(FExternalFile), PChar(ParamsToBatch), nil, SW_SHOWNORMAL);
           BatchFileOk := ExternalResultCode > 32
@@ -1421,7 +1421,7 @@ begin
       end
       else
       begin
-        if FShowExternalWin = true then
+        if FShowExternalWin = True then
         begin
           ExternalResultCode := ShellExecute(Handle, 'open', PChar(FExternalFile), nil, nil, SW_SHOWNORMAL);
           BatchFileOk := ExternalResultCode > 32
@@ -1432,9 +1432,9 @@ begin
           BatchFileOk := ExternalResultCode > 32
         end;
       end;
-      if BatchFileOk = false then
+      if BatchFileOk = False then
       begin
-        if FUseParams = true then
+        if FUseParams = True then
           MBatch := 'ERROR !!  EXTERNAL FILE ' + FExternalFile + ' COULDN''T BEEN RUNNED WITH PARAM ' + ParamsToBatch + ' !! (Error Code =' + IntToStr(ExternalResultCode) + ') ' + #13#10
         else
           MBatch := 'ERROR !!  EXTERNAL FILE ' + FExternalFile + ' COULDN''T BEEN RUNNED !! (Error Code =' + IntToStr(ExternalResultCode) + ') ' + #13#10;
@@ -1443,12 +1443,12 @@ begin
         MBatch := 'External File "' + FExternalFile + '" has been started to run with parameter ' + ParamsToBatch + ' at ' + DateTimeToStr(Now) + #13#10
     end;
 
-    if ((ValidateOK = false) or
-      (BackOK = false) or
-      ((FCompressBackup = true) and (ZipOK = false)) or
-      ((FDoMirror = true) and (CopyOK = false)) or
-      ((FDoMirror2 = true) and (CopyOK2 = false)) or
-      ((FDoMirror3 = true) and (CopyOK3 = false))) then
+    if ((ValidateOK = False) or
+      (BackOK = False) or
+      ((FCompressBackup = True) and (ZipOK = False)) or
+      ((FDoMirror = True) and (CopyOK = False)) or
+      ((FDoMirror2 = True) and (CopyOK2 = False)) or
+      ((FDoMirror3 = True) and (CopyOK3 = False))) then
     begin
       // There is a problem.
       if trim(FMailTo) <> '' then
@@ -1474,7 +1474,7 @@ begin
     begin
       ForceDirectories(Self.FArchiveDir);
       sArchiveFile := IfThen(Self.FArchiveDir[Length(Self.FArchiveDir)] in ['/', '\'], copy(Self.FArchiveDir, 1, Length(Self.FArchiveDir) - 1), Self.FArchiveDir) + '\' + ExtractFileName(IfThen(Self.FCompressBackup, Self.FZippedBackupFile, Self.FBackupFile));
-      CopyFile(PChar(IfThen(Self.FCompressBackup, Self.FZippedBackupFile, Self.FBackupFile)), PChar(sArchiveFile), false);
+      CopyFile(PChar(IfThen(Self.FCompressBackup, Self.FZippedBackupFile, Self.FBackupFile)), PChar(sArchiveFile), False);
       sMsgArchive := 'New Archive File created as "' + sArchiveFile + '" on the Archive Dir.' + #13#10;
     end
     else
@@ -1512,8 +1512,7 @@ begin
     if s[i] >= #128 then
       s[i] := '_';
   end;
-  result := s;
+  Result := s;
 end;
 
 end.
-

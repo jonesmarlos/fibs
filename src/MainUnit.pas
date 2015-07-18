@@ -28,7 +28,7 @@ unit MainUnit;
 interface
 
 uses
-  windows, messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Mask, Buttons, ActiveX, ShellApi, Menus, ExtCtrls, Grids, DBGrids,
   DBCtrls, ThdTimer;
 
@@ -177,7 +177,7 @@ begin
   else
     if Msg.lParam = WM_LBUTTONDOWN then
     begin
-      if MainForm.Visible = false then
+      if MainForm.Visible = False then
       begin
         PopMenuShow.Click;
       end
@@ -201,7 +201,7 @@ begin
   Registry := TRegistry.Create;
   try
     Registry.RootKey := HKEY_LOCAL_MACHINE;
-    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run', false) then
+    if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run', False) then
     begin
       if DModule.OptionsTableAUTORUN.Value = '1' then
         Registry.WriteString(AKey, ParamStr(0))
@@ -220,8 +220,8 @@ begin
   if (Message.Msg = fwm_TaskbarRestart) then
   begin
     si := Shell_NotifyIcon(NIM_ADD, @NotifyIconData);
-    if si = false then
-      TrayTimer.Enabled := true;
+    if si = False then
+      TrayTimer.Enabled := True;
   end
   else
     if (Message.Msg = WM_CLOSE) then
@@ -233,7 +233,7 @@ begin
       begin
         SetThreadLocale(LOCALE_SYSTEM_DEFAULT);
         SysUtils.GetFormatSettings;
-        Application.UpdateFormatSettings := false;
+        Application.UpdateFormatSettings := False;
       end
       else
         inherited WndProc(Message);
@@ -263,7 +263,7 @@ procedure TMainForm.MenuPrefsClick(Sender: TObject);
 var
   s: string;
 begin
-  PrefForm := TPrefForm.Create(self);
+  PrefForm := TPrefForm.Create(Self);
   try
     PrefForm.DirectoryEdit1.Text := DModule.OptionsTablePATHTOGBAK.Value;
     PrefForm.DirectoryLogDir.Text := DModule.OptionsTableLOGDIR.Value;
@@ -309,7 +309,7 @@ begin
     EditTaskForm.LabelState.Visible := DModule.AlarmTableACTIVE.AsInteger = 1;
     EditTaskForm.FileEditBtnBatchFile.Text := DModule.AlarmTableBATCHFILE.Value;
 
-    EditTaskForm.EditDatabaseName.Button.Enabled := DModule.AlarmTableLOCALCONN.AsBoolean = true;
+    EditTaskForm.EditDatabaseName.Button.Enabled := DModule.AlarmTableLOCALCONN.AsBoolean = True;
 
     T := DModule.AlarmTableBOXES.Value;
     for i := 1 to 24 do
@@ -392,7 +392,7 @@ var
 begin
   if TimeList.Count > 0 then
   begin
-    y := DModule.AlarmTableTASKNO.ASString;
+    y := DModule.AlarmTableTASKNO.AsString;
     for i := TimeList.Count - 1 downto 0 do
     begin
       StartPos := Pos(' - ', TimeList.Strings[i]) + 3;
@@ -440,7 +440,7 @@ begin
             Delete(AlarmDateTimeStr, 1, PDot - 4)
           else
             AlarmDateTimeStr := RightStr(AlarmDateTimeStr, 3);
-          AlarmTimeList.Add(AlarmDateTimeStr + ' - ' + DModule.AlarmTableTASKNO.ASString + ' + ' + DModule.AlarmTableTASKNAME.ASString);
+          AlarmTimeList.Add(AlarmDateTimeStr + ' - ' + DModule.AlarmTableTASKNO.AsString + ' + ' + DModule.AlarmTableTASKNAME.AsString);
         end;
       end;
     end;
@@ -462,14 +462,14 @@ begin
 
   SetThreadLocale(LOCALE_SYSTEM_DEFAULT);
   SysUtils.GetFormatSettings;
-  Application.UpdateFormatSettings := false;
+  Application.UpdateFormatSettings := False;
 
   SyncLog := TMultiReadExclusiveWriteSynchronizer.Create;
   AlarmTimeList := TStringList.Create;
-  AlarmTimeList.Sorted := true;
+  AlarmTimeList.Sorted := True;
   TimeList := TStringList.Create;
-  TimeList.Sorted := true;
-  MainTimer.Enabled := true;
+  TimeList.Sorted := True;
+  MainTimer.Enabled := True;
   MainForm.caption := 'FIBS  ' + PrgInfo + ' Ver. ' + ReleaseInfo;
   ActivateAllLeavedActive;
 
@@ -477,17 +477,17 @@ begin
   if BackupIsService then
   begin
     Hide;
-    MainFormHidden := true;
+    MainFormHidden := True;
   end
   else
   begin
-    Application.ShowMainForm := false;
-    MainFormHidden := true;
+    Application.ShowMainForm := False;
+    MainFormHidden := True;
   end;
 
   with NotifyIconData do
   begin
-    hIcon := self.Icon.Handle;
+    hIcon := Self.Icon.Handle;
     if RunningAsService then
       StrPCopy(szTip, PrgName + ' is running As a Service.')
     else
@@ -500,9 +500,9 @@ begin
   end;
 
   si := Shell_NotifyIcon(NIM_ADD, @NotifyIconData);
-  if si = false then
+  if si = False then
   begin
-    TrayTimer.Enabled := true;
+    TrayTimer.Enabled := True;
   end;
 
   // Hide FIBS from Taskbar and Alt+Tab window.
@@ -551,7 +551,7 @@ begin
   EditTaskForm.EditMirrorDir.Text := '';
   EditTaskForm.EditMirror2Dir.Text := '';
   EditTaskForm.EditMirror3Dir.Text := '';
-  EditTaskForm.LabelState.Visible := false;
+  EditTaskForm.LabelState.Visible := False;
   AlarmTimeList.Text := '';
   DModule.AlarmTableDOVAL.Value := 'False';
   DModule.AlarmTableMAILTO.Value := '';
@@ -569,9 +569,9 @@ begin
   DModule.AlarmTableBOPTIONS.Value := '11100000';
   DModule.AlarmTableBOXES.Value := DupeString('0', 84);
   for i := 0 to 23 do
-    EditTaskForm.CGHours.checked[i] := false;
+    EditTaskForm.CGHours.checked[i] := False;
   for i := 0 to 59 do
-    EditTaskForm.CGMinutes.checked[i] := false;
+    EditTaskForm.CGMinutes.checked[i] := False;
   s := DModule.AlarmTableBOPTIONS.Value;
   for i := 0 to TotalGBakOptions - 1 do
     if (s[i + 1] = '1') then
@@ -619,7 +619,7 @@ var
 begin
   if TimeList.Count > 0 then
   begin
-    y := DModule.AlarmTableTASKNO.ASString;
+    y := DModule.AlarmTableTASKNO.AsString;
     for i := TimeList.Count - 1 downto 0 do
     begin
       StartPos := Pos(' - ', TimeList.Strings[i]) + 3;
@@ -645,7 +645,7 @@ begin
     Show;
     if MessageDlg('Do you really want to exit?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
     begin
-      MainTimer.Enabled := false;
+      MainTimer.Enabled := False;
       Close;
     end;
   end;
@@ -667,14 +667,14 @@ begin
     exit;
   end
   else
-    if DirectoryExists(gd) = false then
+    if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
-      if FileExists(gd + '\gbak.exe') = false then
+      if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -687,13 +687,13 @@ begin
     exit;
   end
   else
-    if DirectoryExists(ld) = false then
+    if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end;
-    
+
   if MessageDlg('Do you want to ACTIVATE ' + DModule.AlarmTableTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     ActivateOne;
@@ -733,7 +733,7 @@ var
   ArchiveDir: string;
 begin
   DModule.AlarmTable.DisableControls;
-  Book := DModule.AlarmTableTASKNO.ASString;
+  Book := DModule.AlarmTableTASKNO.AsString;
   try
     DModule.AlarmTable.Locate('TASKNO', ARecNo, []);
     TaskName := DModule.AlarmTableTASKNAME.Value;
@@ -752,7 +752,7 @@ begin
     DecodeData(DModule.OptionsTableMAILPASSWORD.Value, MailPassword);
 
     MailTo := DModule.AlarmTableMAILTO.Value;
-    FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.ASString, 0);
+    FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.AsString, 0);
 
     CompDegree := DModule.AlarmTableCOMPRESS.Value;
     DeleteAll := DModule.AlarmTableDELETEALL.AsInteger;
@@ -776,20 +776,20 @@ begin
     Mirror2Path := DModule.AlarmTableMIRROR2DIR.Value;
     Mirror3Path := DModule.AlarmTableMIRROR3DIR.Value;
     currdir := ExtractFilePath(Application.ExeName);
-    BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.ASString, 4);
+    BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.AsString, 4);
 
     if (MirrorPath <> '') then
-      DoMirror := true
+      DoMirror := True
     else
-      DoMirror := false;
+      DoMirror := False;
     if (Mirror2Path <> '') then
-      DoMirror2 := true
+      DoMirror2 := True
     else
-      DoMirror2 := false;
+      DoMirror2 := False;
     if (Mirror3Path <> '') then
-      DoMirror3 := true
+      DoMirror3 := True
     else
-      DoMirror3 := false;
+      DoMirror3 := False;
     CompressBackup := DModule.AlarmTableZIPBACKUP.AsBoolean;
 
     DBNameExt := ExtractFileName(FullDBPath);
@@ -877,7 +877,7 @@ begin
       FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
       FullMirror3Path, FullLogPath, BackupNo, CompDegree, SmtpServer,
       SendersMail, MailUserName, MailPassword, MailTo, BatchFile,
-      UseParams, ShowBatchWin, DoMirror, DoMirror2, DoMirror3, true,
+      UseParams, ShowBatchWin, DoMirror, DoMirror2, DoMirror3, True,
       CompressBackup, DoValidate, PVAdet, PVUnit, DeleteAll, FtpConnType,
       BackupPriority, SequenceIncremented, ArchiveDir);
   finally
@@ -888,7 +888,7 @@ begin
     except
     end;
     if SequenceIncremented then
-      self.BackUpDatabase(ARecNo, AAlarmDateTime);
+      Self.BackUpDatabase(ARecNo, AAlarmDateTime);
   end;
 end;
 
@@ -910,20 +910,20 @@ var
   SequenceIncremented: Boolean;
   ArchiveDir: string;
 begin
-  BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.ASString, 4);
+  BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.AsString, 4);
   currdir := ExtractFilePath(Application.ExeName);
   if (MirrorPath <> '') then
-    DoMirror := true
+    DoMirror := True
   else
-    DoMirror := false;
+    DoMirror := False;
   if (Mirror2Path <> '') then
-    DoMirror2 := true
+    DoMirror2 := True
   else
-    DoMirror2 := false;
+    DoMirror2 := False;
   if (Mirror3Path <> '') then
-    DoMirror3 := true
+    DoMirror3 := True
   else
-    DoMirror3 := false;
+    DoMirror3 := False;
   DBNameExt := ExtractFileName(FullDBPath);
   DBExt := UpperCase(ExtractFileExt(DBNameExt));
   LenExt := Length(DBExt);
@@ -989,7 +989,7 @@ begin
   ShowBatchWin := DModule.AlarmTableSHOWBATCHWIN.AsBoolean;
   UseParams := DModule.AlarmTableUSEPARAMS.AsBoolean;
   MailTo := DModule.AlarmTableMAILTO.Value;
-  FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.ASString, 1);
+  FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.AsString, 1);
 
   LogName := 'LOG_' + TaskName;
   LogNameExt := 'LOG_' + TaskName + '.TXT';
@@ -1034,7 +1034,7 @@ begin
     FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
     FullMirror3Path, FullLogPath, BackupNo, ACompDegree, SmtpServer,
     SendersMail, MailUserName, MailPassword, MailTo, BatchFile,
-    UseParams, ShowBatchWin, DoMirror, DoMirror2, DoMirror3, false,
+    UseParams, ShowBatchWin, DoMirror, DoMirror2, DoMirror3, False,
     ADoZip, ADoValidate, PVAdet, PVUnit, DeleteAll, FtpConnType,
     BackupPriority, SequenceIncremented, ArchiveDir);
   Backup.Resume;
@@ -1044,14 +1044,14 @@ begin
   except
   end;
   if SequenceIncremented then
-    if YesNoDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(DModule.AlarmTableDBNAME.ASString)) + '] is found. Backup now?', 'c', 'Database sequence') = mrYes then
-      Self.ManualBackUp(AAlarmDateTime, DModule.AlarmTableTASKNAME.ASString, GBakPath, UserName, Password, DModule.AlarmTableDBNAME.ASString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);
+    if YesNoDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(DModule.AlarmTableDBNAME.AsString)) + '] is found. Backup now?', 'c', 'Database sequence') = mrYes then
+      Self.ManualBackUp(AAlarmDateTime, DModule.AlarmTableTASKNAME.AsString, GBakPath, UserName, Password, DModule.AlarmTableDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);
   }
 end;
 
 function GetTrapTime(s: string): TDateTime;
 begin
-  result := StrToFloat(copy(s, 1, Pos(' - ', s) - 1))
+  Result := StrToFloat(copy(s, 1, Pos(' - ', s) - 1))
 end;
 
 procedure TMainForm.InitAlarms;
@@ -1072,7 +1072,7 @@ begin
   ;
   CurrentAlarm := 0; //TdateTime
   CurrentItem := 0;
-  AlarmFound := false;
+  AlarmFound := False;
 
   for i := 0 to TimeList.Count - 1 do
   begin
@@ -1087,28 +1087,28 @@ begin
       CurrentAlarm := ATrap;
       CurrentOwner := copy(TimeList[i], KeyPos + 3, NamePos - (KeyPos + 3));
       CurrentOwnerName := RightStr(TimeList[i], Length(TimeList[i]) - NamePos - 2);
-      AlarmFound := true;
+      AlarmFound := True;
       break;
     end;
   end;
   if (TimeList.Count = 0) then
   begin
-    NoItemToExecute := true;
-    Label5.Visible := false;
+    NoItemToExecute := True;
+    Label5.Visible := False;
   end
   else
   begin
-    NoItemToExecute := false;
-    if AlarmFound = true then
+    NoItemToExecute := False;
+    if AlarmFound = True then
     begin
-      LastItemExecuted := false;
+      LastItemExecuted := False;
       Label5.caption := '  Next Backup : ' + CurrentOwnerName + ' on ' + MyDateTimeToStr(CurrentAlarm + StartOfTheDay(Now));
-      Label5.Visible := true;
+      Label5.Visible := True;
     end
     else
     begin
-      LastItemExecuted := true;
-      Label5.Visible := false;
+      LastItemExecuted := True;
+      Label5.Visible := False;
     end;
   end;
   LabelAllTaskCompleted.Visible := LastItemExecuted;
@@ -1152,7 +1152,7 @@ begin
     InitAlarms;
     exit;
   end;
-  if NoItemToExecute = true then
+  if NoItemToExecute = True then
     exit;
   if LastItemExecuted then
     exit;
@@ -1162,13 +1162,13 @@ begin
     ExecutedItem := CurrentItem;
     if (CurrentItem = TimeList.Count - 1) then
     begin
-      LastItemExecuted := true;
+      LastItemExecuted := True;
       LabelAllTaskCompleted.Visible := LastItemExecuted;
-      Label5.Visible := false;
+      Label5.Visible := False;
     end
     else
     begin
-      LastItemExecuted := false;
+      LastItemExecuted := False;
       LabelAllTaskCompleted.Visible := LastItemExecuted;
     end;
     SetAlarms;
@@ -1202,7 +1202,7 @@ end;
 
 procedure TMainForm.MenuTaskClick(Sender: TObject);
 begin
-  MenuActivate.Enabled := DModule.AlarmTableACTIVE.ASString = '0'; //Rev.2.0.1-2 ; this was "MenuActivate.Enabled:=DModule.AlarmTableACTIVE.AsInteger=0;"
+  MenuActivate.Enabled := DModule.AlarmTableACTIVE.AsString = '0'; //Rev.2.0.1-2 ; this was "MenuActivate.Enabled:=DModule.AlarmTableACTIVE.AsInteger=0;"
   MenuDeactivate.Enabled := not MenuActivate.Enabled;
   MenuDeactivateAll.Enabled := not NoItemToExecute;
   if DModule.AlarmTable.RecordCount < 1 then
@@ -1272,7 +1272,7 @@ begin
   end;
   ts.EndUpdate;
 
-  PlanListForm := TPlanListForm.Create(self);
+  PlanListForm := TPlanListForm.Create(Self);
   PlanListForm.caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
   PlanListForm.PlanList.items.BeginUpdate;
   PlanListForm.PlanList.items.AddStrings(ts);
@@ -1289,7 +1289,7 @@ end;
 
 procedure TMainForm.MenuAboutClick(Sender: TObject);
 begin
-  AboutForm := TAboutForm.Create(self);
+  AboutForm := TAboutForm.Create(Self);
   try
     AboutForm.ShowModal;
   finally
@@ -1307,7 +1307,7 @@ begin
     MessageDlg('No backup task to be seen the backup time settings!', mtError, [mbOk], 0);
     exit;
   end;
-  PlanListForm := TPlanListForm.Create(self);
+  PlanListForm := TPlanListForm.Create(Self);
   PlanListForm.caption := 'Selected Backup Times of Task "' + DModule.AlarmTableTASKNAME.Value + ' "';
   PlanListForm.PlanList.Clear;
   PlanListForm.PlanList.items.BeginUpdate;
@@ -1358,17 +1358,17 @@ begin
     exit;
   end
   else
-    if DirectoryExists(LogDir) = false then
+    if DirectoryExists(LogDir) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + LogDir + ')', mtError, [mbOk], 0);
       exit;
     end;
-  if FileExists(LogPath) = false then
+  if FileExists(LogPath) = False then
   begin
     MessageDlg('LOG File for Task "' + TaskName + '" is not exist!' + #13#10 + 'Log File will be created after executing a backup task.', mtError, [mbOk], 0);
     exit;
   end;
-  LogForm := TLogForm.Create(self);
+  LogForm := TLogForm.Create(Self);
   LogForm.caption := '  Task " ' + TaskName + ' " LOG';
   LogForm.LogFile := LogNameExt;
   LogForm.LabelLogPath.caption := 'Log File: ' + LogPath;
@@ -1401,8 +1401,8 @@ var
 begin
   gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
   ld := trim(DModule.OptionsTableLOGDIR.Value);
-  if (gd = '') or (DirectoryExists(gd) = false) or (FileExists(gd + '\gbak.exe') = false) or
-    (ld = '') or (DirectoryExists(ld) = false) then
+  if (gd = '') or (DirectoryExists(gd) = False) or (FileExists(gd + '\gbak.exe') = False) or
+    (ld = '') or (DirectoryExists(ld) = False) then
   begin
     DeactivateAll;
     exit;
@@ -1492,7 +1492,7 @@ var
   function ValidDirectory(ADir: string): Boolean;
   begin
     ADir := trim(ADir);
-    result := (ADir = '') or ((DirectoryExists(ADir) or IsFtpPath(ADir)));
+    Result := (ADir = '') or ((DirectoryExists(ADir) or IsFtpPath(ADir)));
   end;
 begin
   PD := ShowProsesDlg('Tasks are being activating..'#13#10'Please Wait..', 'c', PrgName);
@@ -1549,14 +1549,14 @@ begin
     exit;
   end
   else
-    if DirectoryExists(gd) = false then
+    if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
       exit;
     end
     else
-      if FileExists(gd + '\gbak.exe') = false then
+      if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
@@ -1569,7 +1569,7 @@ begin
     exit;
   end
   else
-    if DirectoryExists(ld) = false then
+    if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
@@ -1634,7 +1634,7 @@ begin
     exit;
   end;
 
-  ManualBackupForm := TManualBackupForm.Create(self);
+  ManualBackupForm := TManualBackupForm.Create(Self);
   ManualBackupForm.EditTaskName.Text := DModule.AlarmTableTASKNAME.Value;
   ManualBackupForm.EditDatabaseName.Text := DModule.AlarmTableDBNAME.Value;
   ManualBackupForm.EditDestinationDir.Text := DModule.AlarmTableBACKUPDIR.Value;
@@ -1678,11 +1678,11 @@ end;
 
 procedure TMainForm.PopMenuShowClick(Sender: TObject);
 begin
-  if MainForm.Visible = false then
+  if MainForm.Visible = False then
   begin
-    Application.ShowMainForm := true;
+    Application.ShowMainForm := True;
     MainForm.Show;
-    MainFormHidden := false;
+    MainFormHidden := False;
   end
   else
     screen.ActiveForm.SetFocus;
@@ -1695,7 +1695,7 @@ begin
   if screen.ActiveForm = MainForm then
   begin
     MainForm.Hide;
-    MainFormHidden := true;
+    MainFormHidden := True;
   end
   else
     MessageDlg('Close window "' + screen.ActiveForm.caption + '" first!', mtError, [mbOk], 0);
@@ -1772,8 +1772,8 @@ var
   si: Boolean;
 begin
   si := Shell_NotifyIcon(NIM_ADD, @NotifyIconData);
-  if si = true then
-    TrayTimer.Enabled := false;
+  if si = True then
+    TrayTimer.Enabled := False;
 end;
 
 procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1795,21 +1795,21 @@ end;
 procedure TMainForm.PopupMenu1Popup(Sender: TObject);
 begin
   if BackupIsService then
-    PopMenuStopService.Visible := true
+    PopMenuStopService.Visible := True
   else
-    PopMenuStopService.Visible := false;
+    PopMenuStopService.Visible := False;
   PopMenuExit.Visible := not PopMenuStopService.Visible;
 end;
 
 procedure TMainForm.miTaskDuplicateClick(Sender: TObject);
 begin
-  DModule.DuplicateTask(false);
-  self.MenuEditTaskClick(nil);
+  DModule.DuplicateTask(False);
+  Self.MenuEditTaskClick(nil);
 end;
 
 procedure TMainForm.PopupMenu2Popup(Sender: TObject);
 begin
-  self.miTaskDuplicate.Enabled := DModule.AlarmTable.RecordCount > 0;
+  Self.miTaskDuplicate.Enabled := DModule.AlarmTable.RecordCount > 0;
 end;
 
 end.

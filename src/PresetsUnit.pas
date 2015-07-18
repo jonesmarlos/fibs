@@ -39,17 +39,17 @@ function MakeFull(ADir, AExt: string): string;
 
 implementation
 
-uses windows, SysUtils, Forms, Dialogs, StrUtils, ConstUnit, MesajUnit;
+uses Windows, SysUtils, Forms, Dialogs, StrUtils, ConstUnit, MesajUnit;
 
 function DataFilesExists: Boolean;
 begin
-  result := false;
+  Result := False;
   DataFilesPath := ExtractFilePath(Application.ExeName);
   if FileExists(DataFilesPath + 'prefs.dat') then
   begin
     if FileExists(DataFilesPath + 'tasks.dat') then
     begin
-      result := true;
+      Result := True;
     end
     else
       MessageDlg(DataFilesPath + 'tasks.dat is not exist !!!'#13#10'Program will be closed.', mtError, [mbOk], 0);
@@ -67,13 +67,13 @@ var
   Mutex: THandle;
   Flag: DWORD;
 begin
-  result := true;
-  Mutex := CreateMutex(nil, true, PChar(App + SSubClass + 'CriticalSection')); // don't localize
+  Result := True;
+  Mutex := CreateMutex(nil, True, PChar(App + SSubClass + 'CriticalSection')); // don't localize
   if (GetLastError <> 0) or (Mutex = 0) then
     exit;
-  _OneInstanceMutex := CreateMutex(nil, false, PChar(App + SSubClass + 'Default')); // don't localize
+  _OneInstanceMutex := CreateMutex(nil, False, PChar(App + SSubClass + 'Default')); // don't localize
   Flag := WaitForSingleObject(_OneInstanceMutex, 0);
-  result := (Flag = WAIT_TIMEOUT);
+  Result := (Flag = WAIT_TIMEOUT);
   ReleaseMutex(Mutex);
   CloseHandle(Mutex);
 end;
@@ -88,10 +88,10 @@ function IsFtpPath(AFtpPath: string): Boolean;
 var
   APath: string;
 begin
-  result := false;
+  Result := False;
   APath := trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
-    result := true;
+    Result := True;
 end;
 
 function CheckFtpPath(AFtpPath: string): Boolean;
@@ -99,11 +99,11 @@ var
   APath: string;
   p1, p2, p3: Integer;
 begin
-  result := false;
+  Result := False;
   APath := trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
   begin
-    result := true;
+    Result := True;
     APath := AnsiReplaceStr(APath, '\', '/');
     p1 := PosEx(':', APath, 7);
     p2 := Pos('@', APath);
@@ -114,7 +114,7 @@ begin
       (p1 = 0) or // : is not exist
       (p2 = 0)) {// @ is not exist} then
     begin
-      result := false;
+      Result := False;
       MessageDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', mtError, [mbOk], 0);
     end;
   end;
@@ -125,11 +125,11 @@ var
   APath: string;
   p1, p2, p3, p4, p5: Integer;
 begin
-  result := false;
+  Result := False;
   APath := trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
   begin
-    result := true;
+    Result := True;
     APath := AnsiReplaceStr(APath, '\', '/');
     p1 := PosEx(':', APath, 7);
     p2 := Pos('@', APath);
@@ -142,7 +142,7 @@ begin
       (p1 = 0) or // : is not exist
       (p2 = 0)) {// @ is not exist} then
     begin
-      result := false;
+      Result := False;
       MessageDlg('FTP Path Error !!!'#13#10'Define FTP Path like ftp://username:password@talatdogan.com/backups', mtError, [mbOk], 0);
     end
     else
@@ -161,16 +161,16 @@ begin
   if IsFtpPath(ADir) then
   begin
     if RightStr(ADir, 1) = '/' then
-      result := ADir + AExt
+      Result := ADir + AExt
     else
-      result := ADir + '/' + AExt;
+      Result := ADir + '/' + AExt;
   end
   else
   begin
     if RightStr(ADir, 1) = '\' then
-      result := ADir + AExt
+      Result := ADir + AExt
     else
-      result := ADir + '\' + AExt;
+      Result := ADir + '\' + AExt;
   end;
 end;
 
@@ -185,7 +185,7 @@ begin
   u := T;
   if Count > 0 then
   begin
-    result := Length(T);
+    Result := Length(T);
     for i := 1 to Count do
     begin
       h := Pos(s, u);
@@ -196,10 +196,10 @@ begin
       else
       begin
         u := '';
-        inc(result);
+        inc(Result);
       end;
     end;
-    result := result - Length(u);
+    Result := Result - Length(u);
   end
   else
     if Count < 0 then
@@ -218,12 +218,12 @@ begin
         end;
       end;
       if Count = 0 then
-        result := last
+        Result := last
       else
-        result := 0;
+        Result := 0;
     end
     else
-      result := 0;
+      Result := 0;
 end;
 
 {  Author : Andreas Hörstemeier }
@@ -298,4 +298,3 @@ begin
 end;
 
 end.
-

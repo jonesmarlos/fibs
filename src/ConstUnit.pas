@@ -53,9 +53,9 @@ const
 var
   SyncLog: TMultiReadExclusiveWriteSynchronizer;
 
-  RunningAsService: Boolean = false; // True, when FIBS is running as a Windows service
-  DataFilesInvalid: Boolean = false; // True, if prefs.dat and tasks.dat are not corrupt or older version
-  MainFormHidden: Boolean = false; // True, if MainForm is minimised to the tray.
+  RunningAsService: Boolean = False; // True, when FIBS is running as a Windows service
+  DataFilesInvalid: Boolean = False; // True, if prefs.dat and tasks.dat are not corrupt or older version
+  MainFormHidden: Boolean = False; // True, if MainForm is minimised to the tray.
   DataFilesPath: string; // Path to the Database files (prefs.dat and tasks.dat)
 
   AlarmTimeList: TStringList;
@@ -68,8 +68,8 @@ var
   CurrentOwnerName: string;
   CurrentItem: Integer;
   ExecutedItem: Integer = -1; // Rev.2.0.1-1 ; this was "ExecutedItem : integer = 0;"
-  NoItemToExecute: Boolean = false;
-  LastItemExecuted: Boolean = false;
+  NoItemToExecute: Boolean = False;
+  LastItemExecuted: Boolean = False;
   // Alarms count in the hour, day and month.
   AlarmInHour, AlarmInDay, AlarmInMonth: Integer;
   // Backups to be preserved in the hour, day and month.
@@ -92,4 +92,3 @@ implementation
 // ***************************************************************************//
 
 end.
-
