@@ -149,8 +149,8 @@ var
 implementation
 
 uses Registry, Variants, StrUtils, PrefUnit, EditTaskUnit, ConstUnit, DModuleUnit, BackupUnit,
-  uTBase64, MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
-  AboutUnit, LogUnit, YesNoUnit, PresetsUnit, DateUtils,
+  MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
+  AboutUnit, LogUnit, PresetsUnit, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
 {$R *.DFM}
@@ -1038,9 +1038,8 @@ begin
   except
   end;
   if SequenceIncremented then
-    if YesNoDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(DModule.AlarmTableDBNAME.AsString)) + '] is found. Backup now?', 'c', 'Database sequence') = mrYes then
-      Self.ManualBackUp(AAlarmDateTime, DModule.AlarmTableTASKNAME.AsString, GBakPath, UserName, Password, DModule.AlarmTableDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);
-  }
+    if MessageDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(DModule.AlarmTableDBNAME.AsString)) + '] is found. Backup now?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      Self.ManualBackUp(AAlarmDateTime, DModule.AlarmTableTASKNAME.AsString, GBakPath, UserName, Password, DModule.AlarmTableDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);}
 end;
 
 function GetTrapTime(s: string): TDateTime;

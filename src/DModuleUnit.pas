@@ -98,7 +98,7 @@ var
 
 implementation
 
-uses Variants, uTBase64, ConstUnit, IBDatabase, FunctionsUnit, StrUtils, DCPbase64;
+uses Variants, ConstUnit, IBDatabase, FunctionsUnit, StrUtils, DCPbase64;
 
 {$R *.dfm}
 

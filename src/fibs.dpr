@@ -23,7 +23,6 @@ uses
   ConstUnit in 'ConstUnit.pas',
   DModuleUnit in 'DModuleUnit.pas' {DModule: TDataModule},
   EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
-  uTBase64 in 'UTBASE64.PAS',
   PresetsUnit in 'PresetsUnit.pas',
   MesajUnit in 'MesajUnit.pas' {MesajForm},
   BackupUnit in 'BackupUnit.pas',
@@ -32,7 +31,6 @@ uses
   PlanListUnit in 'PlanListUnit.pas' {PlanListForm},
   AboutUnit in 'AboutUnit.pas' {AboutForm},
   LogUnit in 'LogUnit.pas' {LogForm},
-  YesNoUnit in 'YesNoUnit.pas' {YesNoForm},
   RetMonitorTools in 'RetMonitorTools.pas',
   BackupServiceUnit in 'BackupServiceUnit.pas',
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',
@@ -97,7 +95,7 @@ begin
     begin
       RunningAsService := False;
       Application.CreateForm(TMainForm, MainForm);
-      // Check Datafiles are not corrupt nor old version.
+  // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         DModule.Free;
