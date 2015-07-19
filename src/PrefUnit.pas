@@ -85,33 +85,33 @@ begin
   if DirectoryEdit1.Text = '' then
   begin
     MessageDlg('Directory Name cannot be empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
-    if DirectoryExists(trim(DirectoryEdit1.Text)) = False then
+    if DirectoryExists(Trim(DirectoryEdit1.Text)) = False then
     begin
       MessageDlg('There is No Directory given name!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
-      if FileExists(trim(DirectoryEdit1.Text) + '\gbak.exe') = False then
+      if FileExists(Trim(DirectoryEdit1.Text) + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
   if DirectoryLogDir.Text = '' then
   begin
     MessageDlg('LOG Directory Name cannot be empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
-    if DirectoryExists(trim(DirectoryLogDir.Text)) = False then
+    if DirectoryExists(Trim(DirectoryLogDir.Text)) = False then
     begin
       MessageDlg('Given LOG Directory is not exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
 end;
 

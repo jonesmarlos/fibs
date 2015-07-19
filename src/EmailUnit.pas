@@ -13,25 +13,25 @@ implementation
 
 procedure SendEmail(SendersMail: string; EmailAddr: string; Subject: string; SmtpServer: string; Body: string; MailUserName: string; MailPassword: string);
 var
-  Smtp: TIdSMTP;
+  SMTP: TIdSMTP;
   Email: TIdMessage;
 begin
-  Smtp := TIdSMTP.Create;
+  SMTP := TIdSMTP.Create;
   Email := TIdMessage.Create;
   try
-    Smtp.Host := SmtpServer;
-    Smtp.Username := MailUserName;
-    Smtp.Password := MailPassword;
-    if Smtp.Authenticate then
+    SMTP.host := SmtpServer;
+    SMTP.UserName := MailUserName;
+    SMTP.Password := MailPassword;
+    if SMTP.Authenticate then
     begin
       Email.FromList.Add.Address := SendersMail;
       Email.Recipients.Add.Address := EmailAddr;
       Email.Subject := Subject;
       Email.Body.Add(Body);
-      Smtp.Send(Email);
+      SMTP.Send(Email);
     end;
   finally
-    Smtp.Free;
+    SMTP.Free;
     Email.Free;
   end;
 end;

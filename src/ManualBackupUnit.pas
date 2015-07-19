@@ -78,7 +78,7 @@ var
 implementation
 
 {$R *.dfm}
-uses DateUtils, ConstUnit, DModuleUnit, MesajUnit, PresetsUnit, FunctionsUnit;
+uses DateUtils, ConstUnit, FibsData, MesajUnit, PresetsUnit, FunctionsUnit;
 
 procedure TManualBackupForm.BitBtn1Click(Sender: TObject);
 var
@@ -88,44 +88,44 @@ begin
   begin
     MessageDlg('Task Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
-  if DModule.AlarmTableLOCALCONN.AsBoolean = True then
+  if dmFibs.qrTaskLOCALCONN.AsBoolean = True then
   begin
     DD := FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text);
     if (DD = '') then
     begin
       MessageDlg('Database Path cannot be empty!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
       if FileExists(DD) = False then
       begin
         MessageDlg('Database doesn''t exist onto given path!' + #13#10 + '(' + DD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
   end;
-  bd := trim(EditDestinationDir.Text);
+  bd := Trim(EditDestinationDir.Text);
   if (bd = '') then
   begin
     MessageDlg('Backup Directory cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(bd) = False then
     begin
       MessageDlg('Backup directory is not exist !' + #13#10 + '(' + bd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
 
   if IsFtpPath(EditMirrorDir.Text) = False then
   begin
-    MD := trim(EditMirrorDir.Text);
-    if trim(MD) = '' then
+    MD := Trim(EditMirrorDir.Text);
+    if Trim(MD) = '' then
     begin
       //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
       // dikkat !!! mrNone yok ..exit yok..
@@ -135,14 +135,14 @@ begin
       begin
         MessageDlg('Mirror directory is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end
       else
         if (MD = bd) then
         begin
           MessageDlg('Mirror directory must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end;
   end
   else
@@ -150,14 +150,14 @@ begin
     if CheckFtpPath(EditMirrorDir.Text) = False then
     begin
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   end;
 
   if IsFtpPath(EditMirror2Dir.Text) = False then
   begin
-    MD := trim(EditMirror2Dir.Text);
-    if trim(MD) = '' then
+    MD := Trim(EditMirror2Dir.Text);
+    if Trim(MD) = '' then
     begin
       //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
       // dikkat !!! mrNone yok ..exit yok..
@@ -167,14 +167,14 @@ begin
       begin
         MessageDlg('Mirror directory 2 is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end
       else
         if (MD = bd) then
         begin
           MessageDlg('Mirror directory 2 must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end;
   end
   else
@@ -182,14 +182,14 @@ begin
     if CheckFtpPath(EditMirror2Dir.Text) = False then
     begin
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   end;
 
   if IsFtpPath(EditMirror3Dir.Text) = False then
   begin
-    MD := trim(EditMirror3Dir.Text);
-    if trim(MD) = '' then
+    MD := Trim(EditMirror3Dir.Text);
+    if Trim(MD) = '' then
     begin
       //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
       // dikkat !!! mrNone yok ..exit yok..
@@ -199,14 +199,14 @@ begin
       begin
         MessageDlg('Mirror directory 3 is not exist!' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end
       else
         if (MD = bd) then
         begin
           MessageDlg('Mirror directory 3 must be different than Backup Directory!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end;
   end
   else
@@ -214,57 +214,57 @@ begin
     if CheckFtpPath(EditMirror3Dir.Text) = False then
     begin
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   end;
 
-  gd := trim(EditGBakDir.Text);
+  gd := Trim(EditGBakDir.Text);
   if gd = '' then
   begin
     MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
     ModalResult := mrNone; //1.0.1
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
-  ld := trim(DModule.OptionsTableLOGDIR.Value);
+  ld := Trim(dmFibs.qrOptionLOGDIR.Value);
   if (ld = '') then
   begin
     MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
 
   if EditUserName.Text = '' then
   begin
     MessageDlg('User Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
   if EditPassword.Text = '' then
   begin
     MessageDlg('Password cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
 end;
 

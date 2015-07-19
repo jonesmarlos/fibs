@@ -113,53 +113,53 @@ var
 implementation
 
 {$R *.dfm}
-uses StrUtils, DateUtils, ConstUnit, DModuleUnit, PresetsUnit, MesajUnit;
+uses StrUtils, DateUtils, ConstUnit, FibsData, PresetsUnit, MesajUnit;
 
 procedure TEditTaskForm.ButtonOKClick(Sender: TObject);
 var
   i, kk: Integer;
 begin
-  if trim(EditTaskDef.Text) = '' then
+  if Trim(EditTaskDef.Text) = '' then
   begin
     MessageDlg('Task Name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
-  if DModule.AlarmTableLOCALCONN.AsBoolean = True then
+  if dmFibs.qrTaskLOCALCONN.AsBoolean = True then
   begin
-    if trim(EditDatabaseName.Text) = '' then
+    if Trim(EditDatabaseName.Text) = '' then
     begin
       MessageDlg('Path to database cannot be empty!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
-      if FileExists(trim(FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text))) = False then
+      if FileExists(Trim(FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text))) = False then
       begin
         MessageDlg('Database doesn''t exist onto given path!', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
   end;
 
-  if trim(EditDestinationDir.Text) = '' then
+  if Trim(EditDestinationDir.Text) = '' then
   begin
     MessageDlg('Backup Directory cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(EditDestinationDir.Text) = False then
     begin
       MessageDlg('Backup directory is not exist !', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   if ActiveTaskValidMirrorDirectory then
   begin
     if IsFtpPath(EditMirrorDir.Text) = False then
     begin
-      if trim(EditMirrorDir.Text) = '' then
+      if Trim(EditMirrorDir.Text) = '' then
       begin
         //  MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
         // dikkat !!! mrNone yok ..exit yok..
@@ -169,14 +169,14 @@ begin
         begin
           MessageDlg('Mirror directory is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end
         else
           if (EditMirrorDir.Text = EditDestinationDir.Text) then
           begin
             MessageDlg('Mirror directory must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
-            exit;
+            Exit;
           end;
     end
     else
@@ -184,13 +184,13 @@ begin
       if CheckFtpPath(EditMirrorDir.Text) = False then
       begin
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
     end;
 
     if IsFtpPath(EditMirror2Dir.Text) = False then
     begin
-      if trim(EditMirror2Dir.Text) = '' then
+      if Trim(EditMirror2Dir.Text) = '' then
       begin
         //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
         // dikkat !!! mrNone yok ..exit yok..
@@ -200,14 +200,14 @@ begin
         begin
           MessageDlg('Mirror directory 2 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end
         else
           if (EditMirror2Dir.Text = EditDestinationDir.Text) then
           begin
             MessageDlg('Mirror directory 2 must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
-            exit;
+            Exit;
           end;
     end
     else
@@ -215,13 +215,13 @@ begin
       if CheckFtpPath(EditMirror2Dir.Text) = False then
       begin
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
     end;
 
     if IsFtpPath(EditMirror3Dir.Text) = False then
     begin
-      if trim(EditMirror3Dir.Text) = '' then
+      if Trim(EditMirror3Dir.Text) = '' then
       begin
         // MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
         // dikkat !!! mrNone yok ..exit yok..
@@ -231,14 +231,14 @@ begin
         begin
           MessageDlg('Mirror directory 3 is not exist!', mtError, [mbOk], 0);
           ModalResult := mrNone;
-          exit;
+          Exit;
         end
         else
           if (EditMirror3Dir.Text = EditDestinationDir.Text) then
           begin
             MessageDlg('Mirror directory 3 must be different than Backup Directory!', mtError, [mbOk], 0);
             ModalResult := mrNone;
-            exit;
+            Exit;
           end;
     end
     else
@@ -246,7 +246,7 @@ begin
       if CheckFtpPath(EditMirror3Dir.Text) = False then
       begin
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
     end;
   end;
@@ -255,13 +255,13 @@ begin
   begin
     MessageDlg('User name cannot be empty!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
   if EditPassword.Text = '' then
   begin
     MessageDlg('Password cannot be empty !', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
   for i := 0 to 23 do
     if CGHours.checked[i] = True then
@@ -275,7 +275,7 @@ begin
   begin
     MessageDlg('At least one Hour must be checked!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
   for i := 0 to 59 do
     if CGMinutes.checked[i] = True then
@@ -289,7 +289,7 @@ begin
   begin
     MessageDlg('At least one Minute must be checked!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
 
   case DBCUnit.items.IndexOf(DBCUnit.Text) of
@@ -298,31 +298,31 @@ begin
       begin
         MessageDlg('You can not enter greater values then 24 as preserving time-limit. If you need to, please select "Day''s Copies" item.', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
     2:
       if StrToInt(DBEAdet.Text) > 30 then
       begin
         MessageDlg('You can not enter greater values then 30 as preserving time-limit. If you need to, please select "Month''s Copies" item.', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
     3:
       if StrToInt(DBEAdet.Text) > 12 then
       begin
         MessageDlg('You can not enter greater values then 12 as preserving time-limit.', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
   end;
 
-  if trim(FileEditBtnBatchFile.Text) <> '' then
+  if Trim(FileEditBtnBatchFile.Text) <> '' then
   begin
-    if FileExists(trim(FileEditBtnBatchFile.Text)) = False then
+    if FileExists(Trim(FileEditBtnBatchFile.Text)) = False then
     begin
       MessageDlg('ERROR !!'#13#10'File "' + FileEditBtnBatchFile.Text + '" is not exist!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   end;
 end;
@@ -335,7 +335,7 @@ end;
 procedure TEditTaskForm.FormShow(Sender: TObject);
 begin
   PageControl1.ActivePageIndex := 0;
-  LabelPriorty.caption := 'Priority ' + DModule.OptionsTableBPRIORTY.Value;
+  LabelPriorty.caption := 'Priority ' + dmFibs.qrOptionBPRIORTY.Value;
 end;
 
 procedure TEditTaskForm.DBCheckBox1Click(Sender: TObject);
@@ -366,16 +366,16 @@ end;
 
 procedure TEditTaskForm.EditDatabaseNameBeforeBtnClick(Sender: TObject);
 begin
-  if trim(EditDatabaseName.Text) = '' then
-    exit;
+  if Trim(EditDatabaseName.Text) = '' then
+    Exit;
   if FileExists(EditDatabaseName.Text) = False then
     MessageDlg('File "' + EditDatabaseName.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;
 
 procedure TEditTaskForm.EditDestinationDirBeforeBtnClick(Sender: TObject);
 begin
-  if trim(EditDestinationDir.Text) = '' then
-    exit;
+  if Trim(EditDestinationDir.Text) = '' then
+    Exit;
   if DirectoryExists(EditDestinationDir.Text) = False then
     MessageDlg('Directory "' + EditDestinationDir.Text + '" is not Exists!', mtError, [mbOk], 0);
 end;

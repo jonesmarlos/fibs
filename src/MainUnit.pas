@@ -30,7 +30,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Mask, Buttons, ActiveX, ShellApi, Menus, ExtCtrls, Grids, DBGrids,
-  DBCtrls, ThdTimer;
+  DBCtrls, ThdTimer, FibsData;
 
 const
   WM_ICONTRAY = WM_USER + 1; // User-defined message
@@ -148,7 +148,7 @@ var
 
 implementation
 
-uses Registry, Variants, StrUtils, PrefUnit, EditTaskUnit, ConstUnit, DModuleUnit, BackupUnit,
+uses Registry, Variants, StrUtils, PrefUnit, EditTaskUnit, ConstUnit, BackupUnit,
   MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, PresetsUnit, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
@@ -203,7 +203,7 @@ begin
     Registry.RootKey := HKEY_LOCAL_MACHINE;
     if Registry.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run', False) then
     begin
-      if DModule.OptionsTableAUTORUN.Value = '1' then
+      if dmFibs.qrOptionAUTORUN.Value = '1' then
         Registry.WriteString(AKey, ParamStr(0))
       else
         Registry.DeleteValue(AKey);
@@ -248,7 +248,7 @@ begin
   MainThread := GetCurrentProcess;
   APriority := THREAD_PRIORITY_NORMAL;
   {
-   ap:=DModule.OptionsTableFPRIORTY.Value;
+   ap:=dmFibs.qrOptionFPRIORTY.Value;
    if ap='Idle' then APriority:=THREAD_PRIORITY_IDLE
    else if ap='Lowest' then APriority:=THREAD_PRIORITY_LOWEST
    else if ap='Lower' then APriority:=THREAD_PRIORITY_BELOW_NORMAL
@@ -263,25 +263,25 @@ procedure TMainForm.MenuPrefsClick(Sender: TObject);
 begin
   PrefForm := TPrefForm.Create(Self);
   try
-    PrefForm.DirectoryEdit1.Text := DModule.OptionsTablePATHTOGBAK.Value;
-    PrefForm.DirectoryLogDir.Text := DModule.OptionsTableLOGDIR.Value;
-    PrefForm.DirectoryArchiveDir.Text := DModule.OptionsTableARCHIVEDIR.Value;
-    PrefForm.EditSMTPServer.Text := DModule.OptionsTableSMTPSERVER.Value;
-    PrefForm.EditMailAdress.Text := DModule.OptionsTableSENDERSMAIL.Value;
-    PrefForm.EditUserName.Text := DModule.OptionsTableMAILUSERNAME.Value;
-    PrefForm.EditPassword.Text := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
+    PrefForm.DirectoryEdit1.Text := dmFibs.qrOptionPATHTOGBAK.Value;
+    PrefForm.DirectoryLogDir.Text := dmFibs.qrOptionLOGDIR.Value;
+    PrefForm.DirectoryArchiveDir.Text := dmFibs.qrOptionARCHIVEDIR.Value;
+    PrefForm.EditSMTPServer.Text := dmFibs.qrOptionSMTPSERVER.Value;
+    PrefForm.EditMailAdress.Text := dmFibs.qrOptionSENDERSMAIL.Value;
+    PrefForm.EditUserName.Text := dmFibs.qrOptionMAILUSERNAME.Value;
+    PrefForm.EditPassword.Text := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
     if PrefForm.ShowModal = mrOk then
     begin
-      DModule.OptionsTable.edit;
+      dmFibs.qrOption.Edit;
       SetResetAutoRun;
-      DModule.OptionsTablePATHTOGBAK.Value := PrefForm.DirectoryEdit1.Text;
-      DModule.OptionsTableLOGDIR.Value := PrefForm.DirectoryLogDir.Text;
-      DModule.OptionsTableARCHIVEDIR.Value := PrefForm.DirectoryArchiveDir.Text;
-      DModule.OptionsTableSMTPSERVER.Value := PrefForm.EditSMTPServer.Text;
-      DModule.OptionsTableSENDERSMAIL.Value := PrefForm.EditMailAdress.Text;
-      DModule.OptionsTableMAILUSERNAME.Value := PrefForm.EditUserName.Text;
-      DModule.OptionsTableMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(PrefForm.EditPassword.Text);
-      DModule.OptionsTable.Post;
+      dmFibs.qrOptionPATHTOGBAK.Value := PrefForm.DirectoryEdit1.Text;
+      dmFibs.qrOptionLOGDIR.Value := PrefForm.DirectoryLogDir.Text;
+      dmFibs.qrOptionARCHIVEDIR.Value := PrefForm.DirectoryArchiveDir.Text;
+      dmFibs.qrOptionSMTPSERVER.Value := PrefForm.EditSMTPServer.Text;
+      dmFibs.qrOptionSENDERSMAIL.Value := PrefForm.EditMailAdress.Text;
+      dmFibs.qrOptionMAILUSERNAME.Value := PrefForm.EditUserName.Text;
+      dmFibs.qrOptionMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(PrefForm.EditPassword.Text);
+      dmFibs.qrOption.Post;
     end;
   finally
     PrefForm.Free;
@@ -293,20 +293,20 @@ var
   i: Integer;
   s, T: string; //Saat, Dakika Checklist stringi
 begin
-  if DModule.AlarmTable.RecordCount > 0 then
+  if dmFibs.qrTask.RecordCount > 0 then
   begin
     EditTaskForm.caption := ' Edit Backup Task';
-    EditTaskForm.EditDatabaseName.Text := DModule.AlarmTableDBNAME.Value;
-    EditTaskForm.EditDestinationDir.Text := DModule.AlarmTableBACKUPDIR.Value;
-    EditTaskForm.EditMirrorDir.Text := DModule.AlarmTableMIRRORDIR.Value;
-    EditTaskForm.EditMirror2Dir.Text := DModule.AlarmTableMIRROR2DIR.Value;
-    EditTaskForm.EditMirror3Dir.Text := DModule.AlarmTableMIRROR3DIR.Value;
-    EditTaskForm.LabelState.Visible := DModule.AlarmTableACTIVE.AsInteger = 1;
-    EditTaskForm.FileEditBtnBatchFile.Text := DModule.AlarmTableBATCHFILE.Value;
+    EditTaskForm.EditDatabaseName.Text := dmFibs.qrTaskDBNAME.Value;
+    EditTaskForm.EditDestinationDir.Text := dmFibs.qrTaskBACKUPDIR.Value;
+    EditTaskForm.EditMirrorDir.Text := dmFibs.qrTaskMIRRORDIR.Value;
+    EditTaskForm.EditMirror2Dir.Text := dmFibs.qrTaskMIRROR2DIR.Value;
+    EditTaskForm.EditMirror3Dir.Text := dmFibs.qrTaskMIRROR3DIR.Value;
+    EditTaskForm.LabelState.Visible := dmFibs.qrTaskACTIVE.AsInteger = 1;
+    EditTaskForm.FileEditBtnBatchFile.Text := dmFibs.qrTaskBATCHFILE.Value;
 
-    EditTaskForm.EditDatabaseName.Button.Enabled := DModule.AlarmTableLOCALCONN.AsBoolean = True;
+    EditTaskForm.EditDatabaseName.Button.Enabled := dmFibs.qrTaskLOCALCONN.AsBoolean = True;
 
-    T := DModule.AlarmTableBOXES.Value;
+    T := dmFibs.qrTaskBOXES.Value;
     for i := 1 to 24 do
       if (T[i] = '1') then
         EditTaskForm.CGHours.State[i - 1] := cbChecked
@@ -317,24 +317,24 @@ begin
         EditTaskForm.CGMinutes.State[i - 25] := cbChecked
       else
         EditTaskForm.CGMinutes.State[i - 25] := cbUnChecked;
-    s := DModule.AlarmTableBOPTIONS.Value;
+    s := dmFibs.qrTaskBOPTIONS.Value;
     for i := 0 to TotalGBakOptions - 1 do
       if (s[i + 1] = '1') then
         EditTaskForm.CLBGbakOptions.State[i] := cbChecked
       else
         EditTaskForm.CLBGbakOptions.State[i] := cbUnChecked;
 
-    EditTaskForm.ButtonOK.Enabled := (DModule.AlarmTableACTIVE.AsInteger = 0);
+    EditTaskForm.ButtonOK.Enabled := (dmFibs.qrTaskACTIVE.AsInteger = 0);
     EditTaskForm.Position := poMainFormCenter;
     if EditTaskForm.ShowModal = mrOk then
     begin
-      DModule.AlarmTable.edit;
-      DModule.AlarmTableDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
-      DModule.AlarmTableBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
-      DModule.AlarmTableMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
-      DModule.AlarmTableMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
-      DModule.AlarmTableMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
-      DModule.AlarmTableBATCHFILE.Value := EditTaskForm.FileEditBtnBatchFile.Text;
+      dmFibs.qrTask.Edit;
+      dmFibs.qrTaskDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
+      dmFibs.qrTaskBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
+      dmFibs.qrTaskMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
+      dmFibs.qrTaskMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
+      dmFibs.qrTaskMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
+      dmFibs.qrTaskBATCHFILE.Value := EditTaskForm.FileEditBtnBatchFile.Text;
 
       //Let's set Time CheckList..
       T := '';
@@ -348,16 +348,16 @@ begin
           T := T + '1'
         else
           T := T + '0';
-      DModule.AlarmTableBOXES.Value := T;
+      dmFibs.qrTaskBOXES.Value := T;
       s := '';
       for i := 0 to TotalGBakOptions - 1 do
         if EditTaskForm.CLBGbakOptions.State[i] = cbChecked then
           s := s + '1'
         else
           s := s + '0';
-      DModule.AlarmTableBOPTIONS.Value := s;
+      dmFibs.qrTaskBOPTIONS.Value := s;
 
-      DModule.AlarmTable.Post;
+      dmFibs.qrTask.Post;
 
       DeleteCurrentTaskFromTimeList;
 
@@ -366,7 +366,7 @@ begin
       PreservedInDay := AlarmInDay;
       PreservedInMonth := AlarmInDay * AlarmInMonth;
 
-      if DModule.AlarmTableACTIVE.AsInteger = 1 then
+      if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
         for i := 0 to AlarmTimeList.Count - 1 do
           TimeList.Add(AlarmTimeList.Strings[i]);
@@ -374,7 +374,7 @@ begin
       end;
     end
     else
-      DModule.AlarmTable.Cancel;
+      dmFibs.qrTask.Cancel;
   end
   else
     MessageDlg('No Task to Edit!', mtError, [mbOk], 0);
@@ -387,7 +387,7 @@ var
 begin
   if TimeList.Count > 0 then
   begin
-    y := DModule.AlarmTableTASKNO.AsString;
+    y := dmFibs.qrTaskTASKNO.AsString;
     for i := TimeList.Count - 1 downto 0 do
     begin
       StartPos := Pos(' - ', TimeList.Strings[i]) + 3;
@@ -435,7 +435,7 @@ begin
             Delete(AlarmDateTimeStr, 1, PDot - 4)
           else
             AlarmDateTimeStr := RightStr(AlarmDateTimeStr, 3);
-          AlarmTimeList.Add(AlarmDateTimeStr + ' - ' + DModule.AlarmTableTASKNO.AsString + ' + ' + DModule.AlarmTableTASKNAME.AsString);
+          AlarmTimeList.Add(AlarmDateTimeStr + ' - ' + dmFibs.qrTaskTASKNO.AsString + ' + ' + dmFibs.qrTaskTASKNAME.AsString);
         end;
       end;
     end;
@@ -451,9 +451,9 @@ begin
   fwm_TaskbarRestart := RegisterWindowMessage('TaskbarCreated');
   WindowProc := WndProc;
 
-  Application.CreateForm(TDModule, DModule);
+  Application.CreateForm(TdmFibs, dmFibs);
   if DataFilesInvalid then
-    exit;
+    Exit;
 
   SetThreadLocale(LOCALE_SYSTEM_DEFAULT);
   SysUtils.GetFormatSettings;
@@ -524,22 +524,22 @@ var
   bul: Boolean;
   TN: string;
 begin
-  DModule.AlarmTable.DisableControls;
+  dmFibs.qrTask.DisableControls;
   try
-    TN := DModule.AlarmTableTASKNO.Value;
-    DModule.AlarmTable.First;
-    bul := DModule.AlarmTable.Locate('ACTIVE', 1, []);
-    DModule.AlarmTable.First;
-    DModule.AlarmTable.Locate('TASKNO', TN, []);
+    TN := dmFibs.qrTaskTASKNO.Value;
+    dmFibs.qrTask.First;
+    bul := dmFibs.qrTask.Locate('ACTIVE', 1, []);
+    dmFibs.qrTask.First;
+    dmFibs.qrTask.Locate('TASKNO', TN, []);
   finally
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.EnableControls;
   end;
   if bul then
   begin
     MessageDlg('You MUST DEACTIVE all active Tasks before adding a new Task!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
-  DModule.AlarmTable.Append;
+  dmFibs.qrTask.Append;
   EditTaskForm.caption := ' New Backup Task';
   EditTaskForm.EditDatabaseName.Text := '';
   EditTaskForm.EditDestinationDir.Text := '';
@@ -548,26 +548,26 @@ begin
   EditTaskForm.EditMirror3Dir.Text := '';
   EditTaskForm.LabelState.Visible := False;
   AlarmTimeList.Text := '';
-  DModule.AlarmTableDOVAL.Value := 'False';
-  DModule.AlarmTableMAILTO.Value := '';
-  DModule.AlarmTableSHOWBATCHWIN.Value := 'False';
-  DModule.AlarmTableUSEPARAMS.Value := 'False';
+  dmFibs.qrTaskDOVAL.Value := 'False';
+  dmFibs.qrTaskMAILTO.Value := '';
+  dmFibs.qrTaskSHOWBATCHWIN.Value := 'False';
+  dmFibs.qrTaskUSEPARAMS.Value := 'False';
 
-  DModule.AlarmTableLOCALCONN.Value := 'True';
-  DModule.AlarmTableACTIVE.AsInteger := 0;
-  DModule.AlarmTableDELETEALL.AsInteger := 1;
-  DModule.AlarmTableZIPBACKUP.Value := 'True'; // Careful  it's case sensitive
-  DModule.AlarmTableCOMPRESS.Value := 'Default';
-  DModule.AlarmTablePUNIT.Value := 'Backups';
-  DModule.AlarmTableBCOUNTER.AsInteger := 0;
-  DModule.AlarmTablePVAL.AsInteger := 1;
-  DModule.AlarmTableBOPTIONS.Value := '11100000';
-  DModule.AlarmTableBOXES.Value := DupeString('0', 84);
+  dmFibs.qrTaskLOCALCONN.Value := 'True';
+  dmFibs.qrTaskACTIVE.AsInteger := 0;
+  dmFibs.qrTaskDELETEALL.AsInteger := 1;
+  dmFibs.qrTaskZIPBACKUP.Value := 'True'; // Careful  it's case sensitive
+  dmFibs.qrTaskCOMPRESS.Value := 'Default';
+  dmFibs.qrTaskPUNIT.Value := 'Backups';
+  dmFibs.qrTaskBCOUNTER.AsInteger := 0;
+  dmFibs.qrTaskPVAL.AsInteger := 1;
+  dmFibs.qrTaskBOPTIONS.Value := '11100000';
+  dmFibs.qrTaskBOXES.Value := DupeString('0', 84);
   for i := 0 to 23 do
     EditTaskForm.CGHours.checked[i] := False;
   for i := 0 to 59 do
     EditTaskForm.CGMinutes.checked[i] := False;
-  s := DModule.AlarmTableBOPTIONS.Value;
+  s := dmFibs.qrTaskBOPTIONS.Value;
   for i := 0 to TotalGBakOptions - 1 do
     if (s[i + 1] = '1') then
       EditTaskForm.CLBGbakOptions.State[i] := cbChecked
@@ -576,18 +576,18 @@ begin
   EditTaskForm.Position := poMainFormCenter;
   if EditTaskForm.ShowModal = mrOk then
   begin
-    DModule.AlarmTableDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
-    DModule.AlarmTableBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
-    DModule.AlarmTableMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
-    DModule.AlarmTableMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
-    DModule.AlarmTableMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
+    dmFibs.qrTaskDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
+    dmFibs.qrTaskBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
+    dmFibs.qrTaskMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
+    dmFibs.qrTaskMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
+    dmFibs.qrTaskMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
     s := '';
     for i := 0 to TotalGBakOptions - 1 do
       if EditTaskForm.CLBGbakOptions.State[i] = cbChecked then
         s := s + '1'
       else
         s := s + '0';
-    DModule.AlarmTableBOPTIONS.Value := s;
+    dmFibs.qrTaskBOPTIONS.Value := s;
     s := '';
     for i := 1 to 24 do
       if EditTaskForm.CGHours.State[i - 1] = cbChecked then
@@ -599,11 +599,11 @@ begin
         s := s + '1'
       else
         s := s + '0';
-    DModule.AlarmTableBOXES.Value := s;
-    DModule.AlarmTable.Post;
+    dmFibs.qrTaskBOXES.Value := s;
+    dmFibs.qrTask.Post;
   end
   else
-    DModule.AlarmTable.Cancel;
+    dmFibs.qrTask.Cancel;
 end;
 
 procedure TMainForm.DeleteAlarmsFromTimeList;
@@ -614,7 +614,7 @@ var
 begin
   if TimeList.Count > 0 then
   begin
-    y := DModule.AlarmTableTASKNO.AsString;
+    y := dmFibs.qrTaskTASKNO.AsString;
     for i := TimeList.Count - 1 downto 0 do
     begin
       StartPos := Pos(' - ', TimeList.Strings[i]) + 3;
@@ -633,7 +633,7 @@ begin
     MessageDlg(PrgName + ' is running as a Windows Service now.'#13#10 +
       'If you want to stop FIBSBackupService please use FIBS tray icon''s "Stop Service" menu'#13#10 +
       'or use FIBSSM FIBS Service Manager.', mtInformation, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
   begin
@@ -650,46 +650,46 @@ procedure TMainForm.MenuActivateClick(Sender: TObject);
 var
   gd, ld: string;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to be activated!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
-  gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
+  gd := Trim(dmFibs.qrOptionPATHTOGBAK.Value);
   if gd = '' then
   begin
     MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
-  ld := trim(DModule.OptionsTableLOGDIR.Value);
+  ld := Trim(dmFibs.qrOptionLOGDIR.Value);
   if (ld = '') then
   begin
     MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
 
-  if MessageDlg('Do you want to ACTIVATE ' + DModule.AlarmTableTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg('Do you want to ACTIVATE ' + dmFibs.qrTaskTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     ActivateOne;
   end;
@@ -697,12 +697,12 @@ end;
 
 procedure TMainForm.MenuDeactivateClick(Sender: TObject);
 begin
-  if MessageDlg('Do you want to DEACTIVATE ' + DModule.AlarmTableTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if MessageDlg('Do you want to DEACTIVATE ' + dmFibs.qrTaskTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
     DeleteAlarmsFromTimeList;
-    DModule.AlarmTable.edit;
-    DModule.AlarmTableACTIVE.AsInteger := 0;
-    DModule.AlarmTable.Post;
+    dmFibs.qrTask.Edit;
+    dmFibs.qrTaskACTIVE.AsInteger := 0;
+    dmFibs.qrTask.Post;
     InitAlarms;
   end;
 end;
@@ -727,50 +727,50 @@ var
   SequenceIncremented: Boolean;
   ArchiveDir: string;
 begin
-  DModule.AlarmTable.DisableControls;
-  Book := DModule.AlarmTableTASKNO.AsString;
+  dmFibs.qrTask.DisableControls;
+  Book := dmFibs.qrTaskTASKNO.AsString;
   try
-    DModule.AlarmTable.Locate('TASKNO', ARecNo, []);
-    TaskName := DModule.AlarmTableTASKNAME.Value;
-    GBakPath := DModule.OptionsTablePATHTOGBAK.Value;
-    UserName := DModule.AlarmTableUSER.Value;
-    Password := DCPbase64.Base64DecodeStr(DModule.AlarmTablePASSWORD.AsString);
-    DoValidate := DModule.AlarmTableDOVAL.AsBoolean;
-    BatchFile := DModule.AlarmTableBATCHFILE.Value;
-    ShowBatchWin := DModule.AlarmTableSHOWBATCHWIN.AsBoolean;
-    UseParams := DModule.AlarmTableUSEPARAMS.AsBoolean;
+    dmFibs.qrTask.Locate('TASKNO', ARecNo, []);
+    TaskName := dmFibs.qrTaskTASKNAME.Value;
+    GBakPath := dmFibs.qrOptionPATHTOGBAK.Value;
+    UserName := dmFibs.qrTaskUSER.Value;
+    Password := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
+    DoValidate := dmFibs.qrTaskDOVAL.AsBoolean;
+    BatchFile := dmFibs.qrTaskBATCHFILE.Value;
+    ShowBatchWin := dmFibs.qrTaskSHOWBATCHWIN.AsBoolean;
+    UseParams := dmFibs.qrTaskUSEPARAMS.AsBoolean;
 
-    SmtpServer := DModule.OptionsTableSMTPSERVER.Value;
-    SendersMail := DModule.OptionsTableSENDERSMAIL.Value;
-    MailUserName := DModule.OptionsTableMAILUSERNAME.Value;
-    MailPassword := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
+    SmtpServer := dmFibs.qrOptionSMTPSERVER.Value;
+    SendersMail := dmFibs.qrOptionSENDERSMAIL.Value;
+    MailUserName := dmFibs.qrOptionMAILUSERNAME.Value;
+    MailPassword := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
 
-    MailTo := DModule.AlarmTableMAILTO.Value;
-    FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.AsString, 0);
+    MailTo := dmFibs.qrTaskMAILTO.Value;
+    FtpConnType := StrToIntDef(dmFibs.qrOptionFTPCONNTYPE.AsString, 0);
 
-    CompDegree := DModule.AlarmTableCOMPRESS.Value;
-    DeleteAll := DModule.AlarmTableDELETEALL.AsInteger;
-    PVAdet := DModule.AlarmTablePVAL.AsInteger;
+    CompDegree := dmFibs.qrTaskCOMPRESS.Value;
+    DeleteAll := dmFibs.qrTaskDELETEALL.AsInteger;
+    PVAdet := dmFibs.qrTaskPVAL.AsInteger;
     PVUnit := -1; // For init
-    if DModule.AlarmTablePUNIT.Value = 'Backups' then
+    if dmFibs.qrTaskPUNIT.Value = 'Backups' then
       PVUnit := 0
     else
-      if DModule.AlarmTablePUNIT.Value = 'Hour''s Backup' then
+      if dmFibs.qrTaskPUNIT.Value = 'Hour''s Backup' then
         PVUnit := 1
       else
-        if DModule.AlarmTablePUNIT.Value = 'Day''s Backup' then
+        if dmFibs.qrTaskPUNIT.Value = 'Day''s Backup' then
           PVUnit := 2
         else
-          if DModule.AlarmTablePUNIT.Value = 'Month''s Backup' then
+          if dmFibs.qrTaskPUNIT.Value = 'Month''s Backup' then
             PVUnit := 3;
 
-    FullDBPath := DModule.AlarmTableDBNAME.Value;
-    BUPath := DModule.AlarmTableBACKUPDIR.Value;
-    MirrorPath := DModule.AlarmTableMIRRORDIR.Value;
-    Mirror2Path := DModule.AlarmTableMIRROR2DIR.Value;
-    Mirror3Path := DModule.AlarmTableMIRROR3DIR.Value;
+    FullDBPath := dmFibs.qrTaskDBNAME.Value;
+    BUPath := dmFibs.qrTaskBACKUPDIR.Value;
+    MirrorPath := dmFibs.qrTaskMIRRORDIR.Value;
+    Mirror2Path := dmFibs.qrTaskMIRROR2DIR.Value;
+    Mirror3Path := dmFibs.qrTaskMIRROR3DIR.Value;
     currdir := ExtractFilePath(Application.ExeName);
-    BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.AsString, 4);
+    BackupNo := RightStr('0000' + dmFibs.qrTaskBCOUNTER.AsString, 4);
 
     if (MirrorPath <> '') then
       DoMirror := True
@@ -784,7 +784,7 @@ begin
       DoMirror3 := True
     else
       DoMirror3 := False;
-    CompressBackup := DModule.AlarmTableZIPBACKUP.AsBoolean;
+    CompressBackup := dmFibs.qrTaskZIPBACKUP.AsBoolean;
 
     DBNameExt := ExtractFileName(FullDBPath);
     DBExt := UpperCase(ExtractFileExt(DBNameExt));
@@ -807,9 +807,9 @@ begin
 
     LogName := 'LOG_' + TaskName;
     LogNameExt := 'LOG_' + TaskName + '.TXT';
-    FullLogPath := MakeFull(DModule.OptionsTableLOGDIR.Value, LogNameExt);
+    FullLogPath := MakeFull(dmFibs.qrOptionLOGDIR.Value, LogNameExt);
 
-    BackupPriorityStr := DModule.OptionsTableBPRIORTY.Value;
+    BackupPriorityStr := dmFibs.qrOptionBPRIORTY.Value;
     BackupPriority := tpNormal; //for Init
     if BackupPriorityStr = 'Idle' then
       BackupPriority := tpIdle
@@ -829,15 +829,15 @@ begin
               if BackupPriorityStr = 'Highest' then
                 BackupPriority := tpHighest;
 
-    DModule.AlarmTable.edit;
+    dmFibs.qrTask.Edit;
     if ((StrToInt(BackupNo) + 1) > 9999) then
-      DModule.AlarmTableBCOUNTER.AsInteger := 0
+      dmFibs.qrTaskBCOUNTER.AsInteger := 0
     else
-      DModule.AlarmTableBCOUNTER.AsInteger := StrToInt(BackupNo) + 1;
-    DModule.AlarmTable.Post;
+      dmFibs.qrTaskBCOUNTER.AsInteger := StrToInt(BackupNo) + 1;
+    dmFibs.qrTask.Post;
 
     GenelOptions := '-v';
-    s := DModule.AlarmTableBOPTIONS.Value;
+    s := dmFibs.qrTaskBOPTIONS.Value;
     BackUpOptions := '';
     if (s[1] = '1') then
       BackUpOptions := BackUpOptions + ' -t'; //Create Tranpostable Backup
@@ -865,8 +865,8 @@ begin
     VKomut := '"' + GBakPath + '\gfix.exe"' +
       ' -v -n -user ' + UserName +
       ' -password ' + Password;
-    SequenceIncremented := DModule.CheckDatabaseSequenceIncrement;
-    ArchiveDir := DModule.OptionsTableARCHIVEDIR.Value;
+    SequenceIncremented := dmFibs.CheckDatabaseSequenceIncrement;
+    ArchiveDir := dmFibs.qrOptionARCHIVEDIR.Value;
     Backup := TBackUp.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
       FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
       FullMirror3Path, FullLogPath, BackupNo, CompDegree, SmtpServer,
@@ -875,8 +875,8 @@ begin
       CompressBackup, DoValidate, PVAdet, PVUnit, DeleteAll, FtpConnType,
       BackupPriority, SequenceIncremented, ArchiveDir);
   finally
-    DModule.AlarmTable.Locate('TASKNO', Book, []);
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.Locate('TASKNO', Book, []);
+    dmFibs.qrTask.EnableControls;
     try
       Backup.WaitFor;
     except
@@ -904,7 +904,7 @@ var
   SequenceIncremented: Boolean;
   ArchiveDir: string;
 begin
-  BackupNo := RightStr('0000' + DModule.AlarmTableBCOUNTER.AsString, 4);
+  BackupNo := RightStr('0000' + dmFibs.qrTaskBCOUNTER.AsString, 4);
   currdir := ExtractFilePath(Application.ExeName);
   if (MirrorPath <> '') then
     DoMirror := True
@@ -938,9 +938,9 @@ begin
   FullMirror2Path := MakeFull(Mirror2Path, BUNameExt);
   FullMirror3Path := MakeFull(Mirror3Path, BUNameExt);
 
-  DeleteAll := DModule.AlarmTableDELETEALL.AsInteger;
+  DeleteAll := dmFibs.qrTaskDELETEALL.AsInteger;
 
-  BackupPriorityStr := DModule.OptionsTableBPRIORTY.Value;
+  BackupPriorityStr := dmFibs.qrOptionBPRIORTY.Value;
   BackupPriority := tpNormal; // For Init
   if BackupPriorityStr = 'Idle' then
     BackupPriority := tpIdle
@@ -960,42 +960,42 @@ begin
             if BackupPriorityStr = 'Highest' then
               BackupPriority := tpHighest;
 
-  PVAdet := DModule.AlarmTablePVAL.AsInteger;
+  PVAdet := dmFibs.qrTaskPVAL.AsInteger;
   PVUnit := -1;
-  if DModule.AlarmTablePUNIT.Value = 'Backups' then
+  if dmFibs.qrTaskPUNIT.Value = 'Backups' then
     PVUnit := 0
   else
-    if DModule.AlarmTablePUNIT.Value = 'Hour''s Backup' then
+    if dmFibs.qrTaskPUNIT.Value = 'Hour''s Backup' then
       PVUnit := 1
     else
-      if DModule.AlarmTablePUNIT.Value = 'Day''s Backup' then
+      if dmFibs.qrTaskPUNIT.Value = 'Day''s Backup' then
         PVUnit := 2
       else
-        if DModule.AlarmTablePUNIT.Value = 'Month''s Backup' then
+        if dmFibs.qrTaskPUNIT.Value = 'Month''s Backup' then
           PVUnit := 3;
 
-  SmtpServer := DModule.OptionsTableSMTPSERVER.Value;
-  SendersMail := DModule.OptionsTableSENDERSMAIL.Value;
-  MailUserName := DModule.OptionsTableMAILUSERNAME.Value;
-  MailPassword := DCPbase64.Base64DecodeStr(DModule.OptionsTableMAILPASSWORD.AsString);
+  SmtpServer := dmFibs.qrOptionSMTPSERVER.Value;
+  SendersMail := dmFibs.qrOptionSENDERSMAIL.Value;
+  MailUserName := dmFibs.qrOptionMAILUSERNAME.Value;
+  MailPassword := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
 
-  BatchFile := DModule.AlarmTableBATCHFILE.Value;
-  ShowBatchWin := DModule.AlarmTableSHOWBATCHWIN.AsBoolean;
-  UseParams := DModule.AlarmTableUSEPARAMS.AsBoolean;
-  MailTo := DModule.AlarmTableMAILTO.Value;
-  FtpConnType := StrToIntDef(DModule.OptionsTableFTPCONNTYPE.AsString, 1);
+  BatchFile := dmFibs.qrTaskBATCHFILE.Value;
+  ShowBatchWin := dmFibs.qrTaskSHOWBATCHWIN.AsBoolean;
+  UseParams := dmFibs.qrTaskUSEPARAMS.AsBoolean;
+  MailTo := dmFibs.qrTaskMAILTO.Value;
+  FtpConnType := StrToIntDef(dmFibs.qrOptionFTPCONNTYPE.AsString, 1);
 
   LogName := 'LOG_' + TaskName;
   LogNameExt := 'LOG_' + TaskName + '.TXT';
-  FullLogPath := MakeFull(DModule.OptionsTableLOGDIR.Value, LogNameExt);
-  DModule.AlarmTable.edit;
+  FullLogPath := MakeFull(dmFibs.qrOptionLOGDIR.Value, LogNameExt);
+  dmFibs.qrTask.Edit;
   if ((StrToInt(BackupNo) + 1) > 9999) then
-    DModule.AlarmTableBCOUNTER.AsInteger := 0
+    dmFibs.qrTaskBCOUNTER.AsInteger := 0
   else
-    DModule.AlarmTableBCOUNTER.AsInteger := StrToInt(BackupNo) + 1;
-  DModule.AlarmTable.Post;
+    dmFibs.qrTaskBCOUNTER.AsInteger := StrToInt(BackupNo) + 1;
+  dmFibs.qrTask.Post;
   GenelOptions := '-v';
-  s := DModule.AlarmTableBOPTIONS.Value;
+  s := dmFibs.qrTaskBOPTIONS.Value;
   BackUpOptions := '';
   if (s[1] = '1') then
     BackUpOptions := BackUpOptions + ' -t'; //Create Tranpostable Backup
@@ -1022,8 +1022,8 @@ begin
   VKomut := '"' + GBakPath + '\gfix.exe"' +
     ' -v -n -user ' + UserName +
     ' -password ' + Password;
-  SequenceIncremented := DModule.CheckDatabaseSequenceIncrement;
-  ArchiveDir := DModule.OptionsTableARCHIVEDIR.Value;
+  SequenceIncremented := dmFibs.CheckDatabaseSequenceIncrement;
+  ArchiveDir := dmFibs.qrOptionARCHIVEDIR.Value;
   Backup := TBackUp.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
     FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
     FullMirror3Path, FullLogPath, BackupNo, ACompDegree, SmtpServer,
@@ -1038,8 +1038,8 @@ begin
   except
   end;
   if SequenceIncremented then
-    if MessageDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(DModule.AlarmTableDBNAME.AsString)) + '] is found. Backup now?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-      Self.ManualBackUp(AAlarmDateTime, DModule.AlarmTableTASKNAME.AsString, GBakPath, UserName, Password, DModule.AlarmTableDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);}
+    if MessageDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(dmFibs.qrTaskDBNAME.AsString)) + '] is found. Backup now?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      Self.ManualBackUp(AAlarmDateTime, dmFibs.qrTaskTASKNAME.AsString, GBakPath, UserName, Password, dmFibs.qrTaskDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);}
 end;
 
 function GetTrapTime(s: string): TDateTime;
@@ -1143,12 +1143,12 @@ begin
   begin
     ThatDay := CurrentDay;
     InitAlarms;
-    exit;
+    Exit;
   end;
   if NoItemToExecute = True then
-    exit;
+    Exit;
   if LastItemExecuted then
-    exit;
+    Exit;
   if ((ExecutedItem <> CurrentItem) and (CurrentAlarm <= CurrentTime)) then
   begin
     BackUpDatabase(CurrentOwner, CurrentAlarm + StartOfTheDay(Now));
@@ -1172,13 +1172,13 @@ procedure TMainForm.TaskGridDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn;
   State: TGridDrawState);
 begin
-  if DModule.AlarmTable.RecordCount = 0 then
-    exit;
+  if dmFibs.qrTask.RecordCount = 0 then
+    Exit;
   if not (State = [gdSelected]) then
   begin
     if DataCol = 0 then
     begin
-      if DModule.AlarmTableACTIVE.AsInteger = 1 then
+      if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
         TaskGrid.Canvas.Brush.Color := $00DBFFCD;
         TaskGrid.Canvas.Font.Color := $00DBFFCD;
@@ -1195,10 +1195,10 @@ end;
 
 procedure TMainForm.MenuTaskClick(Sender: TObject);
 begin
-  MenuActivate.Enabled := DModule.AlarmTableACTIVE.AsString = '0'; //Rev.2.0.1-2 ; this was "MenuActivate.Enabled:=DModule.AlarmTableACTIVE.AsInteger=0;"
+  MenuActivate.Enabled := dmFibs.qrTaskACTIVE.AsString = '0'; //Rev.2.0.1-2 ; this was "MenuActivate.Enabled:=dmFibs.qrTaskACTIVE.AsInteger=0;"
   MenuDeactivate.Enabled := not MenuActivate.Enabled;
   MenuDeactivateAll.Enabled := not NoItemToExecute;
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MenuDelete.caption := 'Delete Task';
     MenuActivate.caption := 'Activate Task';
@@ -1206,22 +1206,22 @@ begin
   end
   else
   begin
-    MenuDelete.caption := 'Delete Task "' + DModule.AlarmTableTASKNAME.Value + ' "';
-    MenuActivate.caption := 'Activate "' + DModule.AlarmTableTASKNAME.Value + ' "';
-    MenuDeactivate.caption := 'Deactivate "' + DModule.AlarmTableTASKNAME.Value + ' "';
+    MenuDelete.caption := 'Delete Task "' + dmFibs.qrTaskTASKNAME.Value + ' "';
+    MenuActivate.caption := 'Activate "' + dmFibs.qrTaskTASKNAME.Value + ' "';
+    MenuDeactivate.caption := 'Deactivate "' + dmFibs.qrTaskTASKNAME.Value + ' "';
   end;
 end;
 
 procedure TMainForm.MenuDeleteClick(Sender: TObject);
 begin
-  if DModule.AlarmTable.RecordCount > 0 then
+  if dmFibs.qrTask.RecordCount > 0 then
   begin
-    if DModule.AlarmTableACTIVE.AsInteger = 0 then
+    if dmFibs.qrTaskACTIVE.AsInteger = 0 then
     begin
-      if MessageDlg('Do you want to DELETE' + DModule.AlarmTableTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+      if MessageDlg('Do you want to DELETE' + dmFibs.qrTaskTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       begin
         DeleteAlarmsFromTimeList;
-        DModule.AlarmTable.Delete;
+        dmFibs.qrTask.Delete;
         InitAlarms;
       end;
     end
@@ -1245,10 +1245,10 @@ var
 var
   ts: TStrings;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to be seen the backup executing times!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
   ts := TStringList.Create;
   ts.BeginUpdate;
@@ -1295,17 +1295,17 @@ var
   s, TStr: string;
   cc, i, KPos, NPos: Integer;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to be seen the backup time settings!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
   PlanListForm := TPlanListForm.Create(Self);
-  PlanListForm.caption := 'Selected Backup Times of Task "' + DModule.AlarmTableTASKNAME.Value + ' "';
+  PlanListForm.caption := 'Selected Backup Times of Task "' + dmFibs.qrTaskTASKNAME.Value + ' "';
   PlanListForm.PlanList.Clear;
   PlanListForm.PlanList.items.BeginUpdate;
 
-  GetAlarmTimeList(DModule.AlarmTableBOXES.Value);
+  GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
   s := AlarmTimeList.Text;
   cc := 0;
   for i := 0 to AlarmTimeList.Count - 1 do
@@ -1334,32 +1334,32 @@ var
   TaskName, DBNameExt, LogDir, LogName, LogNameExt, LogPath: string;
   i: Integer;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No task log to be viewed!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
-  TaskName := FunctionsUnit.RemoveDatabaseSequenceTokens(DModule.AlarmTableTASKNAME.Value);
-  DBNameExt := ExtractFileName(DModule.AlarmTableDBNAME.Value);
+  TaskName := FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskTASKNAME.Value);
+  DBNameExt := ExtractFileName(dmFibs.qrTaskDBNAME.Value);
   LogName := 'LOG_' + TaskName;
   LogNameExt := 'LOG_' + TaskName + '.TXT';
-  LogDir := DModule.OptionsTableLOGDIR.Value;
+  LogDir := dmFibs.qrOptionLOGDIR.Value;
   LogPath := MakeFull(LogDir, LogNameExt);
   if (LogPath = '') then
   begin
     MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(LogDir) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + LogDir + ')', mtError, [mbOk], 0);
-      exit;
+      Exit;
     end;
   if FileExists(LogPath) = False then
   begin
     MessageDlg('LOG File for Task "' + TaskName + '" is not exist!' + #13#10 + 'Log File will be created after executing a backup task.', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
   LogForm := TLogForm.Create(Self);
   LogForm.caption := '  Task " ' + TaskName + ' " LOG';
@@ -1392,43 +1392,43 @@ var
   gd, ld, Mirr, Mirr2, Mirr3: string;
   bValidMirrors: Boolean;
 begin
-  gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
-  ld := trim(DModule.OptionsTableLOGDIR.Value);
+  gd := Trim(dmFibs.qrOptionPATHTOGBAK.Value);
+  ld := Trim(dmFibs.qrOptionLOGDIR.Value);
   if (gd = '') or (DirectoryExists(gd) = False) or (FileExists(gd + '\gbak.exe') = False) or
     (ld = '') or (DirectoryExists(ld) = False) then
   begin
     DeactivateAll;
-    exit;
+    Exit;
   end;
-  DModule.AlarmTable.DisableControls;
+  dmFibs.qrTask.DisableControls;
   try
-    DModule.AlarmTable.First;
-    while not DModule.AlarmTable.eof do
+    dmFibs.qrTask.First;
+    while not dmFibs.qrTask.eof do
     begin
-      if DModule.AlarmTableACTIVE.AsInteger = 1 then
+      if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
-        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(DModule.AlarmTableDBNAME.Value), DModule.AlarmTableLOCALCONN.AsBoolean) then
+        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
         begin
-          if FunctionsUnit.IsValidDirectory(DModule.AlarmTableBACKUPDIR.Value) then
+          if FunctionsUnit.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
           begin
-            bValidMirrors := FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRROR3DIR.Value);
+            bValidMirrors := FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
             bValidMirrors := (not ActiveTaskValidMirrorDirectory) or bValidMirrors;
             if bValidMirrors then
             begin
               DeleteCurrentTaskFromTimeList;
-              GetAlarmTimeList(DModule.AlarmTableBOXES.Value);
+              GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
               for i := 0 to AlarmTimeList.Count - 1 do
                 TimeList.Add(AlarmTimeList[i]);
             end;
           end;
         end;
       end;
-      DModule.AlarmTable.Next;
+      dmFibs.qrTask.Next;
     end;
     InitAlarms;
   finally
-    DModule.AlarmTable.First;
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.First;
+    dmFibs.qrTask.EnableControls;
   end;
 end;
 
@@ -1440,36 +1440,36 @@ var
   bValidMirrors: Boolean;
 begin
   PD := ShowProsesDlg('Tasks are being activating..'#13#10'Please Wait..', 'c', PrgName);
-  DModule.AlarmTable.DisableControls;
+  dmFibs.qrTask.DisableControls;
   try
-    if DModule.AlarmTableACTIVE.AsInteger = 0 then
+    if dmFibs.qrTaskACTIVE.AsInteger = 0 then
     begin
-      if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(DModule.AlarmTableDBNAME.Value), DModule.AlarmTableLOCALCONN.AsBoolean) then
+      if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
       begin
-        if FunctionsUnit.IsValidDirectory(DModule.AlarmTableBACKUPDIR.Value) then
+        if FunctionsUnit.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
         begin
-          bValidMirrors := FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(DModule.AlarmTableMIRROR3DIR.Value);
+          bValidMirrors := FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
           bValidMirrors := (not ActiveTaskValidMirrorDirectory) or bValidMirrors;
           if bValidMirrors then
           begin
             DeleteCurrentTaskFromTimeList;
-            GetAlarmTimeList(DModule.AlarmTableBOXES.Value);
+            GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
             for i := 0 to AlarmTimeList.Count - 1 do
               TimeList.Add(AlarmTimeList[i]);
-            DModule.AlarmTable.edit;
-            DModule.AlarmTableACTIVE.AsInteger := 1;
-            DModule.AlarmTable.Post;
+            dmFibs.qrTask.Edit;
+            dmFibs.qrTaskACTIVE.AsInteger := 1;
+            dmFibs.qrTask.Post;
             InitAlarms;
           end;
         end
         else
-          MessageDlg('This Task can''t be Activated'#13#10'Because Directory "' + DModule.AlarmTableBACKUPDIR.Value + '" is not Exists!', mtError, [mbOk], 0); //1.0.12
+          MessageDlg('This Task can''t be Activated'#13#10'Because Directory "' + dmFibs.qrTaskBACKUPDIR.Value + '" is not Exists!', mtError, [mbOk], 0); //1.0.12
       end
       else
-        MessageDlg('This Task can''t be Activated'#13#10 + 'Because Database "' + DModule.AlarmTableDBNAME.Value + '" is not exists!', mtError, [mbOk], 0); //1.0.12
+        MessageDlg('This Task can''t be Activated'#13#10 + 'Because Database "' + dmFibs.qrTaskDBNAME.Value + '" is not exists!', mtError, [mbOk], 0); //1.0.12
     end;
   finally
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.EnableControls;
     HideProsesDlg(PD);
   end;
 end;
@@ -1484,44 +1484,44 @@ var
 
   function ValidDirectory(ADir: string): Boolean;
   begin
-    ADir := trim(ADir);
+    ADir := Trim(ADir);
     Result := (ADir = '') or ((DirectoryExists(ADir) or IsFtpPath(ADir)));
   end;
 begin
   PD := ShowProsesDlg('Tasks are being activating..'#13#10'Please Wait..', 'c', PrgName);
-  DModule.AlarmTable.DisableControls;
-  Book := DModule.AlarmTableTASKNO.AsInteger;
+  dmFibs.qrTask.DisableControls;
+  Book := dmFibs.qrTaskTASKNO.AsInteger;
   try
-    DModule.AlarmTable.First;
-    while not DModule.AlarmTable.eof do
+    dmFibs.qrTask.First;
+    while not dmFibs.qrTask.eof do
     begin
-      if DModule.AlarmTableACTIVE.AsInteger = 0 then
+      if dmFibs.qrTaskACTIVE.AsInteger = 0 then
       begin
-        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(DModule.AlarmTableDBNAME.Value), DModule.AlarmTableLOCALCONN.AsBoolean) then
+        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
         begin
-          if DirectoryExists(DModule.AlarmTableBACKUPDIR.Value) then
+          if DirectoryExists(dmFibs.qrTaskBACKUPDIR.Value) then
           begin
-            bValidMirrors := ValidDirectory(DModule.AlarmTableMIRRORDIR.Value) and ValidDirectory(DModule.AlarmTableMIRROR2DIR.Value) and ValidDirectory(DModule.AlarmTableMIRROR3DIR.Value);
+            bValidMirrors := ValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and ValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and ValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
             bValidMirrors := (not ActiveTaskValidMirrorDirectory) or bValidMirrors;
             if bValidMirrors then
             begin
               DeleteCurrentTaskFromTimeList;
-              GetAlarmTimeList(DModule.AlarmTableBOXES.Value);
+              GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
               for i := 0 to AlarmTimeList.Count - 1 do
                 TimeList.Add(AlarmTimeList[i]);
-              DModule.AlarmTable.edit;
-              DModule.AlarmTableACTIVE.AsInteger := 1;
+              dmFibs.qrTask.Edit;
+              dmFibs.qrTaskACTIVE.AsInteger := 1;
             end;
           end;
         end;
       end;
-      DModule.AlarmTable.Next;
+      dmFibs.qrTask.Next;
     end;
-    DModule.AlarmTable.CheckBrowseMode;
+    dmFibs.qrTask.CheckBrowseMode;
     InitAlarms;
   finally
-    DModule.AlarmTable.Locate('TASKNO', Book, []);
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.Locate('TASKNO', Book, []);
+    dmFibs.qrTask.EnableControls;
     HideProsesDlg(PD);
   end;
 end;
@@ -1530,43 +1530,43 @@ procedure TMainForm.MenuActivateAllClick(Sender: TObject);
 var
   gd, ld: string;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to be activated!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end;
-  gd := trim(DModule.OptionsTablePATHTOGBAK.Value);
+  gd := Trim(dmFibs.qrOptionPATHTOGBAK.Value);
   if gd = '' then
   begin
     MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(gd) = False then
     begin
       MessageDlg('Gbak Directory doesn''t exists!', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end
     else
       if FileExists(gd + '\gbak.exe') = False then
       begin
         MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!', mtError, [mbOk], 0);
         ModalResult := mrNone;
-        exit;
+        Exit;
       end;
-  ld := trim(DModule.OptionsTableLOGDIR.Value);
+  ld := Trim(dmFibs.qrOptionLOGDIR.Value);
   if (ld = '') then
   begin
     MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
-    exit;
+    Exit;
   end
   else
     if DirectoryExists(ld) = False then
     begin
       MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
       ModalResult := mrNone;
-      exit;
+      Exit;
     end;
   if MessageDlg('Only error-free-defined tasks will be activated !!'#13#10 +
     '(But no error message will be shown !)'#13#10#13#10 +
@@ -1582,25 +1582,25 @@ var
   PD: TMesajForm;
 begin
   PD := ShowProsesDlg('Tasks are being deactivating..'#13#10'Please Wait..', 'c', PrgName);
-  DModule.AlarmTable.DisableControls;
-  Book := DModule.AlarmTableTASKNO.AsInteger;
+  dmFibs.qrTask.DisableControls;
+  Book := dmFibs.qrTaskTASKNO.AsInteger;
   try
-    DModule.AlarmTable.First;
-    while not DModule.AlarmTable.eof do
+    dmFibs.qrTask.First;
+    while not dmFibs.qrTask.eof do
     begin
-      if DModule.AlarmTableACTIVE.AsInteger = 1 then
+      if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
         DeleteAlarmsFromTimeList;
-        DModule.AlarmTable.edit;
-        DModule.AlarmTableACTIVE.AsInteger := 0;
+        dmFibs.qrTask.Edit;
+        dmFibs.qrTaskACTIVE.AsInteger := 0;
       end;
-      DModule.AlarmTable.Next;
+      dmFibs.qrTask.Next;
     end;
-    DModule.AlarmTable.CheckBrowseMode;
+    dmFibs.qrTask.CheckBrowseMode;
     InitAlarms;
   finally
-    DModule.AlarmTable.Locate('TASKNO', Book, []);
-    DModule.AlarmTable.EnableControls;
+    dmFibs.qrTask.Locate('TASKNO', Book, []);
+    dmFibs.qrTask.EnableControls;
     HideProsesDlg(PD);
   end;
 end;
@@ -1620,27 +1620,27 @@ var
   i: Integer;
   passw: string;
 begin
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to execute!', mtError, [mbOk], 0);
     ModalResult := mrNone;
-    exit;
+    Exit;
   end;
 
   ManualBackupForm := TManualBackupForm.Create(Self);
-  ManualBackupForm.EditTaskName.Text := DModule.AlarmTableTASKNAME.Value;
-  ManualBackupForm.EditDatabaseName.Text := DModule.AlarmTableDBNAME.Value;
-  ManualBackupForm.EditDestinationDir.Text := DModule.AlarmTableBACKUPDIR.Value;
-  ManualBackupForm.EditMirrorDir.Text := DModule.AlarmTableMIRRORDIR.Value;
-  ManualBackupForm.EditMirror2Dir.Text := DModule.AlarmTableMIRROR2DIR.Value;
-  ManualBackupForm.EditMirror3Dir.Text := DModule.AlarmTableMIRROR3DIR.Value;
-  ManualBackupForm.EditGBakDir.Text := DModule.OptionsTablePATHTOGBAK.Value;
-  ManualBackupForm.EditUserName.Text := DModule.AlarmTableUSER.Value;
-  ManualBackupForm.EditPassword.Text := DCPbase64.Base64DecodeStr(DModule.AlarmTablePASSWORD.AsString);
-  ManualBackupForm.EditCompDeg.Text := DModule.AlarmTableCOMPRESS.Value;
-  ManualBackupForm.EditPriority.Text := DModule.OptionsTableBPRIORTY.Value;
-  ManualBackupForm.EditMailTo.Text := DModule.AlarmTableMAILTO.Value;
-  s := DModule.AlarmTableBOPTIONS.Value;
+  ManualBackupForm.EditTaskName.Text := dmFibs.qrTaskTASKNAME.Value;
+  ManualBackupForm.EditDatabaseName.Text := dmFibs.qrTaskDBNAME.Value;
+  ManualBackupForm.EditDestinationDir.Text := dmFibs.qrTaskBACKUPDIR.Value;
+  ManualBackupForm.EditMirrorDir.Text := dmFibs.qrTaskMIRRORDIR.Value;
+  ManualBackupForm.EditMirror2Dir.Text := dmFibs.qrTaskMIRROR2DIR.Value;
+  ManualBackupForm.EditMirror3Dir.Text := dmFibs.qrTaskMIRROR3DIR.Value;
+  ManualBackupForm.EditGBakDir.Text := dmFibs.qrOptionPATHTOGBAK.Value;
+  ManualBackupForm.EditUserName.Text := dmFibs.qrTaskUSER.Value;
+  ManualBackupForm.EditPassword.Text := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
+  ManualBackupForm.EditCompDeg.Text := dmFibs.qrTaskCOMPRESS.Value;
+  ManualBackupForm.EditPriority.Text := dmFibs.qrOptionBPRIORTY.Value;
+  ManualBackupForm.EditMailTo.Text := dmFibs.qrTaskMAILTO.Value;
+  s := dmFibs.qrTaskBOPTIONS.Value;
   for i := 0 to TotalGBakOptions - 1 do
     if (s[i + 1] = '1') then
       ManualBackupForm.CLBGbakOptions.State[i] := cbChecked
@@ -1661,7 +1661,7 @@ begin
       ZBU := ManualBackupForm.DBCheckBox1.State = cbChecked;
       DoVal := ManualBackupForm.DBCheckBox2.State = cbChecked;
       ManualBackUp(Now, TN, GP, UN, PW, DN, DD, MD, MD2, MD3,
-        DModule.AlarmTableCOMPRESS.Value, ZBU, DoVal);
+        dmFibs.qrTaskCOMPRESS.Value, ZBU, DoVal);
     end;
   finally
     ManualBackupForm.Free;
@@ -1683,7 +1683,7 @@ end;
 procedure TMainForm.PopMenuHideClick(Sender: TObject);
 begin
   if screen.ActiveForm = nil then
-    exit;
+    Exit;
   if screen.ActiveForm = MainForm then
   begin
     MainForm.Hide;
@@ -1708,15 +1708,15 @@ end;
 procedure TMainForm.MenuViewClick(Sender: TObject);
 begin
   MenuPlan.caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
-  if DModule.AlarmTable.RecordCount < 1 then
+  if dmFibs.qrTask.RecordCount < 1 then
   begin
     MenuTimeSettings.caption := 'Backup Time Settings of Current Task';
     MenuLog.caption := 'LOG of Selected Task';
   end
   else
   begin
-    MenuTimeSettings.caption := 'Backup Time Settings of Task "' + DModule.AlarmTableTASKNAME.Value + ' "';
-    MenuLog.caption := 'LOG of Task "' + DModule.AlarmTableTASKNAME.Value + '"';
+    MenuTimeSettings.caption := 'Backup Time Settings of Task "' + dmFibs.qrTaskTASKNAME.Value + ' "';
+    MenuLog.caption := 'LOG of Task "' + dmFibs.qrTaskTASKNAME.Value + '"';
   end;
 end;
 
@@ -1795,14 +1795,13 @@ end;
 
 procedure TMainForm.miTaskDuplicateClick(Sender: TObject);
 begin
-  DModule.DuplicateTask(False);
+  dmFibs.DuplicateTask(False);
   Self.MenuEditTaskClick(nil);
 end;
 
 procedure TMainForm.PopupMenu2Popup(Sender: TObject);
 begin
-  Self.miTaskDuplicate.Enabled := DModule.AlarmTable.RecordCount > 0;
+  Self.miTaskDuplicate.Enabled := dmFibs.qrTask.RecordCount > 0;
 end;
 
 end.
-

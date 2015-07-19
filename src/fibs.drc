@@ -8,58 +8,58 @@
   resources were bound to the produced executable.
 */
 
-#define IdResourceStringsProtocols_RSSMTPReplyInvalidClass 64896
+#define IdResourceStringsCore_RSReplyInvalidCode 64896
 #define JConsts_sChangeJPGSize 64897
 #define JConsts_sJPEGError 64898
 #define JConsts_sJPEGImageFile 64899
-#define IdResourceStringsProtocols_RSASLRequired 64912
-#define IdResourceStringsProtocols_RSEMailSymbolOutsideAddress 64913
-#define IdResourceStringsProtocols_RSMsgClientEncodingText 64914
-#define IdResourceStringsProtocols_RSMsgClientEncodingAttachment 64915
-#define IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType 64916
-#define IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding 64917
-#define IdResourceStringsProtocols_RSTIdMessagePartCreate 64918
-#define IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment 64919
-#define IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked 64920
-#define IdResourceStringsProtocols_RSMessageEncoderNotFound 64921
-#define IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme 64922
-#define IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired 64923
-#define IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected 64924
-#define IdResourceStringsProtocols_RSTLSSLSSLNotAvailable 64925
-#define IdResourceStringsProtocols_RSTLSSLSSLCmdFailed 64926
-#define IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr 64927
-#define IdResourceStringsCore_RSNotEnoughDataInBuffer 64928
-#define IdResourceStringsCore_RSTooMuchDataInBuffer 64929
-#define IdResourceStringsCore_RSFileNotFound 64930
-#define IdResourceStringsCore_RSNotConnected 64931
-#define IdResourceStringsCore_RSObjectTypeNotSupported 64932
-#define IdResourceStringsCore_RSIdNoDataToRead 64933
-#define IdResourceStringsCore_RSReadTimeout 64934
-#define IdResourceStringsCore_RSReadLnMaxLineLengthExceeded 64935
-#define IdResourceStringsCore_RSConnectTimeout 64936
-#define IdResourceStringsCore_RSAlreadyConnected 64937
-#define IdResourceStringsCore_RSMaximumNumberOfCaptureLineExceeded 64938
-#define IdResourceStringsCore_RSTransparentProxyCannotBind 64939
-#define IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP 64940
-#define IdResourceStringsCore_RSBufferMissingTerminator 64941
-#define IdResourceStringsCore_RSBufferInvalidStartPos 64942
-#define IdResourceStringsCore_RSReplyInvalidCode 64943
-#define IdResourceStringsCore_RSSocksRequestFailed 64944
-#define IdResourceStringsCore_RSSocksRequestServerFailed 64945
-#define IdResourceStringsCore_RSSocksRequestIdentFailed 64946
-#define IdResourceStringsCore_RSSocksUnknownError 64947
-#define IdResourceStringsCore_RSSocksServerRespondError 64948
-#define IdResourceStringsCore_RSSocksAuthMethodError 64949
-#define IdResourceStringsCore_RSSocksAuthError 64950
-#define IdResourceStringsCore_RSSocksServerGeneralError 64951
-#define IdResourceStringsCore_RSSocksServerPermissionError 64952
-#define IdResourceStringsCore_RSSocksServerNetUnreachableError 64953
-#define IdResourceStringsCore_RSSocksServerHostUnreachableError 64954
-#define IdResourceStringsCore_RSSocksServerConnectionRefusedError 64955
-#define IdResourceStringsCore_RSSocksServerTTLExpiredError 64956
-#define IdResourceStringsCore_RSSocksServerCommandError 64957
-#define IdResourceStringsCore_RSSocksServerAddressError 64958
-#define IdResourceStringsCore_RSInterceptCircularLink 64959
+#define IdResourceStringsCore_RSInterceptCircularLink 64912
+#define IdResourceStringsCore_RSNotEnoughDataInBuffer 64913
+#define IdResourceStringsCore_RSTooMuchDataInBuffer 64914
+#define IdResourceStringsCore_RSFileNotFound 64915
+#define IdResourceStringsCore_RSNotConnected 64916
+#define IdResourceStringsCore_RSObjectTypeNotSupported 64917
+#define IdResourceStringsCore_RSIdNoDataToRead 64918
+#define IdResourceStringsCore_RSReadTimeout 64919
+#define IdResourceStringsCore_RSReadLnMaxLineLengthExceeded 64920
+#define IdResourceStringsCore_RSConnectTimeout 64921
+#define IdResourceStringsCore_RSAlreadyConnected 64922
+#define IdResourceStringsCore_RSMaximumNumberOfCaptureLineExceeded 64923
+#define IdResourceStringsCore_RSTransparentProxyCannotBind 64924
+#define IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP 64925
+#define IdResourceStringsCore_RSBufferMissingTerminator 64926
+#define IdResourceStringsCore_RSBufferInvalidStartPos 64927
+#define IdResourceStringsCore_RSSocksUDPNotSupported 64928
+#define IdResourceStringsCore_RSSocksRequestFailed 64929
+#define IdResourceStringsCore_RSSocksRequestServerFailed 64930
+#define IdResourceStringsCore_RSSocksRequestIdentFailed 64931
+#define IdResourceStringsCore_RSSocksUnknownError 64932
+#define IdResourceStringsCore_RSSocksServerRespondError 64933
+#define IdResourceStringsCore_RSSocksAuthMethodError 64934
+#define IdResourceStringsCore_RSSocksAuthError 64935
+#define IdResourceStringsCore_RSSocksServerGeneralError 64936
+#define IdResourceStringsCore_RSSocksServerPermissionError 64937
+#define IdResourceStringsCore_RSSocksServerNetUnreachableError 64938
+#define IdResourceStringsCore_RSSocksServerHostUnreachableError 64939
+#define IdResourceStringsCore_RSSocksServerConnectionRefusedError 64940
+#define IdResourceStringsCore_RSSocksServerTTLExpiredError 64941
+#define IdResourceStringsCore_RSSocksServerCommandError 64942
+#define IdResourceStringsCore_RSSocksServerAddressError 64943
+#define IdResourceStringsProtocols_RSEMailSymbolOutsideAddress 64944
+#define IdResourceStringsProtocols_RSMsgClientEncodingText 64945
+#define IdResourceStringsProtocols_RSMsgClientEncodingAttachment 64946
+#define IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType 64947
+#define IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding 64948
+#define IdResourceStringsProtocols_RSTIdMessagePartCreate 64949
+#define IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment 64950
+#define IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked 64951
+#define IdResourceStringsProtocols_RSMessageEncoderNotFound 64952
+#define IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme 64953
+#define IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired 64954
+#define IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected 64955
+#define IdResourceStringsProtocols_RSTLSSLSSLNotAvailable 64956
+#define IdResourceStringsProtocols_RSTLSSLSSLCmdFailed 64957
+#define IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr 64958
+#define IdResourceStringsProtocols_RSSMTPReplyInvalidClass 64959
 #define IdResourceStrings_RSStackAlreadyCreated 64960
 #define IdResourceStrings_RSAntiFreezeOnlyOne 64961
 #define IdResourceStrings_RSCannotSetIPVersionWhenConnected 64962
@@ -75,7 +75,7 @@
 #define IdResourceStrings_RSPackageSizeTooBig 64972
 #define IdResourceStrings_RSSetSizeExceeded 64973
 #define IdResourceStrings_RSEndOfStream 64974
-#define IdResourceStringsCore_RSSocksUDPNotSupported 64975
+#define IdResourceStringsProtocols_RSASLRequired 64975
 #define IdResourceStrings_RSStackECONNABORTED 64976
 #define IdResourceStrings_RSStackECONNRESET 64977
 #define IdResourceStrings_RSStackENOBUFS 64978
@@ -638,26 +638,11 @@
 #define SysConst_SDiskFull 65535
 STRINGTABLE
 BEGIN
-	IdResourceStringsProtocols_RSSMTPReplyInvalidClass,	"Invalid Reply Class."
+	IdResourceStringsCore_RSReplyInvalidCode,	"Reply Code is not valid: %s"
 	JConsts_sChangeJPGSize,	"Cannot change the size of a JPEG image"
 	JConsts_sJPEGError,	"JPEG error #%d"
 	JConsts_sJPEGImageFile,	"JPEG Image File"
-	IdResourceStringsProtocols_RSASLRequired,	"Need SASL mechanisms to login with it!!"
-	IdResourceStringsProtocols_RSEMailSymbolOutsideAddress,	"@ Outside address"
-	IdResourceStringsProtocols_RSMsgClientEncodingText,	"Encoding text"
-	IdResourceStringsProtocols_RSMsgClientEncodingAttachment,	"Encoding attachment"
-	IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType,	"Unknown Message Part Type."
-	IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding,	"Message parts cannot be used in a message which has a ContentTransferEncoding value."
-	IdResourceStringsProtocols_RSTIdMessagePartCreate,	"TIdMessagePart can not be created.  Use descendant classes. "
-	IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment,	"Error saving attachment."
-	IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked,	"Attachment %s is blocked."
-	IdResourceStringsProtocols_RSMessageEncoderNotFound,	"Message encoder not found"
-	IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme,	"Unrecognized UUE encoding scheme."
-	IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired,	"SSL IOHandler is required for this setting"
-	IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected,	"This value can not be set while the client is connected."
-	IdResourceStringsProtocols_RSTLSSLSSLNotAvailable,	"SSL is not available on this server."
-	IdResourceStringsProtocols_RSTLSSLSSLCmdFailed,	"Start SSL negotiation command failed."
-	IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr,	"Invalid Reply String."
+	IdResourceStringsCore_RSInterceptCircularLink,	"%d: Circular links are not allowed"
 	IdResourceStringsCore_RSNotEnoughDataInBuffer,	"Not enough data in buffer."
 	IdResourceStringsCore_RSTooMuchDataInBuffer,	"Too much data in buffer."
 	IdResourceStringsCore_RSFileNotFound,	"File \"%s\" not found"
@@ -673,7 +658,7 @@ BEGIN
 	IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP,	"UDP Not supported by this proxy."
 	IdResourceStringsCore_RSBufferMissingTerminator,	"Buffer terminator must be specified."
 	IdResourceStringsCore_RSBufferInvalidStartPos,	"Buffer start position is invalid."
-	IdResourceStringsCore_RSReplyInvalidCode,	"Reply Code is not valid: %s"
+	IdResourceStringsCore_RSSocksUDPNotSupported,	"UDP is not support in this SOCKS version."
 	IdResourceStringsCore_RSSocksRequestFailed,	"Request rejected or failed."
 	IdResourceStringsCore_RSSocksRequestServerFailed,	"Request rejected because SOCKS server cannot connect."
 	IdResourceStringsCore_RSSocksRequestIdentFailed,	"Request rejected because the client program and identd report different user-ids."
@@ -689,7 +674,22 @@ BEGIN
 	IdResourceStringsCore_RSSocksServerTTLExpiredError,	"TTL expired."
 	IdResourceStringsCore_RSSocksServerCommandError,	"Command not supported."
 	IdResourceStringsCore_RSSocksServerAddressError,	"Address type not supported."
-	IdResourceStringsCore_RSInterceptCircularLink,	"%d: Circular links are not allowed"
+	IdResourceStringsProtocols_RSEMailSymbolOutsideAddress,	"@ Outside address"
+	IdResourceStringsProtocols_RSMsgClientEncodingText,	"Encoding text"
+	IdResourceStringsProtocols_RSMsgClientEncodingAttachment,	"Encoding attachment"
+	IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType,	"Unknown Message Part Type."
+	IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding,	"Message parts cannot be used in a message which has a ContentTransferEncoding value."
+	IdResourceStringsProtocols_RSTIdMessagePartCreate,	"TIdMessagePart can not be created.  Use descendant classes. "
+	IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment,	"Error saving attachment."
+	IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked,	"Attachment %s is blocked."
+	IdResourceStringsProtocols_RSMessageEncoderNotFound,	"Message encoder not found"
+	IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme,	"Unrecognized UUE encoding scheme."
+	IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired,	"SSL IOHandler is required for this setting"
+	IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected,	"This value can not be set while the client is connected."
+	IdResourceStringsProtocols_RSTLSSLSSLNotAvailable,	"SSL is not available on this server."
+	IdResourceStringsProtocols_RSTLSSLSSLCmdFailed,	"Start SSL negotiation command failed."
+	IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr,	"Invalid Reply String."
+	IdResourceStringsProtocols_RSSMTPReplyInvalidClass,	"Invalid Reply Class."
 	IdResourceStrings_RSStackAlreadyCreated,	"Stack already created."
 	IdResourceStrings_RSAntiFreezeOnlyOne,	"Only one TIdAntiFreeze can exist per application."
 	IdResourceStrings_RSCannotSetIPVersionWhenConnected,	"Cannot change IPVersion when connected"
@@ -705,7 +705,7 @@ BEGIN
 	IdResourceStrings_RSPackageSizeTooBig,	"Package Size Too Big."
 	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
 	IdResourceStrings_RSEndOfStream,	"End of stream: Class %s at %d"
-	IdResourceStringsCore_RSSocksUDPNotSupported,	"UDP is not support in this SOCKS version."
+	IdResourceStringsProtocols_RSASLRequired,	"Need SASL mechanisms to login with it!!"
 	IdResourceStrings_RSStackECONNABORTED,	"Software caused connection abort."
 	IdResourceStrings_RSStackECONNRESET,	"Connection reset by peer."
 	IdResourceStrings_RSStackENOBUFS,	"No buffer space available."

@@ -21,7 +21,7 @@ uses
   MainUnit in 'MainUnit.pas' {MainForm},
   PrefUnit in 'PrefUnit.pas' {PrefForm},
   ConstUnit in 'ConstUnit.pas',
-  DModuleUnit in 'DModuleUnit.pas' {DModule: TDataModule},
+  FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
   PresetsUnit in 'PresetsUnit.pas',
   MesajUnit in 'MesajUnit.pas' {MesajForm},
@@ -68,7 +68,7 @@ begin
       // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
-        DModule.Free;
+        dmFibs.Free;
         MainForm.Free;
         MessageDlg('ERROR!' + 'prefs.dat or tasks.dat is not exists or corrupt or old version!!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         PostThreadMessage(BackupService.ServiceThread.ThreadID, WM_QUIT, 0, 0);
@@ -95,10 +95,10 @@ begin
     begin
       RunningAsService := False;
       Application.CreateForm(TMainForm, MainForm);
-  // Check Datafiles are not corrupt nor old version.
+      // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
-        DModule.Free;
+        dmFibs.Free;
         MainForm.Free;
         MessageDlg('ERROR!'#13#10 + 'prefs.dat and/or tasks.dat is/are not exist, old version or corrupt!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         Application.Terminate;

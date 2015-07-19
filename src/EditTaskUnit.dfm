@@ -213,7 +213,7 @@ object EditTaskForm: TEditTaskForm
     Height = 19
     Ctl3D = False
     DataField = 'USER'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ParentCtl3D = False
     TabOrder = 5
   end
@@ -224,7 +224,7 @@ object EditTaskForm: TEditTaskForm
     Height = 19
     Ctl3D = False
     DataField = 'PASSWORD'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ParentCtl3D = False
     PasswordChar = '*'
     TabOrder = 6
@@ -272,7 +272,7 @@ object EditTaskForm: TEditTaskForm
     Height = 19
     Ctl3D = False
     DataField = 'TASKNAME'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ParentCtl3D = False
     TabOrder = 1
     OnKeyPress = EditTaskDefKeyPress
@@ -513,7 +513,7 @@ object EditTaskForm: TEditTaskForm
         Alignment = taLeftJustify
         Caption = 'Create GZip Backup'
         DataField = 'ZIPBACKUP'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         TabOrder = 1
         ValueChecked = 'True'
         ValueUnchecked = 'False'
@@ -528,7 +528,7 @@ object EditTaskForm: TEditTaskForm
         BevelKind = bkFlat
         Ctl3D = False
         DataField = 'PUNIT'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         ItemHeight = 13
         Items.Strings = (
           'Backups'
@@ -546,7 +546,7 @@ object EditTaskForm: TEditTaskForm
         AutoSize = False
         Ctl3D = False
         DataField = 'PVAL'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         MaxLength = 4
         ParentCtl3D = False
         TabOrder = 3
@@ -560,7 +560,7 @@ object EditTaskForm: TEditTaskForm
         Alignment = taLeftJustify
         Caption = 'Delete  All Out-of-Criteria Backups'
         DataField = 'DELETEALL'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         TabOrder = 4
         ValueChecked = '1'
         ValueUnchecked = '0'
@@ -574,7 +574,7 @@ object EditTaskForm: TEditTaskForm
         BevelKind = bkFlat
         Ctl3D = False
         DataField = 'COMPRESS'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         ItemHeight = 13
         Items.Strings = (
           'None'
@@ -592,7 +592,7 @@ object EditTaskForm: TEditTaskForm
         Alignment = taLeftJustify
         Caption = 'Validate Database Before Backup'
         DataField = 'DOVAL'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         TabOrder = 6
         ValueChecked = 'True'
         ValueUnchecked = 'False'
@@ -657,7 +657,7 @@ object EditTaskForm: TEditTaskForm
         Hint = 'Use  ; column  as address delimiter'
         Ctl3D = False
         DataField = 'MAILTO'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         ParentCtl3D = False
         ParentShowHint = False
         ShowHint = True
@@ -680,7 +680,7 @@ object EditTaskForm: TEditTaskForm
         Height = 17
         Caption = 'Show Window'
         DataField = 'SHOWBATCHWIN'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         TabOrder = 2
         ValueChecked = 'True'
         ValueUnchecked = 'False'
@@ -692,7 +692,7 @@ object EditTaskForm: TEditTaskForm
         Height = 17
         Caption = 'Use the last backup'#39's filename as parameter'
         DataField = 'USEPARAMS'
-        DataSource = DModule.AlarmDS
+        DataSource = dmFibs.dsTask
         TabOrder = 3
         ValueChecked = 'True'
         ValueUnchecked = 'False'
@@ -706,7 +706,7 @@ object EditTaskForm: TEditTaskForm
     Height = 19
     Ctl3D = False
     DataField = 'TASKNO'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ParentCtl3D = False
     TabOrder = 9
     Visible = False
@@ -754,7 +754,7 @@ object EditTaskForm: TEditTaskForm
     Height = 17
     Caption = 'Local Connection'
     DataField = 'LOCALCONN'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     TabOrder = 11
     ValueChecked = 'True'
     ValueUnchecked = 'False'

@@ -70,7 +70,7 @@ begin
   Result := True;
   Mutex := CreateMutex(nil, True, PChar(App + SSubClass + 'CriticalSection')); // don't localize
   if (GetLastError <> 0) or (Mutex = 0) then
-    exit;
+    Exit;
   _OneInstanceMutex := CreateMutex(nil, False, PChar(App + SSubClass + 'Default')); // don't localize
   Flag := WaitForSingleObject(_OneInstanceMutex, 0);
   Result := (Flag = WAIT_TIMEOUT);
@@ -89,7 +89,7 @@ var
   APath: string;
 begin
   Result := False;
-  APath := trim(AFtpPath);
+  APath := Trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
     Result := True;
 end;
@@ -100,7 +100,7 @@ var
   p1, p2, p3: Integer;
 begin
   Result := False;
-  APath := trim(AFtpPath);
+  APath := Trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
   begin
     Result := True;
@@ -126,7 +126,7 @@ var
   p1, p2, p3, p4, p5: Integer;
 begin
   Result := False;
-  APath := trim(AFtpPath);
+  APath := Trim(AFtpPath);
   if AnsiLowerCase(AnsiLeftStr(APath, 6)) = 'ftp://' then
   begin
     Result := True;
@@ -269,7 +269,7 @@ begin
   if (p = 0) and (q = 0) then
   begin (* no user, password or port *)
     host := s;
-    exit;
+    Exit;
   end
   else
     if q < p then
@@ -277,7 +277,7 @@ begin
       port := copy(s, p + 1, Length(s));
       host := copy(s, q + 1, p - q - 1);
       if q = 0 then
-        exit; (* no user, password *)
+        Exit; (* no user, password *)
       s := copy(s, 1, q - 1);
     end
     else

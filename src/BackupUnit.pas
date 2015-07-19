@@ -151,7 +151,7 @@ end;
 
 function TBackUp.ExtractFilePathEx(const AFullPath: string): string;
 begin
-  if AnsiLowerCase(AnsiLeftStr(trim(AFullPath), 6)) = 'ftp://' then
+  if AnsiLowerCase(AnsiLeftStr(Trim(AFullPath), 6)) = 'ftp://' then
   begin
     Result := copy(AFullPath, 1, LastDelimiter('/', AFullPath) - 1);
   end
@@ -191,7 +191,7 @@ end;
 
 function TBackUp.DeleteOldest(ACurrentDir, ADirInfo: string): string;
 begin
-  if AnsiLowerCase(AnsiLeftStr(trim(ACurrentDir), 6)) = 'ftp://' then
+  if AnsiLowerCase(AnsiLeftStr(Trim(ACurrentDir), 6)) = 'ftp://' then
     Result := DeleteRemoteOldest(ACurrentDir, ADirInfo)
   else
     Result := DeleteLocalOldest(ACurrentDir, ADirInfo);
@@ -576,7 +576,7 @@ begin
   if hNet = nil then
   begin
     AErrorMesaj := '   Unable to get access to WinInet.Dll';
-    exit;
+    Exit;
   end;
   { Connect to the FTP Server }
   hFTP := InternetConnect(hNet, // Handle from InternetOpen
@@ -591,7 +591,7 @@ begin
   begin
     InternetCloseHandle(hNet);
     AErrorMesaj := Format('   Host "%s" is not available', [strHost], FSettings);
-    exit;
+    Exit;
   end;
 
   if (RemoteDir <> '') then
@@ -603,7 +603,7 @@ begin
         InternetCloseHandle(hFTP);
         InternetCloseHandle(hNet);
         AErrorMesaj := Format('   Cannot Create directory to %s.', [RemoteDir], FSettings);
-        exit;
+        Exit;
       end
       else
         FtpSetCurrentDirectory(hFTP, PChar(RemoteDir));
@@ -620,7 +620,7 @@ begin
     InternetCloseHandle(hFTP);
     InternetCloseHandle(hNet);
     AErrorMesaj := Format('   Cannot upload backup file (' + RemoteFilePath + ') to host %s.', [strHost], FSettings);
-    exit;
+    Exit;
   end;
   InternetCloseHandle(hFTP);
   InternetCloseHandle(hNet);
@@ -634,7 +634,7 @@ var
   // LLColPos,LLAtPos :integer;
 begin
   AFtpErrorMesaj := '';
-  ADestFile := trim(ADestFile);
+  ADestFile := Trim(ADestFile);
   if AnsiLowerCase(AnsiLeftStr(ADestFile, 6)) = 'ftp://' then
   begin
     ADestFile := AnsiReplaceStr(ADestFile, '\', '/');
@@ -1394,7 +1394,7 @@ begin
     else
       MDel := 'None of out-of-criteria backup file(s) on backup and/or mirrors dirs has been deleted because of being Manual backup Mode'#13#10;
 
-    if trim(FExternalFile) = '' then
+    if Trim(FExternalFile) = '' then
     begin
       MBatch := 'External file execution is Disabled.'#13#10;
     end
@@ -1451,7 +1451,7 @@ begin
       ((FDoMirror3 = True) and (CopyOK3 = False))) then
     begin
       // There is a problem.
-      if trim(FMailTo) <> '' then
+      if Trim(FMailTo) <> '' then
       begin
         // Wanted EMail Notification
         Synchronize(RefreshPD13);

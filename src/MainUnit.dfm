@@ -1842,7 +1842,7 @@ object MainForm: TMainForm
     Align = alClient
     Color = 16252927
     Ctl3D = False
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     Options = [dgTitles, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit]
     ParentCtl3D = False
     PopupMenu = PopupMenu2

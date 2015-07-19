@@ -265,7 +265,7 @@ object ManualBackupForm: TManualBackupForm
     Alignment = taLeftJustify
     Caption = 'Create ZIP Backup'
     DataField = 'ZIPBACKUP'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ReadOnly = True
     TabOrder = 10
     ValueChecked = 'True'
@@ -331,7 +331,7 @@ object ManualBackupForm: TManualBackupForm
     Alignment = taLeftJustify
     Caption = 'Validate Database'
     DataField = 'DOVAL'
-    DataSource = DModule.AlarmDS
+    DataSource = dmFibs.dsTask
     ReadOnly = True
     TabOrder = 15
     ValueChecked = 'True'

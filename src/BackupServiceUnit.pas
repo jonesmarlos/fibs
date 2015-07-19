@@ -145,7 +145,7 @@ begin
     SvcMgr.Application.Initialize;
     BackupService := TBackupService.CreateNew(SvcMgr.Application, 0);
     Result := True;
-    exit;
+    Exit;
   end;
 
   Mgr := OpenSCManager(nil, nil, SC_MANAGER_ALL_ACCESS);

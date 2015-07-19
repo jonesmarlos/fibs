@@ -8,7 +8,6 @@
 //
 //*****************************************************************************
 
-
 {==============================================================================|
 | Project : Ararat Synapse                                       | 003.004.002 |
 |==============================================================================|
@@ -62,7 +61,7 @@ Used RFC: RFC-1869, RFC-1870, RFC-1893, RFC-2034, RFC-2104, RFC-2195, RFC-2487,
 }
 
 {$IFDEF FPC}
-  {$MODE DELPHI}
+{$MODE DELPHI}
 {$ENDIF}
 {$H+}
 
@@ -138,7 +137,7 @@ type
 
      If size not 0 and remote server can handle SIZE parameter, append SIZE
      parameter to request. If all OK, result is @true, else result is @false.}
-    function MailFrom(const Value: string; Size: Integer): Boolean;
+    function MailFrom(const Value: string; size: Integer): Boolean;
 
     {:Send RCPT TO SMTP command for set receiver e-mail address. It cannot be an
      empty string. If all OK, result is @true, else result is @false.}
@@ -146,7 +145,7 @@ type
 
     {:Send DATA SMTP command and transmit message data. If all OK, result is
      @true, else result is @false.}
-    function MailData(const Value: Tstrings): Boolean;
+    function MailData(const Value: TStrings): Boolean;
 
     {:Send ETRN SMTP command for start sending of remote queue for domain in
      Value. If all OK, result is @true, else result is @false.}
@@ -207,34 +206,34 @@ type
 
     {:name of our system used in HELO and EHLO command. Implicit value is
      internet address of your machine.}
-    property SystemName: string read FSystemName Write FSystemName;
+    property SystemName: string read FSystemName write FSystemName;
 
     {:If is set to true, then upgrade to SSL/TLS mode if remote server support it.}
-    property AutoTLS: Boolean read FAutoTLS Write FAutoTLS;
+    property AutoTLS: Boolean read FAutoTLS write FAutoTLS;
 
     {:SSL/TLS mode is used from first contact to server. Servers with full
      SSL/TLS mode usualy using non-standard TCP port!}
-    property FullSSL: Boolean read FFullSSL Write FFullSSL;
+    property FullSSL: Boolean read FFullSSL write FFullSSL;
 
     {:Socket object used for TCP/IP operation. Good for seting OnStatus hook, etc.}
     property Sock: TTCPBlockSocket read FSock;
   end;
 
-{:A very useful function and example of its use would be found in the TSMTPsend
- object. Send maildata (text of e-mail with all SMTP headers! For example when
- text of message is created by @link(TMimemess) object) from "MailFrom" e-mail
- address to "MailTo" e-mail address (If you need more then one receiver, then
- separate their addresses by comma).
+  {:A very useful function and example of its use would be found in the TSMTPsend
+   object. Send maildata (text of e-mail with all SMTP headers! For example when
+   text of message is created by @link(TMimemess) object) from "MailFrom" e-mail
+   address to "MailTo" e-mail address (If you need more then one receiver, then
+   separate their addresses by comma).
 
- Function sends e-mail to a SMTP server defined in "SMTPhost" parameter.
- Username and password are used for authorization to the "SMTPhost". If you
- don't want authorization, set "Username" and "Password" to empty strings. If
- e-mail message is successfully sent, the result returns @true.
+   Function sends e-mail to a SMTP server defined in "SMTPhost" parameter.
+   Username and password are used for authorization to the "SMTPhost". If you
+   don't want authorization, set "Username" and "Password" to empty strings. If
+   e-mail message is successfully sent, the result returns @true.
 
- If you need use different port number then standard, then add this port number
- to SMTPhost after colon. (i.e. '127.0.0.1:1025')}
+   If you need use different port number then standard, then add this port number
+   to SMTPhost after colon. (i.e. '127.0.0.1:1025')}
 function SendToRaw(const MailFrom, MailTo, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string): Boolean;
+  const MailData: TStrings; const UserName, Password: string): Boolean;
 
 {:A very useful function and example of its use would be found in the TSMTPsend
  object. Send "Maildata" (text of e-mail without any SMTP headers!) from
@@ -263,15 +262,15 @@ function SendTo(const MailFrom, MailTo, Subject, SMTPHost: string;
  If you need use different port number then standard, then add this port number
  to SMTPhost after colon. (i.e. '127.0.0.1:1025')}
 function SendToEx(const MailFrom, MailTo, Subject, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string): Boolean;
+  const MailData: TStrings; const UserName, Password: string): Boolean;
 
 // Revised and added by TDogan
 function SendToRawTD(const MailFrom, MailTo, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string;var ErrorInfo:string): Boolean;
+  const MailData: TStrings; const UserName, Password: string; var ErrorInfo: string): Boolean;
 
 // Revised and added by TDogan
 function SendToExTD(const MailFrom, MailTo, Subject, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string;var ErrorInfo:string): Boolean;
+  const MailData: TStrings; const UserName, Password: string; var ErrorInfo: string): Boolean;
 
 implementation
 
@@ -281,8 +280,8 @@ begin
   FFullResult := TStringList.Create;
   FESMTPcap := TStringList.Create;
   FSock := TTCPBlockSocket.Create;
-  FSock.ConvertLineEnd := true;
-  FTimeout := 120000; //  Revised by TDogan; this was 60000 
+  FSock.ConvertLineEnd := True;
+  FTimeout := 120000; //  Revised by TDogan; this was 60000
   FTargetPort := cSmtpProtocol;
   FSystemName := FSock.LocalName;
   FAutoTLS := False;
@@ -299,35 +298,35 @@ end;
 
 procedure TSMTPSend.EnhancedCode(const Value: string);
 var
-  s, t: string;
+  s, T: string;
   e1, e2, e3: Integer;
 begin
   FEnhCode1 := 0;
   FEnhCode2 := 0;
   FEnhCode3 := 0;
-  s := Copy(Value, 5, Length(Value) - 4);
-  t := Trim(SeparateLeft(s, '.'));
+  s := copy(Value, 5, Length(Value) - 4);
+  T := Trim(SeparateLeft(s, '.'));
   s := Trim(SeparateRight(s, '.'));
-  if t = '' then
+  if T = '' then
     Exit;
-  if Length(t) > 1 then
+  if Length(T) > 1 then
     Exit;
-  e1 := StrToIntDef(t, 0);
+  e1 := StrToIntDef(T, 0);
   if e1 = 0 then
     Exit;
-  t := Trim(SeparateLeft(s, '.'));
+  T := Trim(SeparateLeft(s, '.'));
   s := Trim(SeparateRight(s, '.'));
-  if t = '' then
+  if T = '' then
     Exit;
-  if Length(t) > 3 then
+  if Length(T) > 3 then
     Exit;
-  e2 := StrToIntDef(t, 0);
-  t := Trim(SeparateLeft(s, ' '));
-  if t = '' then
+  e2 := StrToIntDef(T, 0);
+  T := Trim(SeparateLeft(s, ' '));
+  if T = '' then
     Exit;
-  if Length(t) > 3 then
+  if Length(T) > 3 then
     Exit;
-  e3 := StrToIntDef(t, 0);
+  e3 := StrToIntDef(T, 0);
   FEnhCode1 := e1;
   FEnhCode2 := e2;
   FEnhCode3 := e3;
@@ -344,11 +343,11 @@ begin
     FResultString := s;
     FFullResult.Add(s);
     if FSock.LastError <> 0 then
-      Break;
+      break;
   until Pos('-', s) <> 4;
   s := FFullResult[0];
   if Length(s) >= 3 then
-    Result := StrToIntDef(Copy(s, 1, 3), 0);
+    Result := StrToIntDef(copy(s, 1, 3), 0);
   FResultCode := Result;
   EnhancedCode(s);
 end;
@@ -374,7 +373,7 @@ begin
   FSock.SendString('AUTH CRAM-MD5' + CRLF);
   if ReadResult <> 334 then
     Exit;
-  s := Copy(FResultString, 5, Length(FResultString) - 4);
+  s := copy(FResultString, 5, Length(FResultString) - 4);
   s := DecodeBase64(s);
   s := HMAC_MD5(s, FPassword);
   s := FUsername + ' ' + StrToHex(s);
@@ -421,29 +420,32 @@ begin
   Result := False;
   FESMTP := True;
   FAuthDone := False;
-  FESMTPcap.clear;
+  FESMTPcap.Clear;
   FESMTPSize := False;
   FMaxSize := 0;
 
-  if not Connect then Exit;
-  if ReadResult <> 220 then Exit;
+  if not Connect then
+    Exit;
+  if ReadResult <> 220 then
+    Exit;
   if not Ehlo then
   begin
     FESMTP := False;
-    if not Helo then Exit;
+    if not Helo then
+      Exit;
   end;
   Result := True;
   if FESMTP then
   begin
     for n := 1 to FFullResult.Count - 1 do
-      FESMTPcap.Add(Copy(FFullResult[n], 5, Length(FFullResult[n]) - 4));
+      FESMTPcap.Add(copy(FFullResult[n], 5, Length(FFullResult[n]) - 4));
     if (not FullSSL) and FAutoTLS and (FindCap('STARTTLS') <> '') then
       if StartTLS then
       begin
         Ehlo;
         FESMTPcap.Clear;
         for n := 1 to FFullResult.Count - 1 do
-          FESMTPcap.Add(Copy(FFullResult[n], 5, Length(FFullResult[n]) - 4));
+          FESMTPcap.Add(copy(FFullResult[n], 5, Length(FFullResult[n]) - 4));
       end
       else
       begin
@@ -460,15 +462,15 @@ begin
       begin
         if Pos('CRAM-MD5', auths) > 0 then
           FAuthDone := AuthCram;
-        if (Pos('LOGIN', auths) > 0) and (not FauthDone) then
+        if (Pos('LOGIN', auths) > 0) and (not FAuthDone) then
           FAuthDone := AuthLogin;
       end;
     end;
     s := FindCap('SIZE');
     if s <> '' then
     begin
-      FESMTPsize := True;
-      FMaxSize := StrToIntDef(Copy(s, 6, Length(s) - 5), 0);
+      FESMTPSize := True;
+      FMaxSize := StrToIntDef(copy(s, 6, Length(s) - 5), 0);
     end;
   end;
 end;
@@ -492,13 +494,13 @@ begin
   Result := ReadResult = 250;
 end;
 
-function TSMTPSend.MailFrom(const Value: string; Size: Integer): Boolean;
+function TSMTPSend.MailFrom(const Value: string; size: Integer): Boolean;
 var
   s: string;
 begin
   s := 'MAIL FROM:<' + Value + '>';
-  if FESMTPsize and (Size > 0) then
-    s := s + ' SIZE=' + IntToStr(Size);
+  if FESMTPSize and (size > 0) then
+    s := s + ' SIZE=' + IntToStr(size);
   FSock.SendString(s + CRLF);
   Result := ReadResult = 250;
 end;
@@ -513,14 +515,14 @@ function TSMTPSend.MailData(const Value: TStrings): Boolean;
 var
   n: Integer;
   s: string;
-  t: string;
-  x: integer;
+  T: string;
+  x: Integer;
 begin
   Result := False;
   FSock.SendString('DATA' + CRLF);
   if ReadResult <> 354 then
     Exit;
-  t := '';
+  T := '';
   x := 1500;
   for n := 0 to Value.Count - 1 do
   begin
@@ -528,15 +530,15 @@ begin
     if Length(s) >= 1 then
       if s[1] = '.' then
         s := '.' + s;
-    if Length(t) + Length(s) >= x then
+    if Length(T) + Length(s) >= x then
     begin
-      FSock.SendString(t);
-      t := '';
+      FSock.SendString(T);
+      T := '';
     end;
-    t := t + s + CRLF;
+    T := T + s + CRLF;
   end;
-  if t <> '' then
-    FSock.SendString(t);
+  if T <> '' then
+    FSock.SendString(T);
   FSock.SendString('.' + CRLF);
   Result := ReadResult = 250;
 end;
@@ -567,7 +569,7 @@ begin
     FSock.SendString('STARTTLS' + CRLF);
     if (ReadResult = 220) and (FSock.LastError = 0) then
     begin
-      Fsock.SSLDoConnect;
+      FSock.SSLDoConnect;
       Result := FSock.LastError = 0;
     end;
   end;
@@ -575,64 +577,116 @@ end;
 
 function TSMTPSend.EnhCodeString: string;
 var
-  s, t: string;
+  s, T: string;
 begin
   s := IntToStr(FEnhCode2) + '.' + IntToStr(FEnhCode3);
-  t := '';
-  if s = '0.0' then t := 'Other undefined Status';
-  if s = '1.0' then t := 'Other address status';
-  if s = '1.1' then t := 'Bad destination mailbox address';
-  if s = '1.2' then t := 'Bad destination system address';
-  if s = '1.3' then t := 'Bad destination mailbox address syntax';
-  if s = '1.4' then t := 'Destination mailbox address ambiguous';
-  if s = '1.5' then t := 'Destination mailbox address valid';
-  if s = '1.6' then t := 'Mailbox has moved';
-  if s = '1.7' then t := 'Bad sender''s mailbox address syntax';
-  if s = '1.8' then t := 'Bad sender''s system address';
-  if s = '2.0' then t := 'Other or undefined mailbox status';
-  if s = '2.1' then t := 'Mailbox disabled, not accepting messages';
-  if s = '2.2' then t := 'Mailbox full';
-  if s = '2.3' then t := 'Message Length exceeds administrative limit';
-  if s = '2.4' then t := 'Mailing list expansion problem';
-  if s = '3.0' then t := 'Other or undefined mail system status';
-  if s = '3.1' then t := 'Mail system full';
-  if s = '3.2' then t := 'System not accepting network messages';
-  if s = '3.3' then t := 'System not capable of selected features';
-  if s = '3.4' then t := 'Message too big for system';
-  if s = '3.5' then t := 'System incorrectly configured';
-  if s = '4.0' then t := 'Other or undefined network or routing status';
-  if s = '4.1' then t := 'No answer from host';
-  if s = '4.2' then t := 'Bad connection';
-  if s = '4.3' then t := 'Routing server failure';
-  if s = '4.4' then t := 'Unable to route';
-  if s = '4.5' then t := 'Network congestion';
-  if s = '4.6' then t := 'Routing loop detected';
-  if s = '4.7' then t := 'Delivery time expired';
-  if s = '5.0' then t := 'Other or undefined protocol status';
-  if s = '5.1' then t := 'Invalid command';
-  if s = '5.2' then t := 'Syntax error';
-  if s = '5.3' then t := 'Too many recipients';
-  if s = '5.4' then t := 'Invalid command arguments';
-  if s = '5.5' then t := 'Wrong protocol version';
-  if s = '6.0' then t := 'Other or undefined media error';
-  if s = '6.1' then t := 'Media not supported';
-  if s = '6.2' then t := 'Conversion required and prohibited';
-  if s = '6.3' then t := 'Conversion required but not supported';
-  if s = '6.4' then t := 'Conversion with loss performed';
-  if s = '6.5' then t := 'Conversion failed';
-  if s = '7.0' then t := 'Other or undefined security status';
-  if s = '7.1' then t := 'Delivery not authorized, message refused';
-  if s = '7.2' then t := 'Mailing list expansion prohibited';
-  if s = '7.3' then t := 'Security conversion required but not possible';
-  if s = '7.4' then t := 'Security features not supported';
-  if s = '7.5' then t := 'Cryptographic failure';
-  if s = '7.6' then t := 'Cryptographic algorithm not supported';
-  if s = '7.7' then t := 'Message integrity failure';
+  T := '';
+  if s = '0.0' then
+    T := 'Other undefined Status';
+  if s = '1.0' then
+    T := 'Other address status';
+  if s = '1.1' then
+    T := 'Bad destination mailbox address';
+  if s = '1.2' then
+    T := 'Bad destination system address';
+  if s = '1.3' then
+    T := 'Bad destination mailbox address syntax';
+  if s = '1.4' then
+    T := 'Destination mailbox address ambiguous';
+  if s = '1.5' then
+    T := 'Destination mailbox address valid';
+  if s = '1.6' then
+    T := 'Mailbox has moved';
+  if s = '1.7' then
+    T := 'Bad sender''s mailbox address syntax';
+  if s = '1.8' then
+    T := 'Bad sender''s system address';
+  if s = '2.0' then
+    T := 'Other or undefined mailbox status';
+  if s = '2.1' then
+    T := 'Mailbox disabled, not accepting messages';
+  if s = '2.2' then
+    T := 'Mailbox full';
+  if s = '2.3' then
+    T := 'Message Length exceeds administrative limit';
+  if s = '2.4' then
+    T := 'Mailing list expansion problem';
+  if s = '3.0' then
+    T := 'Other or undefined mail system status';
+  if s = '3.1' then
+    T := 'Mail system full';
+  if s = '3.2' then
+    T := 'System not accepting network messages';
+  if s = '3.3' then
+    T := 'System not capable of selected features';
+  if s = '3.4' then
+    T := 'Message too big for system';
+  if s = '3.5' then
+    T := 'System incorrectly configured';
+  if s = '4.0' then
+    T := 'Other or undefined network or routing status';
+  if s = '4.1' then
+    T := 'No answer from host';
+  if s = '4.2' then
+    T := 'Bad connection';
+  if s = '4.3' then
+    T := 'Routing server failure';
+  if s = '4.4' then
+    T := 'Unable to route';
+  if s = '4.5' then
+    T := 'Network congestion';
+  if s = '4.6' then
+    T := 'Routing loop detected';
+  if s = '4.7' then
+    T := 'Delivery time expired';
+  if s = '5.0' then
+    T := 'Other or undefined protocol status';
+  if s = '5.1' then
+    T := 'Invalid command';
+  if s = '5.2' then
+    T := 'Syntax error';
+  if s = '5.3' then
+    T := 'Too many recipients';
+  if s = '5.4' then
+    T := 'Invalid command arguments';
+  if s = '5.5' then
+    T := 'Wrong protocol version';
+  if s = '6.0' then
+    T := 'Other or undefined media error';
+  if s = '6.1' then
+    T := 'Media not supported';
+  if s = '6.2' then
+    T := 'Conversion required and prohibited';
+  if s = '6.3' then
+    T := 'Conversion required but not supported';
+  if s = '6.4' then
+    T := 'Conversion with loss performed';
+  if s = '6.5' then
+    T := 'Conversion failed';
+  if s = '7.0' then
+    T := 'Other or undefined security status';
+  if s = '7.1' then
+    T := 'Delivery not authorized, message refused';
+  if s = '7.2' then
+    T := 'Mailing list expansion prohibited';
+  if s = '7.3' then
+    T := 'Security conversion required but not possible';
+  if s = '7.4' then
+    T := 'Security features not supported';
+  if s = '7.5' then
+    T := 'Cryptographic failure';
+  if s = '7.6' then
+    T := 'Cryptographic algorithm not supported';
+  if s = '7.7' then
+    T := 'Message integrity failure';
   s := '???-';
-  if FEnhCode1 = 2 then s := 'Success-';
-  if FEnhCode1 = 4 then s := 'Persistent Transient Failure-';
-  if FEnhCode1 = 5 then s := 'Permanent Failure-';
-  Result := s + t;
+  if FEnhCode1 = 2 then
+    s := 'Success-';
+  if FEnhCode1 = 4 then
+    s := 'Persistent Transient Failure-';
+  if FEnhCode1 = 5 then
+    s := 'Permanent Failure-';
+  Result := s + T;
 end;
 
 function TSMTPSend.FindCap(const Value: string): string;
@@ -646,33 +700,33 @@ begin
     if Pos(s, UpperCase(FESMTPcap[n])) = 1 then
     begin
       Result := FESMTPcap[n];
-      Break;
+      break;
     end;
 end;
 
 {==============================================================================}
 
 function SendToRaw(const MailFrom, MailTo, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string): Boolean;
+  const MailData: TStrings; const UserName, Password: string): Boolean;
 var
   SMTP: TSMTPSend;
-  s, t: string;
+  s, T: string;
 begin
   Result := False;
   SMTP := TSMTPSend.Create;
   try
-// if you need SOCKS5 support, uncomment next lines:
-    // SMTP.Sock.SocksIP := '127.0.0.1';
-    // SMTP.Sock.SocksPort := '1080';
-// if you need support for upgrade session to TSL/SSL, uncomment next lines:
-    // SMTP.AutoTLS := True;
-// if you need support for TSL/SSL tunnel, uncomment next lines:
-    // SMTP.FullSSL := True;
+    // if you need SOCKS5 support, uncomment next lines:
+        // SMTP.Sock.SocksIP := '127.0.0.1';
+        // SMTP.Sock.SocksPort := '1080';
+    // if you need support for upgrade session to TSL/SSL, uncomment next lines:
+        // SMTP.AutoTLS := True;
+    // if you need support for TSL/SSL tunnel, uncomment next lines:
+        // SMTP.FullSSL := True;
     SMTP.TargetHost := Trim(SeparateLeft(SMTPHost, ':'));
     s := Trim(SeparateRight(SMTPHost, ':'));
     if (s <> '') and (s <> SMTPHost) then
       SMTP.TargetPort := s;
-    SMTP.Username := Username;
+    SMTP.UserName := UserName;
     SMTP.Password := Password;
     if SMTP.Login then
     begin
@@ -680,11 +734,11 @@ begin
       begin
         s := MailTo;
         repeat
-          t := GetEmailAddr(Trim(FetchEx(s, ',', '"')));
-          if t <> '' then
-            Result := SMTP.MailTo(t);
+          T := GetEmailAddr(Trim(FetchEx(s, ',', '"')));
+          if T <> '' then
+            Result := SMTP.MailTo(T);
           if not Result then
-            Break;
+            break;
         until s = '';
         if Result then
           Result := SMTP.MailData(MailData);
@@ -696,24 +750,23 @@ begin
   end;
 end;
 
-
 function SendToEx(const MailFrom, MailTo, Subject, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string): Boolean;
+  const MailData: TStrings; const UserName, Password: string): Boolean;
 var
-  t: TStrings;
+  T: TStrings;
 begin
-  t := TStringList.Create;
+  T := TStringList.Create;
   try
-    t.Assign(MailData);
-    t.Insert(0, '');
-    t.Insert(0, 'X-mailer: Synapse - Delphi & Kylix TCP/IP library by Lukas Gebauer');
-    t.Insert(0, 'Subject: ' + Subject);
-    t.Insert(0, 'Date: ' + Rfc822DateTime(now));
-    t.Insert(0, 'To: ' + MailTo);
-    t.Insert(0, 'From: ' + MailFrom);
-    Result := SendToRaw(MailFrom, MailTo, SMTPHost, t, Username, Password);
+    T.Assign(MailData);
+    T.Insert(0, '');
+    T.Insert(0, 'X-mailer: Synapse - Delphi & Kylix TCP/IP library by Lukas Gebauer');
+    T.Insert(0, 'Subject: ' + Subject);
+    T.Insert(0, 'Date: ' + Rfc822DateTime(Now));
+    T.Insert(0, 'To: ' + MailTo);
+    T.Insert(0, 'From: ' + MailFrom);
+    Result := SendToRaw(MailFrom, MailTo, SMTPHost, T, UserName, Password);
   finally
-    t.Free;
+    T.Free;
   end;
 end;
 
@@ -723,29 +776,29 @@ begin
   Result := SendToEx(MailFrom, MailTo, Subject, SMTPHost, MailData, '', '');
 end;
 
-
 // Revised and added by TDogan
+
 function SendToRawTD(const MailFrom, MailTo, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string;var ErrorInfo:string): Boolean;
+  const MailData: TStrings; const UserName, Password: string; var ErrorInfo: string): Boolean;
 var
   SMTP: TSMTPSend;
-  s, t: string;
+  s, T: string;
 begin
   Result := False;
   SMTP := TSMTPSend.Create;
   try
-// if you need SOCKS5 support, uncomment next lines:
-    // SMTP.Sock.SocksIP := '127.0.0.1';
-    // SMTP.Sock.SocksPort := '1080';
-// if you need support for upgrade session to TSL/SSL, uncomment next lines:
-    // SMTP.AutoTLS := True;
-// if you need support for TSL/SSL tunnel, uncomment next lines:
-    // SMTP.FullSSL := True;
+    // if you need SOCKS5 support, uncomment next lines:
+        // SMTP.Sock.SocksIP := '127.0.0.1';
+        // SMTP.Sock.SocksPort := '1080';
+    // if you need support for upgrade session to TSL/SSL, uncomment next lines:
+        // SMTP.AutoTLS := True;
+    // if you need support for TSL/SSL tunnel, uncomment next lines:
+        // SMTP.FullSSL := True;
     SMTP.TargetHost := Trim(SeparateLeft(SMTPHost, ':'));
     s := Trim(SeparateRight(SMTPHost, ':'));
     if (s <> '') and (s <> SMTPHost) then
       SMTP.TargetPort := s;
-    SMTP.Username := Username;
+    SMTP.UserName := UserName;
     SMTP.Password := Password;
     if SMTP.Login then
     begin
@@ -753,11 +806,11 @@ begin
       begin
         s := MailTo;
         repeat
-          t := GetEmailAddr(Trim(FetchEx(s, ';', '"')));  // Revised by TD  Delimiter is changed to column from comma
-          if t <> '' then
-            Result := SMTP.MailTo(t);
+          T := GetEmailAddr(Trim(FetchEx(s, ';', '"'))); // Revised by TD  Delimiter is changed to column from comma
+          if T <> '' then
+            Result := SMTP.MailTo(T);
           if not Result then
-            Break;
+            break;
         until s = '';
         if Result then
           Result := SMTP.MailData(MailData);
@@ -765,35 +818,34 @@ begin
       SMTP.Logout;
     end;
   finally
-//      if (SMTP.FEnhCode3=0)
-//      then  ErrorInfo:='Code='+IntToStr(SMTP.Sock.LastError)+'  '+SMTP.Sock.GetErrorDesc(SMTP.Sock.LastError)+#13#10+SMTP.EnhCodeString
-//      else  ErrorInfo:=SMTP.EnhCodeString;
-    ErrorInfo:='Code '+IntToStr(SMTP.Sock.LastError)+',  '+SMTP.Sock.GetErrorDesc(SMTP.Sock.LastError)+'.   Enhanced Err.String= '+SMTP.EnhCodeString;
+    //      if (SMTP.FEnhCode3=0)
+    //      then  ErrorInfo:='Code='+IntToStr(SMTP.Sock.LastError)+'  '+SMTP.Sock.GetErrorDesc(SMTP.Sock.LastError)+#13#10+SMTP.EnhCodeString
+    //      else  ErrorInfo:=SMTP.EnhCodeString;
+    ErrorInfo := 'Code ' + IntToStr(SMTP.Sock.LastError) + ',  ' + SMTP.Sock.GetErrorDesc(SMTP.Sock.LastError) + '.   Enhanced Err.String= ' + SMTP.EnhCodeString;
     SMTP.Free;
   end;
 end;
 
 // Revised and added by TDogan
+
 function SendToExTD(const MailFrom, MailTo, Subject, SMTPHost: string;
-  const MailData: TStrings; const Username, Password: string;var ErrorInfo:string): Boolean;
+  const MailData: TStrings; const UserName, Password: string; var ErrorInfo: string): Boolean;
 var
-  t: TStrings;
+  T: TStrings;
 begin
-  t := TStringList.Create;
+  T := TStringList.Create;
   try
-    t.Assign(MailData);
-    t.Insert(0, '');
-    t.Insert(0, 'X-mailer: Synapse - Delphi & Kylix TCP/IP library by Lukas Gebauer');
-    t.Insert(0, 'Subject: ' + Subject);
-    t.Insert(0, 'Date: ' + Rfc822DateTime(now));
-    t.Insert(0, 'To: ' + MailTo);
-    t.Insert(0, 'From: ' + MailFrom);
-    Result := SendToRawTD(MailFrom, MailTo, SMTPHost, t, Username, Password,ErrorInfo);
+    T.Assign(MailData);
+    T.Insert(0, '');
+    T.Insert(0, 'X-mailer: Synapse - Delphi & Kylix TCP/IP library by Lukas Gebauer');
+    T.Insert(0, 'Subject: ' + Subject);
+    T.Insert(0, 'Date: ' + Rfc822DateTime(Now));
+    T.Insert(0, 'To: ' + MailTo);
+    T.Insert(0, 'From: ' + MailFrom);
+    Result := SendToRawTD(MailFrom, MailTo, SMTPHost, T, UserName, Password, ErrorInfo);
   finally
-    t.Free;
+    T.Free;
   end;
 end;
-
-
 
 end.
