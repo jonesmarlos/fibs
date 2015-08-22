@@ -19,7 +19,7 @@ uses
   Classes,
   DCPbase64,
   FibsForm in 'FibsForm.pas' {fmFibs},
-  PrefUnit in 'PrefUnit.pas' {PrefForm},
+  PrefForm in 'PrefForm.pas' {fmPref},
   ConstUnit in 'ConstUnit.pas',
   FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
