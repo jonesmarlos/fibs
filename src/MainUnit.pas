@@ -37,7 +37,7 @@ const
 
 type
 
-  TMainForm = class(TForm)
+  TfmFibs = class(TForm)
     MainMenu1: TMainMenu;
     MenuPrefs: TMenuItem;
     ButtonPanel: TPanel;
@@ -142,7 +142,7 @@ type
   end;
 
 var
-  MainForm: TMainForm;
+  fmFibs: TfmFibs;
   NotifyIconData: TNotifyIconData;
   fwm_TaskbarRestart: cardinal;
 
@@ -165,7 +165,7 @@ begin
   Move(AString[1], APChar^, ILen);
 end;
 
-procedure TMainForm.Icontray(var Msg: TMessage);
+procedure TfmFibs.Icontray(var Msg: TMessage);
 var
   CursorPos: TPoint;
 begin
@@ -177,22 +177,22 @@ begin
   else
     if Msg.lParam = WM_LBUTTONDOWN then
     begin
-      if MainForm.Visible = False then
+      if Self.Visible = False then
       begin
         PopMenuShow.Click;
       end
       else
       begin
         Application.BringToFront;
-        if screen.ActiveForm = MainForm then
-          screen.ActiveForm.BringToFront;
+        if Screen.ActiveForm = Self then
+          Screen.ActiveForm.BringToFront;
       end;
     end
     else
       inherited;
 end;
 
-procedure TMainForm.SetResetAutoRun;
+procedure TfmFibs.SetResetAutoRun;
 var
   Registry: TRegistry;
   AKey: string;
@@ -213,7 +213,7 @@ begin
   end;
 end;
 
-procedure TMainForm.WndProc(var Message: TMessage);
+procedure TfmFibs.WndProc(var Message: TMessage);
 var
   si: LongBool;
 begin
@@ -239,7 +239,7 @@ begin
         inherited WndProc(Message);
 end;
 
-procedure TMainForm.SetApplicationPriorty;
+procedure TfmFibs.SetApplicationPriorty;
 var
   MainThread: THandle;
   APriority: Integer;
@@ -259,7 +259,7 @@ begin
   SetThreadPriority(MainThread, APriority);
 end;
 
-procedure TMainForm.MenuPrefsClick(Sender: TObject);
+procedure TfmFibs.MenuPrefsClick(Sender: TObject);
 begin
   PrefForm := TPrefForm.Create(Self);
   try
@@ -288,7 +288,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuEditTaskClick(Sender: TObject);
+procedure TfmFibs.MenuEditTaskClick(Sender: TObject);
 var
   i: Integer;
   s, T: string; //Saat, Dakika Checklist stringi
@@ -325,7 +325,6 @@ begin
         EditTaskForm.CLBGbakOptions.State[i] := cbUnChecked;
 
     EditTaskForm.ButtonOK.Enabled := (dmFibs.qrTaskACTIVE.AsInteger = 0);
-    EditTaskForm.Position := poMainFormCenter;
     if EditTaskForm.ShowModal = mrOk then
     begin
       dmFibs.qrTask.Edit;
@@ -380,7 +379,7 @@ begin
     MessageDlg('No Task to Edit!', mtError, [mbOk], 0);
 end;
 
-procedure TMainForm.DeleteCurrentTaskFromTimeList;
+procedure TfmFibs.DeleteCurrentTaskFromTimeList;
 var
   x, y: string;
   i, L, StartPos, ALen: Integer;
@@ -401,7 +400,7 @@ begin
   end;
 end;
 
-procedure TMainForm.GetAlarmTimeList(T: string);
+procedure TfmFibs.GetAlarmTimeList(T: string);
 var
   PDot, h, minu: Integer;
   //  MaxDay :integer;
@@ -442,7 +441,7 @@ begin
   end;
 end;
 
-procedure TMainForm.FormCreate(Sender: TObject);
+procedure TfmFibs.FormCreate(Sender: TObject);
 var
   si: LongBool;
 begin
@@ -465,7 +464,7 @@ begin
   TimeList := TStringList.Create;
   TimeList.Sorted := True;
   MainTimer.Enabled := True;
-  MainForm.caption := 'FIBS  ' + PrgInfo + ' Ver. ' + ReleaseInfo;
+  Self.Caption := 'FIBS  ' + PrgInfo + ' Ver. ' + ReleaseInfo;
   ActivateAllLeavedActive;
 
   // Hide process messages when FIBS is minimised.
@@ -508,7 +507,7 @@ begin
     and not WS_EX_APPWINDOW); // remove app from the taskbar
 end;
 
-procedure TMainForm.FormDestroy(Sender: TObject);
+procedure TfmFibs.FormDestroy(Sender: TObject);
 begin
   AlarmTimeList.Free;
   TimeList.Free;
@@ -517,7 +516,7 @@ begin
   Shell_NotifyIcon(NIM_DELETE, @NotifyIconData);
 end;
 
-procedure TMainForm.MenuNewClick(Sender: TObject);
+procedure TfmFibs.MenuNewClick(Sender: TObject);
 var
   i: Integer;
   s: string;
@@ -573,7 +572,6 @@ begin
       EditTaskForm.CLBGbakOptions.State[i] := cbChecked
     else
       EditTaskForm.CLBGbakOptions.State[i] := cbUnChecked;
-  EditTaskForm.Position := poMainFormCenter;
   if EditTaskForm.ShowModal = mrOk then
   begin
     dmFibs.qrTaskDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
@@ -606,7 +604,7 @@ begin
     dmFibs.qrTask.Cancel;
 end;
 
-procedure TMainForm.DeleteAlarmsFromTimeList;
+procedure TfmFibs.DeleteAlarmsFromTimeList;
 var
   x, y: string;
   i: Integer;
@@ -626,7 +624,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuExitClick(Sender: TObject);
+procedure TfmFibs.MenuExitClick(Sender: TObject);
 begin
   if BackupIsService then
   begin
@@ -646,7 +644,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuActivateClick(Sender: TObject);
+procedure TfmFibs.MenuActivateClick(Sender: TObject);
 var
   gd, ld: string;
 begin
@@ -695,7 +693,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuDeactivateClick(Sender: TObject);
+procedure TfmFibs.MenuDeactivateClick(Sender: TObject);
 begin
   if MessageDlg('Do you want to DEACTIVATE ' + dmFibs.qrTaskTASKNAME.Value + '?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
@@ -707,7 +705,7 @@ begin
   end;
 end;
 
-procedure TMainForm.BackUpDatabase(ARecNo: string; AAlarmDateTime: TDateTime);
+procedure TfmFibs.BackUpDatabase(ARecNo: string; AAlarmDateTime: TDateTime);
 var
   GenelOptions, BackUpOptions: string;
   FullDBPath, DBNameExt, DBExt: string;
@@ -886,7 +884,7 @@ begin
   end;
 end;
 
-procedure TMainForm.ManualBackUp(AAlarmDateTime: TDateTime; TaskName, GBakPath, UserName, Password, FullDBPath, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree: string; ADoZip, ADoValidate: Boolean);
+procedure TfmFibs.ManualBackUp(AAlarmDateTime: TDateTime; TaskName, GBakPath, UserName, Password, FullDBPath, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree: string; ADoZip, ADoValidate: Boolean);
 var
   GenelOptions, BackUpOptions: string;
   DBNameExt, DBExt: string;
@@ -1047,7 +1045,7 @@ begin
   Result := StrToFloat(copy(s, 1, Pos(' - ', s) - 1))
 end;
 
-procedure TMainForm.InitAlarms;
+procedure TfmFibs.InitAlarms;
 var
   NamePos, KeyPos, i: Integer;
   ATrapStr: string;
@@ -1108,7 +1106,7 @@ begin
   LabelNextBackup.Visible := NoItemToExecute;
 end;
 
-procedure TMainForm.SetAlarms;
+procedure TfmFibs.SetAlarms;
 var
   NamePos, KeyPos: Integer;
   ATrapStr: string;
@@ -1131,7 +1129,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MainTimerTimer(Sender: TObject);
+procedure TfmFibs.MainTimerTimer(Sender: TObject);
 var
   DT: TDateTime;
 begin
@@ -1168,7 +1166,7 @@ begin
   end;
 end;
 
-procedure TMainForm.TaskGridDrawColumnCell(Sender: TObject;
+procedure TfmFibs.TaskGridDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn;
   State: TGridDrawState);
 begin
@@ -1193,7 +1191,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuTaskClick(Sender: TObject);
+procedure TfmFibs.MenuTaskClick(Sender: TObject);
 begin
   MenuActivate.Enabled := dmFibs.qrTaskACTIVE.AsString = '0'; //Rev.2.0.1-2 ; this was "MenuActivate.Enabled:=dmFibs.qrTaskACTIVE.AsInteger=0;"
   MenuDeactivate.Enabled := not MenuActivate.Enabled;
@@ -1212,7 +1210,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuDeleteClick(Sender: TObject);
+procedure TfmFibs.MenuDeleteClick(Sender: TObject);
 begin
   if dmFibs.qrTask.RecordCount > 0 then
   begin
@@ -1232,13 +1230,13 @@ begin
     MessageDlg('No Task to Delete!', mtError, [mbOk], 0);
 end;
 
-procedure TMainForm.TaskGridKeyPress(Sender: TObject; var Key: Char);
+procedure TfmFibs.TaskGridKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
     MenuEditTask.Click;
 end;
 
-procedure TMainForm.MenuPlanClick(Sender: TObject);
+procedure TfmFibs.MenuPlanClick(Sender: TObject);
 var
   TStr, CStr: string;
   cc, i, KPos, NPos: Integer;
@@ -1280,7 +1278,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuAboutClick(Sender: TObject);
+procedure TfmFibs.MenuAboutClick(Sender: TObject);
 begin
   AboutForm := TAboutForm.Create(Self);
   try
@@ -1290,7 +1288,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuTimeSettingsClick(Sender: TObject);
+procedure TfmFibs.MenuTimeSettingsClick(Sender: TObject);
 var
   s, TStr: string;
   cc, i, KPos, NPos: Integer;
@@ -1327,7 +1325,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuLogClick(Sender: TObject);
+procedure TfmFibs.MenuLogClick(Sender: TObject);
 var
   F: TextFile;
   s: string;
@@ -1386,7 +1384,7 @@ begin
   end;
 end;
 
-procedure TMainForm.ActivateAllLeavedActive;
+procedure TfmFibs.ActivateAllLeavedActive;
 var
   i: Integer;
   gd, ld, Mirr, Mirr2, Mirr3: string;
@@ -1432,7 +1430,7 @@ begin
   end;
 end;
 
-procedure TMainForm.ActivateOne;
+procedure TfmFibs.ActivateOne;
 var
   i: Integer;
   PD: TMesajForm;
@@ -1474,7 +1472,7 @@ begin
   end;
 end;
 
-procedure TMainForm.ActivateAll;
+procedure TfmFibs.ActivateAll;
 var
   i: Integer;
   Book: Integer;
@@ -1526,7 +1524,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuActivateAllClick(Sender: TObject);
+procedure TfmFibs.MenuActivateAllClick(Sender: TObject);
 var
   gd, ld: string;
 begin
@@ -1576,7 +1574,7 @@ begin
   end;
 end;
 
-procedure TMainForm.DeactivateAll;
+procedure TfmFibs.DeactivateAll;
 var
   Book: Integer;
   PD: TMesajForm;
@@ -1605,7 +1603,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuDeactivateAllClick(Sender: TObject);
+procedure TfmFibs.MenuDeactivateAllClick(Sender: TObject);
 begin
   if MessageDlg('Do you want to activate All deactive tasks ?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
   begin
@@ -1613,7 +1611,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuBackupNowClick(Sender: TObject);
+procedure TfmFibs.MenuBackupNowClick(Sender: TObject);
 var
   s, TN, GP, UN, PW, DN, DD, MD, MD2, MD3: string; //1.0.1 bd,mxd,ld
   DoVal, ZBU: Boolean;
@@ -1668,36 +1666,36 @@ begin
   end;
 end;
 
-procedure TMainForm.PopMenuShowClick(Sender: TObject);
+procedure TfmFibs.PopMenuShowClick(Sender: TObject);
 begin
-  if MainForm.Visible = False then
+  if Self.Visible = False then
   begin
     Application.ShowMainForm := True;
-    MainForm.Show;
+    Self.Show;
     MainFormHidden := False;
   end
   else
     screen.ActiveForm.SetFocus;
 end;
 
-procedure TMainForm.PopMenuHideClick(Sender: TObject);
+procedure TfmFibs.PopMenuHideClick(Sender: TObject);
 begin
   if screen.ActiveForm = nil then
     Exit;
-  if screen.ActiveForm = MainForm then
+  if Screen.ActiveForm = Self then
   begin
-    MainForm.Hide;
+    Self.Hide;
     MainFormHidden := True;
   end
   else
-    MessageDlg('Close window "' + screen.ActiveForm.caption + '" first!', mtError, [mbOk], 0);
+    MessageDlg('Close window "' + Screen.ActiveForm.caption + '" first!', mtError, [mbOk], 0);
 end;
 
 // Below codes hides mainform when minimize button is pressed.
 // Author   : Madshi
 // Web Site : http://www.madshi.net/
 
-procedure TMainForm.SysCommand(var Message: TWMSYSCOMMAND);
+procedure TfmFibs.SysCommand(var Message: TWMSYSCOMMAND);
 begin
   if Message.CmdType and $FFF0 = SC_MINIMIZE then
     PopMenuHide.Click
@@ -1705,7 +1703,7 @@ begin
     inherited;
 end;
 
-procedure TMainForm.MenuViewClick(Sender: TObject);
+procedure TfmFibs.MenuViewClick(Sender: TObject);
 begin
   MenuPlan.caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
   if dmFibs.qrTask.RecordCount < 1 then
@@ -1720,7 +1718,7 @@ begin
   end;
 end;
 
-procedure TMainForm.MenuHelpHelpClick(Sender: TObject);
+procedure TfmFibs.MenuHelpHelpClick(Sender: TObject);
 var
   HelpPath: string;
   res: Integer;
@@ -1753,13 +1751,13 @@ begin
   }
 end;
 
-procedure TMainForm.FormShow(Sender: TObject);
+procedure TfmFibs.FormShow(Sender: TObject);
 begin
   // use primary monitor
   MoveWindowToMonitor(Handle, 1);
 end;
 
-procedure TMainForm.TrayTimerTimer(Sender: TObject);
+procedure TfmFibs.TrayTimerTimer(Sender: TObject);
 var
   si: Boolean;
 begin
@@ -1768,7 +1766,7 @@ begin
     TrayTimer.Enabled := False;
 end;
 
-procedure TMainForm.FormClose(Sender: TObject; var Action: TCloseAction);
+procedure TfmFibs.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if BackupIsService then
     Action := caNone
@@ -1776,7 +1774,7 @@ begin
     Action := caFree;
 end;
 
-procedure TMainForm.PopMenuStopServiceClick(Sender: TObject);
+procedure TfmFibs.PopMenuStopServiceClick(Sender: TObject);
 begin
   if BackupIsService then
     PostThreadMessage(BackupService.ServiceThread.ThreadID, WM_QUIT, 0, 0)
@@ -1784,7 +1782,7 @@ begin
     Application.Terminate;
 end;
 
-procedure TMainForm.PopupMenu1Popup(Sender: TObject);
+procedure TfmFibs.PopupMenu1Popup(Sender: TObject);
 begin
   if BackupIsService then
     PopMenuStopService.Visible := True
@@ -1793,13 +1791,13 @@ begin
   PopMenuExit.Visible := not PopMenuStopService.Visible;
 end;
 
-procedure TMainForm.miTaskDuplicateClick(Sender: TObject);
+procedure TfmFibs.miTaskDuplicateClick(Sender: TObject);
 begin
   dmFibs.DuplicateTask(False);
   Self.MenuEditTaskClick(nil);
 end;
 
-procedure TMainForm.PopupMenu2Popup(Sender: TObject);
+procedure TfmFibs.PopupMenu2Popup(Sender: TObject);
 begin
   Self.miTaskDuplicate.Enabled := dmFibs.qrTask.RecordCount > 0;
 end;

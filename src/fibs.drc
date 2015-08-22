@@ -8,122 +8,253 @@
   resources were bound to the produced executable.
 */
 
-#define IdResourceStringsCore_RSReplyInvalidCode 64896
-#define JConsts_sChangeJPGSize 64897
-#define JConsts_sJPEGError 64898
-#define JConsts_sJPEGImageFile 64899
-#define IdResourceStringsCore_RSInterceptCircularLink 64912
-#define IdResourceStringsCore_RSNotEnoughDataInBuffer 64913
-#define IdResourceStringsCore_RSTooMuchDataInBuffer 64914
-#define IdResourceStringsCore_RSFileNotFound 64915
-#define IdResourceStringsCore_RSNotConnected 64916
-#define IdResourceStringsCore_RSObjectTypeNotSupported 64917
-#define IdResourceStringsCore_RSIdNoDataToRead 64918
-#define IdResourceStringsCore_RSReadTimeout 64919
-#define IdResourceStringsCore_RSReadLnMaxLineLengthExceeded 64920
-#define IdResourceStringsCore_RSConnectTimeout 64921
-#define IdResourceStringsCore_RSAlreadyConnected 64922
-#define IdResourceStringsCore_RSMaximumNumberOfCaptureLineExceeded 64923
-#define IdResourceStringsCore_RSTransparentProxyCannotBind 64924
-#define IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP 64925
-#define IdResourceStringsCore_RSBufferMissingTerminator 64926
-#define IdResourceStringsCore_RSBufferInvalidStartPos 64927
-#define IdResourceStringsCore_RSSocksUDPNotSupported 64928
-#define IdResourceStringsCore_RSSocksRequestFailed 64929
-#define IdResourceStringsCore_RSSocksRequestServerFailed 64930
-#define IdResourceStringsCore_RSSocksRequestIdentFailed 64931
-#define IdResourceStringsCore_RSSocksUnknownError 64932
-#define IdResourceStringsCore_RSSocksServerRespondError 64933
-#define IdResourceStringsCore_RSSocksAuthMethodError 64934
-#define IdResourceStringsCore_RSSocksAuthError 64935
-#define IdResourceStringsCore_RSSocksServerGeneralError 64936
-#define IdResourceStringsCore_RSSocksServerPermissionError 64937
-#define IdResourceStringsCore_RSSocksServerNetUnreachableError 64938
-#define IdResourceStringsCore_RSSocksServerHostUnreachableError 64939
-#define IdResourceStringsCore_RSSocksServerConnectionRefusedError 64940
-#define IdResourceStringsCore_RSSocksServerTTLExpiredError 64941
-#define IdResourceStringsCore_RSSocksServerCommandError 64942
-#define IdResourceStringsCore_RSSocksServerAddressError 64943
-#define IdResourceStringsProtocols_RSEMailSymbolOutsideAddress 64944
-#define IdResourceStringsProtocols_RSMsgClientEncodingText 64945
-#define IdResourceStringsProtocols_RSMsgClientEncodingAttachment 64946
-#define IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType 64947
-#define IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding 64948
-#define IdResourceStringsProtocols_RSTIdMessagePartCreate 64949
-#define IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment 64950
-#define IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked 64951
-#define IdResourceStringsProtocols_RSMessageEncoderNotFound 64952
-#define IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme 64953
-#define IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired 64954
-#define IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected 64955
-#define IdResourceStringsProtocols_RSTLSSLSSLNotAvailable 64956
-#define IdResourceStringsProtocols_RSTLSSLSSLCmdFailed 64957
-#define IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr 64958
-#define IdResourceStringsProtocols_RSSMTPReplyInvalidClass 64959
-#define IdResourceStrings_RSStackAlreadyCreated 64960
-#define IdResourceStrings_RSAntiFreezeOnlyOne 64961
-#define IdResourceStrings_RSCannotSetIPVersionWhenConnected 64962
-#define IdResourceStrings_RSCannotBindRange 64963
-#define IdResourceStrings_RSConnectionClosedGracefully 64964
-#define IdResourceStrings_RSCouldNotBindSocket 64965
-#define IdResourceStrings_RSInvalidPortRange 64966
-#define IdResourceStrings_RSInvalidServiceName 64967
-#define IdResourceStrings_RSIPv6Unavailable 64968
-#define IdResourceStrings_RSInvalidIPv6Address 64969
-#define IdResourceStrings_RSIPVersionUnsupported 64970
-#define IdResourceStrings_RSNotAllBytesSent 64971
-#define IdResourceStrings_RSPackageSizeTooBig 64972
-#define IdResourceStrings_RSSetSizeExceeded 64973
-#define IdResourceStrings_RSEndOfStream 64974
-#define IdResourceStringsProtocols_RSASLRequired 64975
-#define IdResourceStrings_RSStackECONNABORTED 64976
-#define IdResourceStrings_RSStackECONNRESET 64977
-#define IdResourceStrings_RSStackENOBUFS 64978
-#define IdResourceStrings_RSStackEISCONN 64979
-#define IdResourceStrings_RSStackENOTCONN 64980
-#define IdResourceStrings_RSStackESHUTDOWN 64981
-#define IdResourceStrings_RSStackETOOMANYREFS 64982
-#define IdResourceStrings_RSStackETIMEDOUT 64983
-#define IdResourceStrings_RSStackECONNREFUSED 64984
-#define IdResourceStrings_RSStackELOOP 64985
-#define IdResourceStrings_RSStackENAMETOOLONG 64986
-#define IdResourceStrings_RSStackEHOSTDOWN 64987
-#define IdResourceStrings_RSStackEHOSTUNREACH 64988
-#define IdResourceStrings_RSStackENOTEMPTY 64989
-#define IdResourceStrings_RSStackHOST_NOT_FOUND 64990
-#define IdResourceStrings_RSStackClassUndefined 64991
-#define IdResourceStrings_RSStackEALREADY 64992
-#define IdResourceStrings_RSStackENOTSOCK 64993
-#define IdResourceStrings_RSStackEDESTADDRREQ 64994
-#define IdResourceStrings_RSStackEMSGSIZE 64995
-#define IdResourceStrings_RSStackEPROTOTYPE 64996
-#define IdResourceStrings_RSStackENOPROTOOPT 64997
-#define IdResourceStrings_RSStackEPROTONOSUPPORT 64998
-#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64999
-#define IdResourceStrings_RSStackEOPNOTSUPP 65000
-#define IdResourceStrings_RSStackEPFNOSUPPORT 65001
-#define IdResourceStrings_RSStackEAFNOSUPPORT 65002
-#define IdResourceStrings_RSStackEADDRINUSE 65003
-#define IdResourceStrings_RSStackEADDRNOTAVAIL 65004
-#define IdResourceStrings_RSStackENETDOWN 65005
-#define IdResourceStrings_RSStackENETUNREACH 65006
-#define IdResourceStrings_RSStackENETRESET 65007
-#define IdResourceStrings_RSWinsockInitializationError 65008
-#define IdResourceStrings_RSStatusResolving 65009
-#define IdResourceStrings_RSStatusConnecting 65010
-#define IdResourceStrings_RSStatusConnected 65011
-#define IdResourceStrings_RSStatusDisconnecting 65012
-#define IdResourceStrings_RSStatusDisconnected 65013
-#define IdResourceStrings_RSStatusText 65014
-#define IdResourceStrings_RSStackError 65015
-#define IdResourceStrings_RSStackEINTR 65016
-#define IdResourceStrings_RSStackEBADF 65017
-#define IdResourceStrings_RSStackEACCES 65018
-#define IdResourceStrings_RSStackEFAULT 65019
-#define IdResourceStrings_RSStackEINVAL 65020
-#define IdResourceStrings_RSStackEMFILE 65021
-#define IdResourceStrings_RSStackEWOULDBLOCK 65022
-#define IdResourceStrings_RSStackEINPROGRESS 65023
+#define IdResourceStringsProtocols_RSTLSSLSSLNotAvailable 64768
+#define IdResourceStringsProtocols_RSTLSSLSSLCmdFailed 64769
+#define IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr 64770
+#define IdResourceStringsProtocols_RSSMTPReplyInvalidClass 64771
+#define JConsts_sChangeJPGSize 64772
+#define JConsts_sJPEGError 64773
+#define JConsts_sJPEGImageFile 64774
+#define IdResourceStringsCore_RSBufferMissingTerminator 64784
+#define IdResourceStringsCore_RSBufferInvalidStartPos 64785
+#define IdResourceStringsCore_RSReplyInvalidCode 64786
+#define IdResourceStringsProtocols_RSASLRequired 64787
+#define IdResourceStringsProtocols_RSEMailSymbolOutsideAddress 64788
+#define IdResourceStringsProtocols_RSMsgClientEncodingText 64789
+#define IdResourceStringsProtocols_RSMsgClientEncodingAttachment 64790
+#define IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType 64791
+#define IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding 64792
+#define IdResourceStringsProtocols_RSTIdMessagePartCreate 64793
+#define IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment 64794
+#define IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked 64795
+#define IdResourceStringsProtocols_RSMessageEncoderNotFound 64796
+#define IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme 64797
+#define IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired 64798
+#define IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected 64799
+#define IdResourceStringsCore_RSSocksServerCommandError 64800
+#define IdResourceStringsCore_RSSocksServerAddressError 64801
+#define IdResourceStringsCore_RSInterceptCircularLink 64802
+#define IdResourceStringsCore_RSNotEnoughDataInBuffer 64803
+#define IdResourceStringsCore_RSTooMuchDataInBuffer 64804
+#define IdResourceStringsCore_RSFileNotFound 64805
+#define IdResourceStringsCore_RSNotConnected 64806
+#define IdResourceStringsCore_RSObjectTypeNotSupported 64807
+#define IdResourceStringsCore_RSIdNoDataToRead 64808
+#define IdResourceStringsCore_RSReadTimeout 64809
+#define IdResourceStringsCore_RSReadLnMaxLineLengthExceeded 64810
+#define IdResourceStringsCore_RSConnectTimeout 64811
+#define IdResourceStringsCore_RSAlreadyConnected 64812
+#define IdResourceStringsCore_RSMaximumNumberOfCaptureLineExceeded 64813
+#define IdResourceStringsCore_RSTransparentProxyCannotBind 64814
+#define IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP 64815
+#define IdResourceStrings_RSSetSizeExceeded 64816
+#define IdResourceStrings_RSEndOfStream 64817
+#define IdResourceStringsCore_RSSocksUDPNotSupported 64818
+#define IdResourceStringsCore_RSSocksRequestFailed 64819
+#define IdResourceStringsCore_RSSocksRequestServerFailed 64820
+#define IdResourceStringsCore_RSSocksRequestIdentFailed 64821
+#define IdResourceStringsCore_RSSocksUnknownError 64822
+#define IdResourceStringsCore_RSSocksServerRespondError 64823
+#define IdResourceStringsCore_RSSocksAuthMethodError 64824
+#define IdResourceStringsCore_RSSocksAuthError 64825
+#define IdResourceStringsCore_RSSocksServerGeneralError 64826
+#define IdResourceStringsCore_RSSocksServerPermissionError 64827
+#define IdResourceStringsCore_RSSocksServerNetUnreachableError 64828
+#define IdResourceStringsCore_RSSocksServerHostUnreachableError 64829
+#define IdResourceStringsCore_RSSocksServerConnectionRefusedError 64830
+#define IdResourceStringsCore_RSSocksServerTTLExpiredError 64831
+#define IdResourceStrings_RSStackENOTEMPTY 64832
+#define IdResourceStrings_RSStackHOST_NOT_FOUND 64833
+#define IdResourceStrings_RSStackClassUndefined 64834
+#define IdResourceStrings_RSStackAlreadyCreated 64835
+#define IdResourceStrings_RSAntiFreezeOnlyOne 64836
+#define IdResourceStrings_RSCannotSetIPVersionWhenConnected 64837
+#define IdResourceStrings_RSCannotBindRange 64838
+#define IdResourceStrings_RSConnectionClosedGracefully 64839
+#define IdResourceStrings_RSCouldNotBindSocket 64840
+#define IdResourceStrings_RSInvalidPortRange 64841
+#define IdResourceStrings_RSInvalidServiceName 64842
+#define IdResourceStrings_RSIPv6Unavailable 64843
+#define IdResourceStrings_RSInvalidIPv6Address 64844
+#define IdResourceStrings_RSIPVersionUnsupported 64845
+#define IdResourceStrings_RSNotAllBytesSent 64846
+#define IdResourceStrings_RSPackageSizeTooBig 64847
+#define IdResourceStrings_RSStackENETDOWN 64848
+#define IdResourceStrings_RSStackENETUNREACH 64849
+#define IdResourceStrings_RSStackENETRESET 64850
+#define IdResourceStrings_RSStackECONNABORTED 64851
+#define IdResourceStrings_RSStackECONNRESET 64852
+#define IdResourceStrings_RSStackENOBUFS 64853
+#define IdResourceStrings_RSStackEISCONN 64854
+#define IdResourceStrings_RSStackENOTCONN 64855
+#define IdResourceStrings_RSStackESHUTDOWN 64856
+#define IdResourceStrings_RSStackETOOMANYREFS 64857
+#define IdResourceStrings_RSStackETIMEDOUT 64858
+#define IdResourceStrings_RSStackECONNREFUSED 64859
+#define IdResourceStrings_RSStackELOOP 64860
+#define IdResourceStrings_RSStackENAMETOOLONG 64861
+#define IdResourceStrings_RSStackEHOSTDOWN 64862
+#define IdResourceStrings_RSStackEHOSTUNREACH 64863
+#define IdResourceStrings_RSStackEMFILE 64864
+#define IdResourceStrings_RSStackEWOULDBLOCK 64865
+#define IdResourceStrings_RSStackEINPROGRESS 64866
+#define IdResourceStrings_RSStackEALREADY 64867
+#define IdResourceStrings_RSStackENOTSOCK 64868
+#define IdResourceStrings_RSStackEDESTADDRREQ 64869
+#define IdResourceStrings_RSStackEMSGSIZE 64870
+#define IdResourceStrings_RSStackEPROTOTYPE 64871
+#define IdResourceStrings_RSStackENOPROTOOPT 64872
+#define IdResourceStrings_RSStackEPROTONOSUPPORT 64873
+#define IdResourceStrings_RSStackESOCKTNOSUPPORT 64874
+#define IdResourceStrings_RSStackEOPNOTSUPP 64875
+#define IdResourceStrings_RSStackEPFNOSUPPORT 64876
+#define IdResourceStrings_RSStackEAFNOSUPPORT 64877
+#define IdResourceStrings_RSStackEADDRINUSE 64878
+#define IdResourceStrings_RSStackEADDRNOTAVAIL 64879
+#define IdResourceStrings_RSFailedTimeZoneInfo 64880
+#define IdResourceStrings_RSWinsockCallError 64881
+#define IdResourceStrings_RSWinsockLoadError 64882
+#define IdResourceStrings_RSWinsockInitializationError 64883
+#define IdResourceStrings_RSStatusResolving 64884
+#define IdResourceStrings_RSStatusConnecting 64885
+#define IdResourceStrings_RSStatusConnected 64886
+#define IdResourceStrings_RSStatusDisconnecting 64887
+#define IdResourceStrings_RSStatusDisconnected 64888
+#define IdResourceStrings_RSStatusText 64889
+#define IdResourceStrings_RSStackError 64890
+#define IdResourceStrings_RSStackEINTR 64891
+#define IdResourceStrings_RSStackEBADF 64892
+#define IdResourceStrings_RSStackEACCES 64893
+#define IdResourceStrings_RSStackEFAULT 64894
+#define IdResourceStrings_RSStackEINVAL 64895
+#define JclResources_RsIntelCacheDescr79 64896
+#define JclResources_RsIntelCacheDescr7A 64897
+#define JclResources_RsIntelCacheDescr7B 64898
+#define JclResources_RsIntelCacheDescr7C 64899
+#define JclResources_RsIntelCacheDescr7D 64900
+#define JclResources_RsIntelCacheDescr7F 64901
+#define JclResources_RsIntelCacheDescr82 64902
+#define JclResources_RsIntelCacheDescr83 64903
+#define JclResources_RsIntelCacheDescr84 64904
+#define JclResources_RsIntelCacheDescr85 64905
+#define JclResources_RsIntelCacheDescr86 64906
+#define JclResources_RsIntelCacheDescr87 64907
+#define JclResources_RsIntelCacheDescrB0 64908
+#define JclResources_RsIntelCacheDescrB3 64909
+#define JclResources_RsIntelCacheDescrF0 64910
+#define JclResources_RsIntelCacheDescrF1 64911
+#define JclResources_RsIntelCacheDescr44 64912
+#define JclResources_RsIntelCacheDescr45 64913
+#define JclResources_RsIntelCacheDescr50 64914
+#define JclResources_RsIntelCacheDescr51 64915
+#define JclResources_RsIntelCacheDescr52 64916
+#define JclResources_RsIntelCacheDescr5B 64917
+#define JclResources_RsIntelCacheDescr5C 64918
+#define JclResources_RsIntelCacheDescr5D 64919
+#define JclResources_RsIntelCacheDescr60 64920
+#define JclResources_RsIntelCacheDescr66 64921
+#define JclResources_RsIntelCacheDescr67 64922
+#define JclResources_RsIntelCacheDescr68 64923
+#define JclResources_RsIntelCacheDescr70 64924
+#define JclResources_RsIntelCacheDescr71 64925
+#define JclResources_RsIntelCacheDescr72 64926
+#define JclResources_RsIntelCacheDescr78 64927
+#define JclResources_RsIntelCacheDescr03 64928
+#define JclResources_RsIntelCacheDescr04 64929
+#define JclResources_RsIntelCacheDescr06 64930
+#define JclResources_RsIntelCacheDescr08 64931
+#define JclResources_RsIntelCacheDescr0A 64932
+#define JclResources_RsIntelCacheDescr0C 64933
+#define JclResources_RsIntelCacheDescr22 64934
+#define JclResources_RsIntelCacheDescr23 64935
+#define JclResources_RsIntelCacheDescr25 64936
+#define JclResources_RsIntelCacheDescr29 64937
+#define JclResources_RsIntelCacheDescr2C 64938
+#define JclResources_RsIntelCacheDescr30 64939
+#define JclResources_RsIntelCacheDescr40 64940
+#define JclResources_RsIntelCacheDescr41 64941
+#define JclResources_RsIntelCacheDescr42 64942
+#define JclResources_RsIntelCacheDescr43 64943
+#define JvResources_RsClGrayText 64944
+#define JvResources_RsClBtnText 64945
+#define JvResources_RsClInactiveCaptionText 64946
+#define JvResources_RsClBtnHighlight 64947
+#define JvResources_RsCl3DDkShadow 64948
+#define JvResources_RsCl3DLight 64949
+#define JvResources_RsClInfoText 64950
+#define JvResources_RsClInfoBk 64951
+#define JvResources_RsGradientActiveCaption 64952
+#define JvResources_RsGradientInactiveCaption 64953
+#define JvResources_RsHotLight 64954
+#define JvResources_RsMenuBar 64955
+#define JvResources_RsMenuHighlight 64956
+#define JclResources_RsIntelCacheDescr00 64957
+#define JclResources_RsIntelCacheDescr01 64958
+#define JclResources_RsIntelCacheDescr02 64959
+#define JvResources_RsClBackground 64960
+#define JvResources_RsClActiveCaption 64961
+#define JvResources_RsClInactiveCaption 64962
+#define JvResources_RsClMenu 64963
+#define JvResources_RsClWindow 64964
+#define JvResources_RsClWindowFrame 64965
+#define JvResources_RsClMenuText 64966
+#define JvResources_RsClWindowText 64967
+#define JvResources_RsClCaptionText 64968
+#define JvResources_RsClActiveBorder 64969
+#define JvResources_RsClInactiveBorder 64970
+#define JvResources_RsClAppWorkSpace 64971
+#define JvResources_RsClHighlight 64972
+#define JvResources_RsClHighlightText 64973
+#define JvResources_RsClBtnFace 64974
+#define JvResources_RsClBtnShadow 64975
+#define JvResources_RsClViolet 64976
+#define JvResources_RsClGray40 64977
+#define JvResources_RsClPink 64978
+#define JvResources_RsClGold 64979
+#define JvResources_RsClBrightGreen 64980
+#define JvResources_RsClTurquoise 64981
+#define JvResources_RsClPlum 64982
+#define JvResources_RsClGray25 64983
+#define JvResources_RsClRose 64984
+#define JvResources_RsClTan 64985
+#define JvResources_RsClLightYellow 64986
+#define JvResources_RsClLightGreen 64987
+#define JvResources_RsClLightTurquoise 64988
+#define JvResources_RsClPaleBlue 64989
+#define JvResources_RsClLavender 64990
+#define JvResources_RsClScrollBar 64991
+#define JvResources_RsClMedGray 64992
+#define JvResources_RsClBrown 64993
+#define JvResources_RsClOliveGreen 64994
+#define JvResources_RsClDarkGreen 64995
+#define JvResources_RsClDarkTeal 64996
+#define JvResources_RsClDarkBlue 64997
+#define JvResources_RsClIndigo 64998
+#define JvResources_RsClGray80 64999
+#define JvResources_RsClDarkRed 65000
+#define JvResources_RsClOrange 65001
+#define JvResources_RsClDarkYellow 65002
+#define JvResources_RsClBlueGray 65003
+#define JvResources_RsClGray50 65004
+#define JvResources_RsClLightOrange 65005
+#define JvResources_RsClSeaGreen 65006
+#define JvResources_RsClLightBlue 65007
+#define JvResources_RsClOlive 65008
+#define JvResources_RsClNavy 65009
+#define JvResources_RsClPurple 65010
+#define JvResources_RsClTeal 65011
+#define JvResources_RsClGray 65012
+#define JvResources_RsClSilver 65013
+#define JvResources_RsClRed 65014
+#define JvResources_RsClLime 65015
+#define JvResources_RsClYellow 65016
+#define JvResources_RsClBlue 65017
+#define JvResources_RsClFuchsia 65018
+#define JvResources_RsClAqua 65019
+#define JvResources_RsClWhite 65020
+#define JvResources_RsClMoneyGreen 65021
+#define JvResources_RsClSkyBlue 65022
+#define JvResources_RsClCream 65023
 #define IBXConst_SOptionNeedsClient 65024
 #define IBXConst_SOptionNeedsServer 65025
 #define IBXConst_SInvalidOption 65026
@@ -137,9 +268,9 @@
 #define IBXConst_SStringTooLarge 65034
 #define IBXConst_SIB65feature 65035
 #define IBXConst_SIB70feature 65036
-#define IdResourceStrings_RSFailedTimeZoneInfo 65037
-#define IdResourceStrings_RSWinsockCallError 65038
-#define IdResourceStrings_RSWinsockLoadError 65039
+#define JvResources_RsClBlack 65037
+#define JvResources_RsClMaroon 65038
+#define JvResources_RsClGreen 65039
 #define IBXConst_SQueryParamsError 65040
 #define IBXConst_SStartParamsError 65041
 #define IBXConst_SOutputParsingError 65042
@@ -638,10 +769,31 @@
 #define SysConst_SDiskFull 65535
 STRINGTABLE
 BEGIN
-	IdResourceStringsCore_RSReplyInvalidCode,	"Reply Code is not valid: %s"
+	IdResourceStringsProtocols_RSTLSSLSSLNotAvailable,	"SSL is not available on this server."
+	IdResourceStringsProtocols_RSTLSSLSSLCmdFailed,	"Start SSL negotiation command failed."
+	IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr,	"Invalid Reply String."
+	IdResourceStringsProtocols_RSSMTPReplyInvalidClass,	"Invalid Reply Class."
 	JConsts_sChangeJPGSize,	"Cannot change the size of a JPEG image"
 	JConsts_sJPEGError,	"JPEG error #%d"
 	JConsts_sJPEGImageFile,	"JPEG Image File"
+	IdResourceStringsCore_RSBufferMissingTerminator,	"Buffer terminator must be specified."
+	IdResourceStringsCore_RSBufferInvalidStartPos,	"Buffer start position is invalid."
+	IdResourceStringsCore_RSReplyInvalidCode,	"Reply Code is not valid: %s"
+	IdResourceStringsProtocols_RSASLRequired,	"Need SASL mechanisms to login with it!!"
+	IdResourceStringsProtocols_RSEMailSymbolOutsideAddress,	"@ Outside address"
+	IdResourceStringsProtocols_RSMsgClientEncodingText,	"Encoding text"
+	IdResourceStringsProtocols_RSMsgClientEncodingAttachment,	"Encoding attachment"
+	IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType,	"Unknown Message Part Type."
+	IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding,	"Message parts cannot be used in a message which has a ContentTransferEncoding value."
+	IdResourceStringsProtocols_RSTIdMessagePartCreate,	"TIdMessagePart can not be created.  Use descendant classes. "
+	IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment,	"Error saving attachment."
+	IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked,	"Attachment %s is blocked."
+	IdResourceStringsProtocols_RSMessageEncoderNotFound,	"Message encoder not found"
+	IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme,	"Unrecognized UUE encoding scheme."
+	IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired,	"SSL IOHandler is required for this setting"
+	IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected,	"This value can not be set while the client is connected."
+	IdResourceStringsCore_RSSocksServerCommandError,	"Command not supported."
+	IdResourceStringsCore_RSSocksServerAddressError,	"Address type not supported."
 	IdResourceStringsCore_RSInterceptCircularLink,	"%d: Circular links are not allowed"
 	IdResourceStringsCore_RSNotEnoughDataInBuffer,	"Not enough data in buffer."
 	IdResourceStringsCore_RSTooMuchDataInBuffer,	"Too much data in buffer."
@@ -656,8 +808,8 @@ BEGIN
 	IdResourceStringsCore_RSMaximumNumberOfCaptureLineExceeded,	"Maximum number of line allowed exceeded"
 	IdResourceStringsCore_RSTransparentProxyCannotBind,	"Transparent proxy cannot bind."
 	IdResourceStringsCore_RSTransparentProxyCanNotSupportUDP,	"UDP Not supported by this proxy."
-	IdResourceStringsCore_RSBufferMissingTerminator,	"Buffer terminator must be specified."
-	IdResourceStringsCore_RSBufferInvalidStartPos,	"Buffer start position is invalid."
+	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
+	IdResourceStrings_RSEndOfStream,	"End of stream: Class %s at %d"
 	IdResourceStringsCore_RSSocksUDPNotSupported,	"UDP is not support in this SOCKS version."
 	IdResourceStringsCore_RSSocksRequestFailed,	"Request rejected or failed."
 	IdResourceStringsCore_RSSocksRequestServerFailed,	"Request rejected because SOCKS server cannot connect."
@@ -672,24 +824,9 @@ BEGIN
 	IdResourceStringsCore_RSSocksServerHostUnreachableError,	"Host unreachable."
 	IdResourceStringsCore_RSSocksServerConnectionRefusedError,	"Connection refused."
 	IdResourceStringsCore_RSSocksServerTTLExpiredError,	"TTL expired."
-	IdResourceStringsCore_RSSocksServerCommandError,	"Command not supported."
-	IdResourceStringsCore_RSSocksServerAddressError,	"Address type not supported."
-	IdResourceStringsProtocols_RSEMailSymbolOutsideAddress,	"@ Outside address"
-	IdResourceStringsProtocols_RSMsgClientEncodingText,	"Encoding text"
-	IdResourceStringsProtocols_RSMsgClientEncodingAttachment,	"Encoding attachment"
-	IdResourceStringsProtocols_RSMsgClientUnkownMessagePartType,	"Unknown Message Part Type."
-	IdResourceStringsProtocols_RSMsgClientInvalidForTransferEncoding,	"Message parts cannot be used in a message which has a ContentTransferEncoding value."
-	IdResourceStringsProtocols_RSTIdMessagePartCreate,	"TIdMessagePart can not be created.  Use descendant classes. "
-	IdResourceStringsProtocols_RSTIdMessageErrorSavingAttachment,	"Error saving attachment."
-	IdResourceStringsProtocols_RSTIdMessageErrorAttachmentBlocked,	"Attachment %s is blocked."
-	IdResourceStringsProtocols_RSMessageEncoderNotFound,	"Message encoder not found"
-	IdResourceStringsProtocols_RSUnrecognizedUUEEncodingScheme,	"Unrecognized UUE encoding scheme."
-	IdResourceStringsProtocols_RSTLSSSLIOHandlerRequired,	"SSL IOHandler is required for this setting"
-	IdResourceStringsProtocols_RSTLSSLCanNotSetWhileConnected,	"This value can not be set while the client is connected."
-	IdResourceStringsProtocols_RSTLSSLSSLNotAvailable,	"SSL is not available on this server."
-	IdResourceStringsProtocols_RSTLSSLSSLCmdFailed,	"Start SSL negotiation command failed."
-	IdResourceStringsProtocols_RSSMTPReplyInvalidReplyStr,	"Invalid Reply String."
-	IdResourceStringsProtocols_RSSMTPReplyInvalidClass,	"Invalid Reply Class."
+	IdResourceStrings_RSStackENOTEMPTY,	"Directory not empty"
+	IdResourceStrings_RSStackHOST_NOT_FOUND,	"Host not found."
+	IdResourceStrings_RSStackClassUndefined,	"Stack Class is undefined."
 	IdResourceStrings_RSStackAlreadyCreated,	"Stack already created."
 	IdResourceStrings_RSAntiFreezeOnlyOne,	"Only one TIdAntiFreeze can exist per application."
 	IdResourceStrings_RSCannotSetIPVersionWhenConnected,	"Cannot change IPVersion when connected"
@@ -703,9 +840,9 @@ BEGIN
 	IdResourceStrings_RSIPVersionUnsupported,	"The requested IPVersion / Address family is not supported."
 	IdResourceStrings_RSNotAllBytesSent,	"Not all bytes sent."
 	IdResourceStrings_RSPackageSizeTooBig,	"Package Size Too Big."
-	IdResourceStrings_RSSetSizeExceeded,	"Set Size Exceeded."
-	IdResourceStrings_RSEndOfStream,	"End of stream: Class %s at %d"
-	IdResourceStringsProtocols_RSASLRequired,	"Need SASL mechanisms to login with it!!"
+	IdResourceStrings_RSStackENETDOWN,	"Network is down."
+	IdResourceStrings_RSStackENETUNREACH,	"Network is unreachable."
+	IdResourceStrings_RSStackENETRESET,	"Net dropped connection or reset."
 	IdResourceStrings_RSStackECONNABORTED,	"Software caused connection abort."
 	IdResourceStrings_RSStackECONNRESET,	"Connection reset by peer."
 	IdResourceStrings_RSStackENOBUFS,	"No buffer space available."
@@ -719,9 +856,9 @@ BEGIN
 	IdResourceStrings_RSStackENAMETOOLONG,	"File name too long."
 	IdResourceStrings_RSStackEHOSTDOWN,	"Host is down."
 	IdResourceStrings_RSStackEHOSTUNREACH,	"No route to host."
-	IdResourceStrings_RSStackENOTEMPTY,	"Directory not empty"
-	IdResourceStrings_RSStackHOST_NOT_FOUND,	"Host not found."
-	IdResourceStrings_RSStackClassUndefined,	"Stack Class is undefined."
+	IdResourceStrings_RSStackEMFILE,	"Too many open files."
+	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block."
+	IdResourceStrings_RSStackEINPROGRESS,	"Operation now in progress."
 	IdResourceStrings_RSStackEALREADY,	"Operation already in progress."
 	IdResourceStrings_RSStackENOTSOCK,	"Socket operation on non-socket."
 	IdResourceStrings_RSStackEDESTADDRREQ,	"Destination address required."
@@ -735,9 +872,9 @@ BEGIN
 	IdResourceStrings_RSStackEAFNOSUPPORT,	"Address family not supported by protocol family."
 	IdResourceStrings_RSStackEADDRINUSE,	"Address already in use."
 	IdResourceStrings_RSStackEADDRNOTAVAIL,	"Cannot assign requested address."
-	IdResourceStrings_RSStackENETDOWN,	"Network is down."
-	IdResourceStrings_RSStackENETUNREACH,	"Network is unreachable."
-	IdResourceStrings_RSStackENETRESET,	"Net dropped connection or reset."
+	IdResourceStrings_RSFailedTimeZoneInfo,	"Failed attempting to retrieve time zone information."
+	IdResourceStrings_RSWinsockCallError,	"Error on call Winsock2 library function %s"
+	IdResourceStrings_RSWinsockLoadError,	"Error on loading Winsock2 library (%s)"
 	IdResourceStrings_RSWinsockInitializationError,	"Winsock Initialization Error."
 	IdResourceStrings_RSStatusResolving,	"Resolving hostname %s."
 	IdResourceStrings_RSStatusConnecting,	"Connecting to %s."
@@ -751,9 +888,134 @@ BEGIN
 	IdResourceStrings_RSStackEACCES,	"Access denied."
 	IdResourceStrings_RSStackEFAULT,	"Buffer fault."
 	IdResourceStrings_RSStackEINVAL,	"Invalid argument."
-	IdResourceStrings_RSStackEMFILE,	"Too many open files."
-	IdResourceStrings_RSStackEWOULDBLOCK,	"Operation would block."
-	IdResourceStrings_RSStackEINPROGRESS,	"Operation now in progress."
+	JclResources_RsIntelCacheDescr79,	"2° Level cache, 128 KBytes, 8-way set associative, dual-sectored line, 64 Bytes sector size"
+	JclResources_RsIntelCacheDescr7A,	"2° Level cache, 256 KBytes, 8-way set associative, dual-sectored line, 64 Bytes sector size"
+	JclResources_RsIntelCacheDescr7B,	"2° Level cache, 512 KBytes, 8-way set associative, dual-sectored line, 64 Bytes sector size"
+	JclResources_RsIntelCacheDescr7C,	"2° Level cache, 1 MBytes, 8-way set associative, dual-sectored line, 64 Bytes sector size"
+	JclResources_RsIntelCacheDescr7D,	"2° Level cache, 2 MByte, 8-way set associative, 64byte line size"
+	JclResources_RsIntelCacheDescr7F,	"2° Level cache, 512 KByte, 2-way set associative, 64-byte line size"
+	JclResources_RsIntelCacheDescr82,	"2° Level cache, 256 KBytes, 8-way associative, 32 Bytes line size"
+	JclResources_RsIntelCacheDescr83,	"2° Level cache, 512 KBytes, 8-way associative, 32 Bytes line size"
+	JclResources_RsIntelCacheDescr84,	"2° Level cache, 1 MBytes, 8-way associative, 32 Bytes line size"
+	JclResources_RsIntelCacheDescr85,	"2° Level cache, 2 MBytes, 8-way associative, 32 Bytes line size"
+	JclResources_RsIntelCacheDescr86,	"2° Level cache, 512 KByte, 4-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr87,	"2° Level cache, 1 MByte, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescrB0,	"Instruction TLB, 4 KByte Pages, 4-way set associative, 128 entries"
+	JclResources_RsIntelCacheDescrB3,	"Data TLB, 4 KByte Pages, 4-way set associative, 128 entries"
+	JclResources_RsIntelCacheDescrF0,	"64-Byte Prefetching"
+	JclResources_RsIntelCacheDescrF1,	"128-Byte Prefetching"
+	JclResources_RsIntelCacheDescr44,	"Unified cache, 32 byte cache line, 4-way set associative, 1Mb"
+	JclResources_RsIntelCacheDescr45,	"Unified cache, 32 byte cache line, 4-way set associative, 2Mb"
+	JclResources_RsIntelCacheDescr50,	"Instruction TLB, 4 KBytes and 2 MBytes or 4 MBytes pages, 64 Entries"
+	JclResources_RsIntelCacheDescr51,	"Instruction TLB, 4 KBytes and 2 MBytes or 4 MBytes pages, 128 Entries"
+	JclResources_RsIntelCacheDescr52,	"Instruction TLB, 4 KBytes and 2 MBytes or 4 MBytes pages, 256 Entries"
+	JclResources_RsIntelCacheDescr5B,	"Data TLB, 4 KBytes and 4 MBytes pages, 64 Entries"
+	JclResources_RsIntelCacheDescr5C,	"Data TLB, 4 KBytes and 4 MBytes pages, 128 Entries"
+	JclResources_RsIntelCacheDescr5D,	"Data TLB, 4 KBytes and 4 MBytes pages, 256 Entries"
+	JclResources_RsIntelCacheDescr60,	"1° Level data cache: 16 KByte, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr66,	"1° Level Data cache, 8 KBytes, 4-way set associative, 64 Bytes line size"
+	JclResources_RsIntelCacheDescr67,	"1° Level Data cache, 16 KBytes, 4-way set associative, 64 Bytes line size"
+	JclResources_RsIntelCacheDescr68,	"1° Level Data cache, 32 KBytes, 4-way set associative, 64 Bytes line size"
+	JclResources_RsIntelCacheDescr70,	"Trace cache, 12 KµOps, 8-way set associative"
+	JclResources_RsIntelCacheDescr71,	"Trace cache, 16 KµOps, 8-way set associative"
+	JclResources_RsIntelCacheDescr72,	"Trace cache, 32 KµOps, 8-way set associative"
+	JclResources_RsIntelCacheDescr78,	"2° Level cache, 1 MBytes, 4-way set associative, 64 Bytes line size"
+	JclResources_RsIntelCacheDescr03,	"Data TLB, 4Kb pages, 4-way set associative, 64 entries"
+	JclResources_RsIntelCacheDescr04,	"Data TLB, 4Mb pages, 4-way set associative, 8 entries"
+	JclResources_RsIntelCacheDescr06,	"8KB instruction cache, 4-way set associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr08,	"16KB instruction cache, 4-way set associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr0A,	"8KB data cache 2-way set associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr0C,	"16KB data cache, 4-way set associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr22,	"3° Level cache, 512 KBytes, 4-way set associative, 2 lines per sector, 128 byte sector size"
+	JclResources_RsIntelCacheDescr23,	"3° Level cache, 1 MBytes, 8-way set associative, 2 lines per sector, 128 byte sector size"
+	JclResources_RsIntelCacheDescr25,	"3° Level cache, 2 MBytes, 8-way set associative, 2 lines per sector, 128 byte line size"
+	JclResources_RsIntelCacheDescr29,	"3° Level cache, 4M Bytes, 8-way set associative, 2 lines per sector, 128 byte line size"
+	JclResources_RsIntelCacheDescr2C,	"1° Level data cache: 32K Bytes, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr30,	"1° Level instruction cache: 32K Bytes, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr40,	"No L2 cache"
+	JclResources_RsIntelCacheDescr41,	"Unified cache, 32 byte cache line, 4-way set associative, 128Kb"
+	JclResources_RsIntelCacheDescr42,	"Unified cache, 32 byte cache line, 4-way set associative, 256Kb"
+	JclResources_RsIntelCacheDescr43,	"Unified cache, 32 byte cache line, 4-way set associative, 512Kb"
+	JvResources_RsClGrayText,	"Dimmed text"
+	JvResources_RsClBtnText,	"Button text"
+	JvResources_RsClInactiveCaptionText,	"Inactive window title bar text"
+	JvResources_RsClBtnHighlight,	"Button highlight"
+	JvResources_RsCl3DDkShadow,	"Dark shadow 3D elements"
+	JvResources_RsCl3DLight,	"Highlight 3D elements"
+	JvResources_RsClInfoText,	"Tooltip text"
+	JvResources_RsClInfoBk,	"Tooltip background"
+	JvResources_RsGradientActiveCaption,	"Gradient Active Caption"
+	JvResources_RsGradientInactiveCaption,	"Gradient Inactive Caption"
+	JvResources_RsHotLight,	"Hot Light"
+	JvResources_RsMenuBar,	"Menu Bar"
+	JvResources_RsMenuHighlight,	"Menu Highlight"
+	JclResources_RsIntelCacheDescr00,	"Null descriptor"
+	JclResources_RsIntelCacheDescr01,	"Instruction TLB, 4Kb pages, 4-way set associative, 32 entries"
+	JclResources_RsIntelCacheDescr02,	"Instruction TLB, 4Mb pages, fully associative, 2 entries"
+	JvResources_RsClBackground,	"Desktop background"
+	JvResources_RsClActiveCaption,	"Active window title bar"
+	JvResources_RsClInactiveCaption,	"Inactive window title bar"
+	JvResources_RsClMenu,	"Menu background"
+	JvResources_RsClWindow,	"Window background"
+	JvResources_RsClWindowFrame,	"Window frame"
+	JvResources_RsClMenuText,	"Menu text"
+	JvResources_RsClWindowText,	"Window text"
+	JvResources_RsClCaptionText,	"Active window title bar text"
+	JvResources_RsClActiveBorder,	"Active window border"
+	JvResources_RsClInactiveBorder,	"Inactive window border"
+	JvResources_RsClAppWorkSpace,	"Application workspace"
+	JvResources_RsClHighlight,	"Selection background"
+	JvResources_RsClHighlightText,	"Selection text"
+	JvResources_RsClBtnFace,	"Button face"
+	JvResources_RsClBtnShadow,	"Button shadow"
+	JvResources_RsClViolet,	"Violet"
+	JvResources_RsClGray40,	"Gray 40%"
+	JvResources_RsClPink,	"Pink"
+	JvResources_RsClGold,	"Gold"
+	JvResources_RsClBrightGreen,	"Bright Green"
+	JvResources_RsClTurquoise,	"Turquoise"
+	JvResources_RsClPlum,	"Plum"
+	JvResources_RsClGray25,	"Gray 25%"
+	JvResources_RsClRose,	"Rose"
+	JvResources_RsClTan,	"Tan"
+	JvResources_RsClLightYellow,	"Light Yellow"
+	JvResources_RsClLightGreen,	"Light Green"
+	JvResources_RsClLightTurquoise,	"Light Turquoise"
+	JvResources_RsClPaleBlue,	"Pale Blue"
+	JvResources_RsClLavender,	"Lavender"
+	JvResources_RsClScrollBar,	"Scrollbar"
+	JvResources_RsClMedGray,	"Medium gray"
+	JvResources_RsClBrown,	"Brown"
+	JvResources_RsClOliveGreen,	"Olive Green"
+	JvResources_RsClDarkGreen,	"Dark Green"
+	JvResources_RsClDarkTeal,	"Dark Teal"
+	JvResources_RsClDarkBlue,	"Dark Blue"
+	JvResources_RsClIndigo,	"Indigo"
+	JvResources_RsClGray80,	"Gray 80%"
+	JvResources_RsClDarkRed,	"Dark Red"
+	JvResources_RsClOrange,	"Orange"
+	JvResources_RsClDarkYellow,	"Dark Yellow"
+	JvResources_RsClBlueGray,	"Blue Gray"
+	JvResources_RsClGray50,	"Gray 50%"
+	JvResources_RsClLightOrange,	"Light Orange"
+	JvResources_RsClSeaGreen,	"Sea Green"
+	JvResources_RsClLightBlue,	"Light Blue"
+	JvResources_RsClOlive,	"Olive green"
+	JvResources_RsClNavy,	"Navy blue"
+	JvResources_RsClPurple,	"Purple"
+	JvResources_RsClTeal,	"Teal"
+	JvResources_RsClGray,	"Gray"
+	JvResources_RsClSilver,	"Silver"
+	JvResources_RsClRed,	"Red"
+	JvResources_RsClLime,	"Lime"
+	JvResources_RsClYellow,	"Yellow"
+	JvResources_RsClBlue,	"Blue"
+	JvResources_RsClFuchsia,	"Fuchsia"
+	JvResources_RsClAqua,	"Aqua"
+	JvResources_RsClWhite,	"White"
+	JvResources_RsClMoneyGreen,	"Money green"
+	JvResources_RsClSkyBlue,	"Sky blue"
+	JvResources_RsClCream,	"Cream"
 	IBXConst_SOptionNeedsClient,	"%s o componente requer o cliente para funcionar corretamente"
 	IBXConst_SOptionNeedsServer,	"%s o componente requer o servidor para funcionar corretamente"
 	IBXConst_SInvalidOption,	"Opção especificada inválida"
@@ -767,9 +1029,9 @@ BEGIN
 	IBXConst_SStringTooLarge,	"Tentando armazenar uma string de comprimento %d dentro de uma campo que pode somente conter %d"
 	IBXConst_SIB65feature,	"%s is an InterBase 6.5 function. Please upgrade to InterBase 6.5 to use this functonality"
 	IBXConst_SIB70feature,	"%s is an InterBase 7.0 function. Please upgrade to InterBase 7.0 to use this functonality"
-	IdResourceStrings_RSFailedTimeZoneInfo,	"Failed attempting to retrieve time zone information."
-	IdResourceStrings_RSWinsockCallError,	"Error on call Winsock2 library function %s"
-	IdResourceStrings_RSWinsockLoadError,	"Error on loading Winsock2 library (%s)"
+	JvResources_RsClBlack,	"Black"
+	JvResources_RsClMaroon,	"Maroon"
+	JvResources_RsClGreen,	"Green"
 	IBXConst_SQueryParamsError,	"Parâmetros da Query faltando ou incorreto"
 	IBXConst_SStartParamsError,	"início de Parâmetros faltando ou incorreto"
 	IBXConst_SOutputParsingError,	"Valor de Output buffer não esperado"

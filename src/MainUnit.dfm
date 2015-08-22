@@ -1,4 +1,4 @@
-object MainForm: TMainForm
+object fmFibs: TfmFibs
   Left = 397
   Top = 141
   ActiveControl = TaskGrid

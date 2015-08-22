@@ -18,7 +18,7 @@ uses
   WinSvc,
   Classes,
   DCPbase64,
-  MainUnit in 'MainUnit.pas' {MainForm},
+  FibsForm in 'FibsForm.pas' {fmFibs},
   PrefUnit in 'PrefUnit.pas' {PrefForm},
   ConstUnit in 'ConstUnit.pas',
   FibsData in 'FibsData.pas' {dmFibs: TDataModule},
@@ -36,7 +36,8 @@ uses
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',
   smtpsend in 'Synapse\smtpsend.pas',
   PortUnit in 'PortUnit.pas',
-  EmailUnit in 'EmailUnit.pas';
+  EmailUnit in 'EmailUnit.pas',
+  UDFTask in 'UDFTask.pas';
 
 {$R *.RES}
 
@@ -64,12 +65,12 @@ begin
     begin
       BackupService.SetTitle('FIBS');
       RunningAsService := True;
-      BackupService.CreateForm(TMainForm, MainForm);
+      BackupService.CreateForm(TfmFibs, fmFibs);
       // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         dmFibs.Free;
-        MainForm.Free;
+        fmFibs.Release;
         MessageDlg('ERROR!' + 'prefs.dat or tasks.dat is not exists or corrupt or old version!!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         PostThreadMessage(BackupService.ServiceThread.ThreadID, WM_QUIT, 0, 0);
         Exit;
@@ -94,12 +95,12 @@ begin
     if DataFilesExists then
     begin
       RunningAsService := False;
-      Application.CreateForm(TMainForm, MainForm);
-      // Check Datafiles are not corrupt nor old version.
+      Application.CreateForm(TfmFibs, fmFibs);
+  // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         dmFibs.Free;
-        MainForm.Free;
+        fmFibs.Free;
         MessageDlg('ERROR!'#13#10 + 'prefs.dat and/or tasks.dat is/are not exist, old version or corrupt!'#13#10'FIBS cannot start!', mtError, [mbOk], 0);
         Application.Terminate;
         Exit;
