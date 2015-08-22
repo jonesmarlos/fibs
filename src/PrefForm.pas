@@ -29,43 +29,44 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, EditBtn, ComCtrls,
-  FibsData, JvComponentBase, JvAppStorage, JvAppRegistryStorage;
+  Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, ComCtrls,
+  FibsData, JvComponentBase, JvAppStorage, JvAppRegistryStorage,
+  JvToolEdit, JvExMask, JvDotNetControls, JvExControls, JvComponent,
+  JvGroupHeader, JvExExtCtrls, JvBevel;
 
 type
   TfmPref = class(TForm)
-    btOk: TBitBtn;
-    btCancel: TBitBtn;
-    Label4: TLabel;
-    Label1: TLabel;
-    Label2: TLabel;
+    lbGbakDir: TLabel;
+    lbLogDir: TLabel;
+    lbBackupPriority: TLabel;
     cbAutoRun: TDBCheckBox;
     cbBackupPriority: TDBComboBox;
-    edLogDir: TDirectoryEditBtn;
-    edGBakDir: TDirectoryEditBtn;
-    btImportFromRegistry: TSpeedButton;
-    Label11: TLabel;
+    lbMailServer: TLabel;
     edSMTPServer: TEdit;
     edMailAdress: TEdit;
-    Label14: TLabel;
-    Label12: TLabel;
+    lbSenderEmail: TLabel;
+    lbUserName: TLabel;
     edUserName: TEdit;
-    Label13: TLabel;
+    lbPassword: TLabel;
     edPassword: TEdit;
-    Label3: TLabel;
     Label6: TLabel;
-    Bevel4: TBevel;
-    Label5: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
+    lbMailServerInfo: TLabel;
+    lbSenderEmailInfo: TLabel;
+    lbUserNameInfo: TLabel;
+    lbPasswordInfo: TLabel;
     cbFtpPassive: TDBCheckBox;
-    Bevel3: TBevel;
-    Label10: TLabel;
-    edArchiveDir: TDirectoryEditBtn;
+    lbArchiveDir: TLabel;
     arsAutoRun: TJvAppRegistryStorage;
     arsFirebird: TJvAppRegistryStorage;
     arsEmail: TJvAppRegistryStorage;
+    edGbakDir: TJvDirectoryEdit;
+    edLogDir: TJvDirectoryEdit;
+    edArchiveDir: TJvDirectoryEdit;
+    ghGeneral: TJvGroupHeader;
+    ghSMTPServer: TJvGroupHeader;
+    JvBevel1: TJvBevel;
+    btCancel: TButton;
+    btOK: TButton;
     procedure btOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
