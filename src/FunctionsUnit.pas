@@ -37,7 +37,7 @@ function GetDatabaseSequence(AString: string): Integer;
 
 implementation
 
-uses SysUtils, StrUtils, UDFConst, PresetsUnit; //, windows;
+uses SysUtils, StrUtils, UDFConst, UDFPresets; //, windows;
 
 function IsValidDirectory(const ADir: string): Boolean;
 begin

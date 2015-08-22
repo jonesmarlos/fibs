@@ -113,7 +113,7 @@ var
 implementation
 
 {$R *.dfm}
-uses StrUtils, DateUtils, UDFConst, FibsData, PresetsUnit, MesajUnit;
+uses StrUtils, DateUtils, UDFConst, FibsData, UDFPresets, MesajUnit;
 
 procedure TEditTaskForm.ButtonOKClick(Sender: TObject);
 var

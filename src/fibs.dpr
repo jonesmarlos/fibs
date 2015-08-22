@@ -18,12 +18,14 @@ uses
   WinSvc,
   Classes,
   DCPbase64,
+  UDFConst in 'UDFConst.pas',
+  UDFPresets in 'UDFPresets.pas',
+  UDFTask in 'UDFTask.pas',
+  UDFValidation in 'UDFValidation.pas',
+  FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   FibsForm in 'FibsForm.pas' {fmFibs},
   PrefForm in 'PrefForm.pas' {fmPref},
-  UDFConst in 'UDFConst.pas',
-  FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
-  PresetsUnit in 'PresetsUnit.pas',
   MesajUnit in 'MesajUnit.pas' {MesajForm},
   BackupUnit in 'BackupUnit.pas',
   ManualBackupUnit in 'ManualBackupUnit.pas' {ManualBackupForm},
@@ -36,9 +38,7 @@ uses
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',
   smtpsend in 'Synapse\smtpsend.pas',
   PortUnit in 'PortUnit.pas',
-  EmailUnit in 'EmailUnit.pas',
-  UDFTask in 'UDFTask.pas',
-  UDFValidation in 'UDFValidation.pas';
+  EmailUnit in 'EmailUnit.pas';
 
 {$R *.RES}
 
