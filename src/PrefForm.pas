@@ -29,28 +29,29 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, EditBtn, ComCtrls;
+  Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, EditBtn, ComCtrls,
+  FibsData, JvComponentBase, JvAppStorage, JvAppRegistryStorage;
 
 type
   TfmPref = class(TForm)
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
+    btOk: TBitBtn;
+    btCancel: TBitBtn;
     Label4: TLabel;
     Label1: TLabel;
     Label2: TLabel;
-    DBCheckBox2: TDBCheckBox;
-    DBComboBox1: TDBComboBox;
-    DirectoryLogDir: TDirectoryEditBtn;
-    DirectoryEdit1: TDirectoryEditBtn;
-    SpeedButton1: TSpeedButton;
+    cbAutoRun: TDBCheckBox;
+    cbBackupPriority: TDBComboBox;
+    edLogDir: TDirectoryEditBtn;
+    edGBakDir: TDirectoryEditBtn;
+    btImportFromRegistry: TSpeedButton;
     Label11: TLabel;
-    EditSMTPServer: TEdit;
-    EditMailAdress: TEdit;
+    edSMTPServer: TEdit;
+    edMailAdress: TEdit;
     Label14: TLabel;
     Label12: TLabel;
-    EditUserName: TEdit;
+    edUserName: TEdit;
     Label13: TLabel;
-    EditPassword: TEdit;
+    edPassword: TEdit;
     Label3: TLabel;
     Label6: TLabel;
     Bevel4: TBevel;
@@ -58,111 +59,104 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
-    DBCBFtpType: TDBCheckBox;
+    cbFtpPassive: TDBCheckBox;
     Bevel3: TBevel;
     Label10: TLabel;
-    DirectoryArchiveDir: TDirectoryEditBtn;
-    procedure BitBtn1Click(Sender: TObject);
+    edArchiveDir: TDirectoryEditBtn;
+    arsAutoRun: TJvAppRegistryStorage;
+    arsFirebird: TJvAppRegistryStorage;
+    arsEmail: TJvAppRegistryStorage;
+    procedure btOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
-  end;
+    procedure LoadPreferences(FibsRef: TdmFibs);
+    procedure SavePreferences(FibsRef: TdmFibs);
 
-var
-  fmPref: TfmPref;
+    class function ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): boolean;
+  end;
 
 implementation
 
-uses Registry, FileCtrl, MesajUnit, ConstUnit;
+uses Registry, FileCtrl, MesajUnit, ConstUnit, DCPbase64, UDFValidation;
 
 {$R *.dfm}
 
-procedure TfmPref.BitBtn1Click(Sender: TObject);
+class function TfmPref.ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): boolean;
+var
+  fmPref: TfmPref;
 begin
-  if DirectoryEdit1.Text = '' then
-  begin
-    MessageDlg('Directory Name cannot be empty!', mtError, [mbOk], 0);
-    Exit;
-  end
+  fmPref := TfmPref.Create(AOwner);
+  try
+    fmPref.LoadPreferences(FibsRef);
+    if fmPref.ShowModal = mrOk then
+      fmPref.SavePreferences(FibsRef);
+  finally
+    fmPref.Release;
+  end;
+end;
+
+procedure TfmPref.LoadPreferences(FibsRef: TdmFibs);
+begin
+  Self.edGBakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
+  Self.edLogDir.Text := FibsRef.qrOptionLOGDIR.Value;
+  Self.edArchiveDir.Text := FibsRef.qrOptionARCHIVEDIR.Value;
+  Self.edSMTPServer.Text := FibsRef.qrOptionSMTPSERVER.Value;
+  Self.edMailAdress.Text := FibsRef.qrOptionSENDERSMAIL.Value;
+  Self.edUserName.Text := FibsRef.qrOptionMAILUSERNAME.Value;
+  Self.edPassword.Text := DCPbase64.Base64DecodeStr(FibsRef.qrOptionMAILPASSWORD.AsString);
+  if Length(Trim(Self.edGBakDir.Text)) = 0 then
+    if Self.arsFirebird.PathExists('DefaultInstance') then
+      Self.edGBakDir.Text := Self.arsFirebird.ReadString('DefaultInstance') + 'bin';
+end;
+
+procedure TfmPref.SavePreferences(FibsRef: TdmFibs);
+begin
+  FibsRef.qrOption.Edit;
+  FibsRef.qrOptionPATHTOGBAK.Value := Self.edGBakDir.Text;
+  FibsRef.qrOptionLOGDIR.Value := Self.edLogDir.Text;
+  FibsRef.qrOptionARCHIVEDIR.Value := Self.edArchiveDir.Text;
+  FibsRef.qrOptionSMTPSERVER.Value := Self.edSMTPServer.Text;
+  FibsRef.qrOptionSENDERSMAIL.Value := Self.edMailAdress.Text;
+  FibsRef.qrOptionMAILUSERNAME.Value := Self.edUserName.Text;
+  FibsRef.qrOptionMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(Self.edPassword.Text);
+  FibsRef.qrOption.Post;
+  if Self.cbAutoRun.Checked then
+    Self.arsAutoRun.WriteString('FIBS_Backup_Scheduler', System.ParamStr(0))
   else
-    if DirectoryExists(Trim(DirectoryEdit1.Text)) = False then
-    begin
-      MessageDlg('There is No Directory given name!', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end
-    else
-      if FileExists(Trim(DirectoryEdit1.Text) + '\gbak.exe') = False then
-      begin
-        MessageDlg('Gbak.exe cannot be found onto given dir!', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end;
-  if DirectoryLogDir.Text = '' then
-  begin
-    MessageDlg('LOG Directory Name cannot be empty!', mtError, [mbOk], 0);
-    Exit;
-  end
-  else
-    if DirectoryExists(Trim(DirectoryLogDir.Text)) = False then
-    begin
-      MessageDlg('Given LOG Directory is not exists!', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end;
+    Self.arsAutoRun.DeleteValue('FIBS_Backup_Scheduler');
 end;
 
 procedure TfmPref.FormCreate(Sender: TObject);
 begin
-  DirectoryLogDir.Text := DataFilesPath;
+  Self.edLogDir.Text := DataFilesPath;
 end;
 
-procedure TfmPref.SpeedButton1Click(Sender: TObject);
+procedure TfmPref.btOkClick(Sender: TObject);
 var
-  Reg: TRegistry;
-  DefMail: string;
+  vaValidation: TValidation;
 begin
-  Reg := TRegistry.Create;
+  vaValidation := TValidation.Create(Self);
   try
-    Reg.RootKey := HKEY_LOCAL_MACHINE;
-    if Reg.OpenKey('\SOFTWARE\Firebird Project\Firebird Server\Instances', False) then
-    begin
-      DirectoryEdit1.Text := Reg.ReadString('DefaultInstance') + 'bin';
-      Reg.CloseKey;
-      if RunningAsService = False then
-      begin
-        Reg.RootKey := HKEY_CURRENT_USER;
-        if Reg.OpenKey('\Software\Microsoft\Internet Account Manager', False) then
-        begin
-          DefMail := Reg.ReadString('Default Mail Account');
-          Reg.CloseKey;
-          if Reg.OpenKey('\Software\Microsoft\Internet Account Manager\Accounts\' + DefMail, False) then
-          begin
-            EditSMTPServer.Text := Reg.ReadString('SMTP Server');
-            EditMailAdress.Text := Reg.ReadString('SMTP Email Address');
-            EditUserName.Text := Reg.ReadString('POP3 User Name');
-            EditPassword.Text := '';
-            Reg.CloseKey;
-            MessageDlg('Warning !!'#13#10'Reading Default Mail Account from registry clears the password box..'#13#10 +
-              'Please do not forget entering the correct password.', mtError, [mbOk], 0);
-          end
-          else
-            MessageDlg('Default Mail Account hasn''t been found!', mtError, [mbOk], 0);
-        end
-        else
-          MessageDlg('No Mail Account has been found!', mtError, [mbOk], 0);
-      end
-      else
-        MessageDlg('FIBS can''t get email related data while it''s running as a service !'#13#10'Please run FIBS as an application to get email-related-data and then restart FIBS as a service.', mtError, [mbOk], 0);
-    end
+    if Length(Trim(Self.edGBakDir.Text)) = 0 then
+      vaValidation.Add('Directory Name cannot be empty!', vtWarning);
+    if not SysUtils.DirectoryExists(Self.edGBakDir.Text) then
+      vaValidation.Add('There is No Directory given name!', vtWarning);
+    if not SysUtils.FileExists(Self.edGBakDir.Text + '\gbak.exe') then
+      vaValidation.Add('Gbak.exe cannot be found onto given dir!', vtWarning);
+    if Length(Trim(Self.edLogDir.Text)) = 0 then
+      vaValidation.Add('LOG Directory Name cannot be empty!', vtWarning);
+    if not SysUtils.DirectoryExists(Self.edLogDir.Text) then
+      vaValidation.Add('Given LOG Directory is not exists!', vtWarning);
+    if vaValidation.ShowModal then
+      Self.ModalResult := mrOk
     else
-      MessageDlg('Firebird key couldn''t been found in the registry!', mtError, [mbOk], 0);
+      Self.ModalResult := mrNone;
   finally
-    Reg.Free;
+    vaValidation.Free;
   end;
 end;
 
 end.
+

@@ -56,7 +56,7 @@ object fmPref: TfmPref
     ParentColor = False
     Layout = tlCenter
   end
-  object SpeedButton1: TSpeedButton
+  object btImportFromRegistry: TSpeedButton
     Left = 4
     Top = 312
     Width = 301
@@ -77,7 +77,6 @@ object fmPref: TfmPref
       7777720888888888888022677787220788888888888700078886000888888888
       8888880788860888888888888888880788860888888888888888880788860888
       8888888888888830000078888888888888888888888888888888}
-    OnClick = SpeedButton1Click
   end
   object Label11: TLabel
     Left = 28
@@ -204,16 +203,16 @@ object fmPref: TfmPref
     ParentColor = False
     Layout = tlCenter
   end
-  object BitBtn1: TBitBtn
+  object btOk: TBitBtn
     Left = 316
     Top = 314
     Width = 75
     Height = 25
     TabOrder = 0
-    OnClick = BitBtn1Click
+    OnClick = btOkClick
     Kind = bkOK
   end
-  object BitBtn2: TBitBtn
+  object btCancel: TBitBtn
     Left = 404
     Top = 314
     Width = 75
@@ -221,7 +220,7 @@ object fmPref: TfmPref
     TabOrder = 1
     Kind = bkCancel
   end
-  object DBCheckBox2: TDBCheckBox
+  object cbAutoRun: TDBCheckBox
     Left = 20
     Top = 112
     Width = 405
@@ -237,7 +236,7 @@ object fmPref: TfmPref
     ValueChecked = '1'
     ValueUnchecked = '0'
   end
-  object DBComboBox1: TDBComboBox
+  object cbBackupPriority: TDBComboBox
     Left = 104
     Top = 82
     Width = 77
@@ -258,7 +257,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     TabOrder = 3
   end
-  object DirectoryLogDir: TDirectoryEditBtn
+  object edLogDir: TDirectoryEditBtn
     Left = 104
     Top = 36
     Width = 357
@@ -295,7 +294,7 @@ object fmPref: TfmPref
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
     NumGlyphs = 1
   end
-  object DirectoryEdit1: TDirectoryEditBtn
+  object edGBakDir: TDirectoryEditBtn
     Left = 104
     Top = 12
     Width = 357
@@ -304,7 +303,6 @@ object fmPref: TfmPref
     Ctl3D = False
     ParentCtl3D = False
     TabOrder = 5
-    Text = 'C:\Program Files\Firbird\Firebird_1_5\bin '
     Glyph.Data = {
       16030000424D5603000000000000B6000000280000000E0000000C0000000100
       200000000000A002000000000000000000001000000000000000000000000000
@@ -333,7 +331,7 @@ object fmPref: TfmPref
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
     NumGlyphs = 1
   end
-  object EditSMTPServer: TEdit
+  object edSMTPServer: TEdit
     Left = 108
     Top = 188
     Width = 133
@@ -342,7 +340,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     TabOrder = 6
   end
-  object EditMailAdress: TEdit
+  object edMailAdress: TEdit
     Left = 108
     Top = 212
     Width = 133
@@ -351,7 +349,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     TabOrder = 7
   end
-  object EditUserName: TEdit
+  object edUserName: TEdit
     Left = 108
     Top = 236
     Width = 133
@@ -360,7 +358,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     TabOrder = 8
   end
-  object EditPassword: TEdit
+  object edPassword: TEdit
     Left = 108
     Top = 260
     Width = 133
@@ -370,7 +368,7 @@ object fmPref: TfmPref
     PasswordChar = '*'
     TabOrder = 9
   end
-  object DBCBFtpType: TDBCheckBox
+  object cbFtpPassive: TDBCheckBox
     Left = 20
     Top = 136
     Width = 301
@@ -384,7 +382,7 @@ object fmPref: TfmPref
     ValueChecked = '1'
     ValueUnchecked = '0'
   end
-  object DirectoryArchiveDir: TDirectoryEditBtn
+  object edArchiveDir: TDirectoryEditBtn
     Left = 104
     Top = 59
     Width = 357
@@ -420,5 +418,30 @@ object fmPref: TfmPref
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
       FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
     NumGlyphs = 1
+  end
+  object arsAutoRun: TJvAppRegistryStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    RegRoot = hkLocalMachine
+    Root = 'Software\Microsoft\Windows\CurrentVersion\Run'
+    SubStorages = <>
+    Left = 368
+    Top = 240
+  end
+  object arsFirebird: TJvAppRegistryStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    RegRoot = hkLocalMachine
+    Root = 'SOFTWARE\Firebird Project\Firebird Server\Instances'
+    SubStorages = <>
+    Left = 424
+    Top = 240
+  end
+  object arsEmail: TJvAppRegistryStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    SubStorages = <>
+    Left = 320
+    Top = 248
   end
 end

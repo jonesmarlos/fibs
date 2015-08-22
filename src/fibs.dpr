@@ -37,7 +37,8 @@ uses
   smtpsend in 'Synapse\smtpsend.pas',
   PortUnit in 'PortUnit.pas',
   EmailUnit in 'EmailUnit.pas',
-  UDFTask in 'UDFTask.pas';
+  UDFTask in 'UDFTask.pas',
+  UDFValidation in 'UDFValidation.pas';
 
 {$R *.RES}
 

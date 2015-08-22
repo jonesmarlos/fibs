@@ -138,7 +138,6 @@ type
     procedure ActivateAll;
     procedure ActivateOne;
     procedure ActivateAllLeavedActive;
-    procedure SetResetAutoRun;
     procedure SetApplicationPriorty;
   public
   end;
@@ -148,33 +147,12 @@ var
 
 implementation
 
-uses Registry, Variants, StrUtils, PrefUnit, EditTaskUnit, ConstUnit, BackupUnit,
+uses Registry, Variants, StrUtils, PrefForm, EditTaskUnit, ConstUnit, BackupUnit,
   MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, PresetsUnit, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
 {$R *.DFM}
-
-procedure TfmFibs.SetResetAutoRun;
-var
-  rgReg: TRegistry;
-  AKey: string;
-begin
-  AKey := 'FIBS_Backup_Scheduler';
-  rgReg := TRegistry.Create;
-  try
-    rgReg.RootKey := HKEY_LOCAL_MACHINE;
-    if rgReg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\Run', False) then
-    begin
-      if dmFibs.qrOptionAUTORUN.Value = '1' then
-        rgReg.WriteString(AKey, ParamStr(0))
-      else
-        rgReg.DeleteValue(AKey);
-    end;
-  finally
-    rgReg.Free;
-  end;
-end;
 
 procedure TfmFibs.SetApplicationPriorty;
 var
@@ -207,31 +185,7 @@ end;
 
 procedure TfmFibs.MenuPrefsClick(Sender: TObject);
 begin
-  PrefForm := TPrefForm.Create(Self);
-  try
-    PrefForm.DirectoryEdit1.Text := dmFibs.qrOptionPATHTOGBAK.Value;
-    PrefForm.DirectoryLogDir.Text := dmFibs.qrOptionLOGDIR.Value;
-    PrefForm.DirectoryArchiveDir.Text := dmFibs.qrOptionARCHIVEDIR.Value;
-    PrefForm.EditSMTPServer.Text := dmFibs.qrOptionSMTPSERVER.Value;
-    PrefForm.EditMailAdress.Text := dmFibs.qrOptionSENDERSMAIL.Value;
-    PrefForm.EditUserName.Text := dmFibs.qrOptionMAILUSERNAME.Value;
-    PrefForm.EditPassword.Text := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
-    if PrefForm.ShowModal = mrOk then
-    begin
-      dmFibs.qrOption.Edit;
-      SetResetAutoRun;
-      dmFibs.qrOptionPATHTOGBAK.Value := PrefForm.DirectoryEdit1.Text;
-      dmFibs.qrOptionLOGDIR.Value := PrefForm.DirectoryLogDir.Text;
-      dmFibs.qrOptionARCHIVEDIR.Value := PrefForm.DirectoryArchiveDir.Text;
-      dmFibs.qrOptionSMTPSERVER.Value := PrefForm.EditSMTPServer.Text;
-      dmFibs.qrOptionSENDERSMAIL.Value := PrefForm.EditMailAdress.Text;
-      dmFibs.qrOptionMAILUSERNAME.Value := PrefForm.EditUserName.Text;
-      dmFibs.qrOptionMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(PrefForm.EditPassword.Text);
-      dmFibs.qrOption.Post;
-    end;
-  finally
-    PrefForm.Free;
-  end;
+  TfmPref.ShowPrefs(Self, dmFibs);
 end;
 
 procedure TfmFibs.MenuEditTaskClick(Sender: TObject);
