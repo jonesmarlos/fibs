@@ -134,7 +134,7 @@ type
 
 implementation
 
-uses WinInet, ShellApi, Forms, StrUtils, DateUtils, ConstUnit, smtpsend, FunctionsUnit, EmailUnit;
+uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, smtpsend, FunctionsUnit, EmailUnit;
 
 //By Lance leonard
 //http://www.techtricks.com/delphi/sendmail.php

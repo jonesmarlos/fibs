@@ -20,7 +20,7 @@ uses
   DCPbase64,
   FibsForm in 'FibsForm.pas' {fmFibs},
   PrefForm in 'PrefForm.pas' {fmPref},
-  ConstUnit in 'ConstUnit.pas',
+  UDFConst in 'UDFConst.pas',
   FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
   PresetsUnit in 'PresetsUnit.pas',

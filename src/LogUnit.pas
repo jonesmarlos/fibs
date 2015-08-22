@@ -59,7 +59,7 @@ implementation
 
 {$R *.dfm}
 
-uses Printers, MesajUnit, ConstUnit;
+uses Printers, MesajUnit, UDFConst;
 
 type
   THeaderFooterProc = procedure(aCanvas: TCanvas; aPageCount: Integer;

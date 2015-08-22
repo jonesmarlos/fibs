@@ -70,7 +70,7 @@ var
 
 implementation
 
-uses ConstUnit;
+uses UDFConst;
 
 {$R *.DFM}
 

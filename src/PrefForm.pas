@@ -80,7 +80,7 @@ type
 
 implementation
 
-uses Registry, FileCtrl, MesajUnit, ConstUnit, DCPbase64, UDFValidation;
+uses Registry, FileCtrl, MesajUnit, UDFConst, DCPbase64, UDFValidation;
 
 {$R *.dfm}
 

@@ -147,7 +147,7 @@ var
 
 implementation
 
-uses Registry, Variants, StrUtils, PrefForm, EditTaskUnit, ConstUnit, BackupUnit,
+uses Registry, Variants, StrUtils, PrefForm, EditTaskUnit, UDFConst, BackupUnit,
   MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, PresetsUnit, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
@@ -350,11 +350,11 @@ begin
   Windows.SetThreadLocale(LOCALE_SYSTEM_DEFAULT);
   SysUtils.GetFormatSettings;
   Application.UpdateFormatSettings := False;
-  ConstUnit.SyncLog := TMultiReadExclusiveWriteSynchronizer.Create;
-  ConstUnit.AlarmTimeList := TStringList.Create;
-  ConstUnit.AlarmTimeList.Sorted := True;
-  ConstUnit.TimeList := TStringList.Create;
-  ConstUnit.TimeList.Sorted := True;
+  UDFConst.SyncLog := TMultiReadExclusiveWriteSynchronizer.Create;
+  UDFConst.AlarmTimeList := TStringList.Create;
+  UDFConst.AlarmTimeList.Sorted := True;
+  UDFConst.TimeList := TStringList.Create;
+  UDFConst.TimeList.Sorted := True;
   Self.ttTimer.Enabled := True;
   Self.caption := 'FIBS  ' + PrgInfo + ' Ver. ' + ReleaseInfo;
   Self.ActivateAllLeavedActive;
@@ -362,26 +362,26 @@ begin
   if BackupIsService then
   begin
     Self.Hide;
-    ConstUnit.MainFormHidden := True;
+    UDFConst.MainFormHidden := True;
   end
   else
   begin
     Application.ShowMainForm := False;
-    ConstUnit.MainFormHidden := True;
+    UDFConst.MainFormHidden := True;
   end;
-  if ConstUnit.RunningAsService then
-    Self.tiTray.Hint := ConstUnit.PrgName + ' is running As a Service.'
+  if UDFConst.RunningAsService then
+    Self.tiTray.Hint := UDFConst.PrgName + ' is running As a Service.'
   else
-    Self.tiTray.Hint := ConstUnit.PrgName + ' is running As a Application.';
+    Self.tiTray.Hint := UDFConst.PrgName + ' is running As a Application.';
   Self.tiTray.Active := True;
   Self.tiTray.HideApplication;
 end;
 
 procedure TfmFibs.FormDestroy(Sender: TObject);
 begin
-  ConstUnit.AlarmTimeList.Free;
-  ConstUnit.TimeList.Free;
-  ConstUnit.SyncLog.Free;
+  UDFConst.AlarmTimeList.Free;
+  UDFConst.TimeList.Free;
+  UDFConst.SyncLog.Free;
 end;
 
 procedure TfmFibs.MenuNewClick(Sender: TObject);
