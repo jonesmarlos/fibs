@@ -25,7 +25,7 @@ uses
   FibsData in 'FibsData.pas' {dmFibs: TDataModule},
   FibsForm in 'FibsForm.pas' {fmFibs},
   PrefForm in 'PrefForm.pas' {fmPref},
-  EditTaskUnit in 'EditTaskUnit.pas' {EditTaskForm},
+  TaskForm in 'TaskForm.pas' {fmTask},
   MesajUnit in 'MesajUnit.pas' {MesajForm},
   BackupUnit in 'BackupUnit.pas',
   ManualBackupUnit in 'ManualBackupUnit.pas' {ManualBackupForm},
@@ -78,7 +78,6 @@ begin
       end;
       SetCurrentDir(ExtractFileDir(ServiceExeName));
       // Create MainForm
-      BackupService.CreateForm(TEditTaskForm, EditTaskForm);
       BackupService.Run;
     end;
     Exit;
@@ -107,7 +106,6 @@ begin
         Exit;
       end;
       SetCurrentDir(ExtractFileDir(Application.ExeName)); //Beta-13
-      Application.CreateForm(TEditTaskForm, EditTaskForm);
       Application.Run;
     end;
   end

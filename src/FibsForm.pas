@@ -147,7 +147,7 @@ var
 
 implementation
 
-uses Registry, Variants, StrUtils, PrefForm, EditTaskUnit, UDFConst, BackupUnit,
+uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, BackupUnit,
   MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
@@ -191,89 +191,23 @@ end;
 procedure TfmFibs.MenuEditTaskClick(Sender: TObject);
 var
   i: Integer;
-  s, T: string; //Saat, Dakika Checklist stringi
 begin
   if dmFibs.qrTask.RecordCount > 0 then
   begin
-    EditTaskForm.caption := ' Edit Backup Task';
-    EditTaskForm.EditDatabaseName.Text := dmFibs.qrTaskDBNAME.Value;
-    EditTaskForm.EditDestinationDir.Text := dmFibs.qrTaskBACKUPDIR.Value;
-    EditTaskForm.EditMirrorDir.Text := dmFibs.qrTaskMIRRORDIR.Value;
-    EditTaskForm.EditMirror2Dir.Text := dmFibs.qrTaskMIRROR2DIR.Value;
-    EditTaskForm.EditMirror3Dir.Text := dmFibs.qrTaskMIRROR3DIR.Value;
-    EditTaskForm.LabelState.Visible := dmFibs.qrTaskACTIVE.AsInteger = 1;
-    EditTaskForm.FileEditBtnBatchFile.Text := dmFibs.qrTaskBATCHFILE.Value;
-
-    EditTaskForm.EditDatabaseName.Button.Enabled := dmFibs.qrTaskLOCALCONN.AsBoolean = True;
-
-    T := dmFibs.qrTaskBOXES.Value;
-    for i := 1 to 24 do
-      if (T[i] = '1') then
-        EditTaskForm.CGHours.State[i - 1] := cbChecked
-      else
-        EditTaskForm.CGHours.State[i - 1] := cbUnChecked;
-    for i := 25 to 84 do
-      if (T[i] = '1') then
-        EditTaskForm.CGMinutes.State[i - 25] := cbChecked
-      else
-        EditTaskForm.CGMinutes.State[i - 25] := cbUnChecked;
-    s := dmFibs.qrTaskBOPTIONS.Value;
-    for i := 0 to TotalGBakOptions - 1 do
-      if (s[i + 1] = '1') then
-        EditTaskForm.CLBGbakOptions.State[i] := cbChecked
-      else
-        EditTaskForm.CLBGbakOptions.State[i] := cbUnChecked;
-
-    EditTaskForm.ButtonOK.Enabled := (dmFibs.qrTaskACTIVE.AsInteger = 0);
-    if EditTaskForm.ShowModal = mrOk then
+    if TfmTask.EditTask(Self, dmFibs, False) then
     begin
-      dmFibs.qrTask.Edit;
-      dmFibs.qrTaskDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
-      dmFibs.qrTaskBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
-      dmFibs.qrTaskMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
-      dmFibs.qrTaskMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
-      dmFibs.qrTaskMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
-      dmFibs.qrTaskBATCHFILE.Value := EditTaskForm.FileEditBtnBatchFile.Text;
-
-      //Let's set Time CheckList..
-      T := '';
-      for i := 1 to 24 do
-        if EditTaskForm.CGHours.State[i - 1] = cbChecked then
-          T := T + '1'
-        else
-          T := T + '0';
-      for i := 25 to 84 do
-        if EditTaskForm.CGMinutes.State[i - 25] = cbChecked then
-          T := T + '1'
-        else
-          T := T + '0';
-      dmFibs.qrTaskBOXES.Value := T;
-      s := '';
-      for i := 0 to TotalGBakOptions - 1 do
-        if EditTaskForm.CLBGbakOptions.State[i] = cbChecked then
-          s := s + '1'
-        else
-          s := s + '0';
-      dmFibs.qrTaskBOPTIONS.Value := s;
-
-      dmFibs.qrTask.Post;
-
-      DeleteCurrentTaskFromTimeList;
-
-      GetAlarmTimeList(T);
-      PreservedInHour := AlarmInHour;
-      PreservedInDay := AlarmInDay;
-      PreservedInMonth := AlarmInDay * AlarmInMonth;
-
+      Self.DeleteCurrentTaskFromTimeList;
+      Self.GetAlarmTimeList(dmFibs.qrTaskBOXES.AsString);
+      UDFConst.PreservedInHour := AlarmInHour;
+      UDFConst.PreservedInDay := AlarmInDay;
+      UDFConst.PreservedInMonth := AlarmInDay * AlarmInMonth;
       if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
         for i := 0 to AlarmTimeList.Count - 1 do
-          TimeList.Add(AlarmTimeList.Strings[i]);
-        InitAlarms;
+          UDFConst.TimeList.Add(UDFConst.AlarmTimeList.Strings[i]);
+        Self.InitAlarms;
       end;
-    end
-    else
-      dmFibs.qrTask.Cancel;
+    end;
   end
   else
     MessageDlg('No Task to Edit!', mtError, [mbOk], 0);
@@ -284,18 +218,18 @@ var
   X, Y: string;
   i, L, StartPos, ALen: Integer;
 begin
-  if TimeList.Count > 0 then
+  if UDFConst.TimeList.Count > 0 then
   begin
     Y := dmFibs.qrTaskTASKNO.AsString;
-    for i := TimeList.Count - 1 downto 0 do
+    for i := UDFConst.TimeList.Count - 1 downto 0 do
     begin
-      StartPos := Pos(' - ', TimeList.Strings[i]) + 3;
-      X := TimeList[i];
-      L := Pos(' + ', TimeList.Strings[i]);
+      StartPos := Pos(' - ', UDFConst.TimeList.Strings[i]) + 3;
+      X := UDFConst.TimeList[i];
+      L := Pos(' + ', UDFConst.TimeList.Strings[i]);
       ALen := L - StartPos;
-      X := copy(TimeList.Strings[i], StartPos, ALen);
+      X := copy(UDFConst.TimeList.Strings[i], StartPos, ALen);
       if X = Y then
-        TimeList.Delete(i);
+        UDFConst.TimeList.Delete(i);
     end;
   end;
 end;
@@ -406,70 +340,7 @@ begin
     MessageDlg('You MUST DEACTIVE all active Tasks before adding a new Task!', mtError, [mbOk], 0);
     Exit;
   end;
-  dmFibs.qrTask.Append;
-  EditTaskForm.caption := ' New Backup Task';
-  EditTaskForm.EditDatabaseName.Text := '';
-  EditTaskForm.EditDestinationDir.Text := '';
-  EditTaskForm.EditMirrorDir.Text := '';
-  EditTaskForm.EditMirror2Dir.Text := '';
-  EditTaskForm.EditMirror3Dir.Text := '';
-  EditTaskForm.LabelState.Visible := False;
-  AlarmTimeList.Text := '';
-  dmFibs.qrTaskDOVAL.Value := 'False';
-  dmFibs.qrTaskMAILTO.Value := '';
-  dmFibs.qrTaskSHOWBATCHWIN.Value := 'False';
-  dmFibs.qrTaskUSEPARAMS.Value := 'False';
-
-  dmFibs.qrTaskLOCALCONN.Value := 'True';
-  dmFibs.qrTaskACTIVE.AsInteger := 0;
-  dmFibs.qrTaskDELETEALL.AsInteger := 1;
-  dmFibs.qrTaskZIPBACKUP.Value := 'True'; // Careful  it's case sensitive
-  dmFibs.qrTaskCOMPRESS.Value := 'Default';
-  dmFibs.qrTaskPUNIT.Value := 'Backups';
-  dmFibs.qrTaskBCOUNTER.AsInteger := 0;
-  dmFibs.qrTaskPVAL.AsInteger := 1;
-  dmFibs.qrTaskBOPTIONS.Value := '11100000';
-  dmFibs.qrTaskBOXES.Value := DupeString('0', 84);
-  for i := 0 to 23 do
-    EditTaskForm.CGHours.checked[i] := False;
-  for i := 0 to 59 do
-    EditTaskForm.CGMinutes.checked[i] := False;
-  s := dmFibs.qrTaskBOPTIONS.Value;
-  for i := 0 to TotalGBakOptions - 1 do
-    if (s[i + 1] = '1') then
-      EditTaskForm.CLBGbakOptions.State[i] := cbChecked
-    else
-      EditTaskForm.CLBGbakOptions.State[i] := cbUnChecked;
-  if EditTaskForm.ShowModal = mrOk then
-  begin
-    dmFibs.qrTaskDBNAME.Value := EditTaskForm.EditDatabaseName.Text;
-    dmFibs.qrTaskBACKUPDIR.Value := EditTaskForm.EditDestinationDir.Text;
-    dmFibs.qrTaskMIRRORDIR.Value := EditTaskForm.EditMirrorDir.Text;
-    dmFibs.qrTaskMIRROR2DIR.Value := EditTaskForm.EditMirror2Dir.Text;
-    dmFibs.qrTaskMIRROR3DIR.Value := EditTaskForm.EditMirror3Dir.Text;
-    s := '';
-    for i := 0 to TotalGBakOptions - 1 do
-      if EditTaskForm.CLBGbakOptions.State[i] = cbChecked then
-        s := s + '1'
-      else
-        s := s + '0';
-    dmFibs.qrTaskBOPTIONS.Value := s;
-    s := '';
-    for i := 1 to 24 do
-      if EditTaskForm.CGHours.State[i - 1] = cbChecked then
-        s := s + '1'
-      else
-        s := s + '0';
-    for i := 25 to 84 do
-      if EditTaskForm.CGMinutes.State[i - 25] = cbChecked then
-        s := s + '1'
-      else
-        s := s + '0';
-    dmFibs.qrTaskBOXES.Value := s;
-    dmFibs.qrTask.Post;
-  end
-  else
-    dmFibs.qrTask.Cancel;
+  TfmTask.EditTask(Self, dmFibs, True);
 end;
 
 procedure TfmFibs.DeleteAlarmsFromTimeList;

@@ -97,6 +97,8 @@ type
     procedure SetTaskBookmark; 
     function GetTask: TTask;
     procedure SetTask(Task: TTask);
+
+    procedure SetTaskDefault;
   end;
 
 var
@@ -247,6 +249,24 @@ end;
 procedure TdmFibs.SetTask(Task: TTask);
 begin
 
+end;
+
+procedure TdmFibs.SetTaskDefault;
+begin
+  Self.qrTaskDOVAL.Value := 'False';
+  Self.qrTaskMAILTO.Value := '';
+  Self.qrTaskSHOWBATCHWIN.Value := 'False';
+  Self.qrTaskUSEPARAMS.Value := 'False';
+  Self.qrTaskLOCALCONN.Value := 'True';
+  Self.qrTaskACTIVE.AsInteger := 0;
+  Self.qrTaskDELETEALL.AsInteger := 1;
+  Self.qrTaskZIPBACKUP.Value := 'True';
+  Self.qrTaskCOMPRESS.Value := 'Default';
+  Self.qrTaskPUNIT.Value := 'Backups';
+  Self.qrTaskBCOUNTER.AsInteger := 0;
+  Self.qrTaskPVAL.AsInteger := 1;
+  Self.qrTaskBOPTIONS.Value := '11100000';
+  Self.qrTaskBOXES.Value := DupeString('0', 84);
 end;
 
 end.

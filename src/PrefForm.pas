@@ -91,7 +91,8 @@ begin
   fmPref := TfmPref.Create(AOwner);
   try
     fmPref.LoadPreferences(FibsRef);
-    if fmPref.ShowModal = mrOk then
+    Result := fmPref.ShowModal = mrOk;
+    if Result then
       fmPref.SavePreferences(FibsRef);
   finally
     fmPref.Release;
