@@ -77,11 +77,6 @@ procedure CloseProgress;
 procedure DisableClose;
 procedure EnableClose;
 
-//function ShowProsesDlg(AMessage: string; AAlignment: Char; ACaption: string): TfmProgress;
-//procedure MesajDlg(AMessage: string; AAlignment: Char; ACaption: string);
-//procedure RefreshProsesDlg(ANewMessage: string; AAlignment: Char; AProsesDlg: TfmProgress);
-//procedure HideProsesDlg(AProsesDlg: TfmProgress);
-
 var
   fmProgress: TfmProgress;
 
@@ -128,27 +123,6 @@ procedure EnableClose;
 begin
   if Assigned(fmProgress) then
     fmProgress.EnableClose;
-end;
-
-procedure MesajDlg(AMessage: string; AAlignment: Char; ACaption: string);
-begin
-  MessageDlg(AMessage, mtInformation, [mbOk], 0);
-end;
-
-function ShowProsesDlg(AMessage: string; AAlignment: Char; ACaption: string): TfmProgress;
-begin
-  ShowProgress(AMessage);
-  Result := fmProgress;
-end;
-
-procedure RefreshProsesDlg(ANewMessage: string; AAlignment: Char; AProsesDlg: TfmProgress);
-begin
-  ShowProgress(ANewMessage);
-end;
-
-procedure HideProsesDlg(AProsesDlg: TfmProgress);
-begin
-  CloseProgress;
 end;
 
 { TfmProgress }
