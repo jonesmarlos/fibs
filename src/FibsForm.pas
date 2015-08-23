@@ -140,8 +140,6 @@ type
     procedure ActivateAllLeavedActive;
     procedure SetApplicationPriorty;
   public
-
-    procedure CancelProgress(Sender: TObject);
   end;
 
 var
@@ -1449,11 +1447,6 @@ end;
 procedure TfmFibs.miTaskBackupClick(Sender: TObject);
 begin
   Self.MenuBackupNowClick(nil);
-end;
-
-procedure TfmFibs.CancelProgress(Sender: TObject);
-begin
-  ShowMessage('Cancelled');
 end;
 
 end.

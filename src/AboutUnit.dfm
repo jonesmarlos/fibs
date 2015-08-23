@@ -1,11 +1,11 @@
 object AboutForm: TAboutForm
-  Left = 490
-  Top = 179
-  BorderIcons = [biMinimize, biMaximize]
+  Left = 487
+  Top = 148
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = ' About'
-  ClientHeight = 371
-  ClientWidth = 389
+  ClientHeight = 368
+  ClientWidth = 400
   Color = clBtnFace
   DefaultMonitor = dmMainForm
   Font.Charset = ANSI_CHARSET
@@ -21,10 +21,11 @@ object AboutForm: TAboutForm
   PixelsPerInch = 96
   TextHeight = 13
   object BackJpeg: TImage
-    Left = -4
+    Left = 0
     Top = 0
     Width = 400
-    Height = 370
+    Height = 368
+    Align = alClient
     AutoSize = True
     Center = True
     Picture.Data = {
@@ -270,24 +271,30 @@ object AboutForm: TAboutForm
   end
   object Bevel1: TBevel
     Left = 8
-    Top = 264
-    Width = 373
-    Height = 93
+    Top = 248
+    Width = 384
+    Height = 112
     Shape = bsFrame
   end
   object Label25: TLabel
     Left = 16
-    Top = 268
+    Top = 256
     Width = 370
     Height = 26
     Caption = 
       'I'#39've used lots of well-designed free code/components written by ' +
       'below listed '#13#10'authors in FIBS releases.'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     Transparent = True
     OnClick = BackJpegClick
   end
   object IconImage: TImage
-    Left = 182
+    Left = 184
     Top = 40
     Width = 32
     Height = 32
@@ -401,14 +408,14 @@ object AboutForm: TAboutForm
     OnClick = BackJpegClick
   end
   object LabelPrgName: TLabel
-    Left = 4
-    Top = 84
+    Left = 8
+    Top = 80
     Width = 384
     Height = 29
     Alignment = taCenter
     AutoSize = False
     Caption = 'LabelPrgName'
-    Font.Charset = TURKISH_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
     Font.Name = 'Tahoma'
@@ -418,14 +425,14 @@ object AboutForm: TAboutForm
     OnClick = BackJpegClick
   end
   object LabelPrgInfo: TLabel
-    Left = 4
-    Top = 116
+    Left = 8
+    Top = 112
     Width = 384
     Height = 25
     Alignment = taCenter
     AutoSize = False
     Caption = 'LabelPrgInfo'
-    Font.Charset = TURKISH_CHARSET
+    Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -15
     Font.Name = 'Tahoma'
@@ -436,7 +443,7 @@ object AboutForm: TAboutForm
   end
   object LabelRelease: TLabel
     Left = 8
-    Top = 143
+    Top = 136
     Width = 384
     Height = 13
     Alignment = taCenter
@@ -446,8 +453,8 @@ object AboutForm: TAboutForm
     OnClick = BackJpegClick
   end
   object LabelDesigned: TLabel
-    Left = 4
-    Top = 203
+    Left = 8
+    Top = 192
     Width = 384
     Height = 13
     Alignment = taCenter
@@ -462,20 +469,9 @@ object AboutForm: TAboutForm
     Transparent = True
     OnClick = BackJpegClick
   end
-  object LabelPrgWebSite: TTDLinkLabel
-    Left = 148
-    Top = 183
-    Width = 103
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'www.talatdogan.com'
-    LinkTo = 'http://www.talatdogan.com'
-    Alignment = taCenter
-    Transparent = True
-  end
   object LabelCopyright: TLabel
-    Left = 4
-    Top = 163
+    Left = 8
+    Top = 152
     Width = 384
     Height = 13
     Alignment = taCenter
@@ -491,8 +487,8 @@ object AboutForm: TAboutForm
     OnClick = BackJpegClick
   end
   object LabelAuthor: TLabel
-    Left = 5
-    Top = 224
+    Left = 8
+    Top = 208
     Width = 384
     Height = 13
     Alignment = taCenter
@@ -507,120 +503,182 @@ object AboutForm: TAboutForm
     Transparent = True
     OnClick = BackJpegClick
   end
-  object TDLinkLabel1: TTDLinkLabel
-    Left = 16
-    Top = 296
-    Width = 93
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Wilfried Mestdagh, '
-    LinkTo = 'http://www.mestdagh.biz'
-    Transparent = True
-  end
-  object TDLinkLabel2: TTDLinkLabel
-    Left = 100
-    Top = 310
-    Width = 79
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Carlos Barbosa, '
-    LinkTo = 'http://www.carlosb.com'
-    Transparent = True
-  end
-  object TDLinkLabel3: TTDLinkLabel
-    Left = 284
-    Top = 296
-    Width = 95
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Dr.J'#252'rgen Rathlev, '
-    LinkTo = 'http://www.ieap.uni-kiel.de/surface/ag-berndt/delphi.html'
-    Transparent = True
-  end
-  object TDLinkLabel4: TTDLinkLabel
-    Left = 108
-    Top = 296
-    Width = 84
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Dr.Patric Spanel, '
-    LinkTo = 'http://www.jh-inst.cas.cz/~spanel'
-    Transparent = True
-  end
-  object TDLinkLabel5: TTDLinkLabel
-    Left = 180
-    Top = 310
-    Width = 42
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Retnyg. '
-    LinkTo = 'http://krazz.net/retnyg'
-    Transparent = True
-  end
-  object TDLinkLabel6: TTDLinkLabel
-    Left = 16
-    Top = 310
-    Width = 86
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Orlando Arrocha, '
-    LinkTo = 'mailto:oarrocha@hotmail.com'
-    Transparent = True
-  end
-  object TDLinkLabel7: TTDLinkLabel
-    Left = 192
-    Top = 296
-    Width = 90
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Dennis D. Spreen, '
-    LinkTo = 'mailto:dennis@spreendigital.de'
-    Transparent = True
-  end
-  object Label2: TLabel
-    Left = 220
-    Top = 310
-    Width = 148
-    Height = 13
-    Caption = 'RXLib Team, Thomas Stutz and'
-    Transparent = True
-  end
   object Label3: TLabel
     Left = 16
-    Top = 338
+    Top = 336
     Width = 357
-    Height = 13
+    Height = 15
     Caption = 
       'I am greatly appreciated their works and I would like to thank t' +
       'hem a lot...'
     Transparent = True
     OnClick = BackJpegClick
   end
-  object TDLinkLabel8: TTDLinkLabel
-    Left = 16
-    Top = 324
-    Width = 78
-    Height = 13
-    Cursor = crHandPoint
-    Caption = 'Lukas Gebauer. '
-    LinkTo = 'http://www.ararat.cz/synapse/'
-    Transparent = True
-  end
-  object Label1: TLabel
-    Left = 5
-    Top = 244
+  object JvLabel1: TJvLabel
+    Left = 8
+    Top = 232
     Width = 384
     Height = 13
+    Cursor = crHandPoint
     Alignment = taCenter
     AutoSize = False
     Caption = 'Revised by Jones Marlos Pinheiro da Rosa'
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clBlack
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
     Transparent = True
-    OnClick = BackJpegClick
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'mailto:jonesmarlos@gmail.com'
+  end
+  object JvLabel2: TJvLabel
+    Left = 8
+    Top = 176
+    Width = 384
+    Height = 13
+    Cursor = crHandPoint
+    Alignment = taCenter
+    AutoSize = False
+    Caption = 'www.talatdogan.com'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.talatdogan.com'
+  end
+  object JvLabel4: TJvLabel
+    Left = 112
+    Top = 288
+    Width = 86
+    Height = 13
+    Cursor = crHandPoint
+    Caption = ' Dr.Patric Spanel,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.jh-inst.cas.cz/~spanel'
+  end
+  object JvLabel5: TJvLabel
+    Left = 200
+    Top = 288
+    Width = 92
+    Height = 13
+    Cursor = crHandPoint
+    Caption = ' Dennis D. Spreen,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'mailto:dennis@spreendigital.de'
+  end
+  object JvLabel6: TJvLabel
+    Left = 296
+    Top = 288
+    Width = 94
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Dr.J'#252'rgen Rathlev,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.ieap.uni-kiel.de/surface/ag-berndt/delphi.html'
+  end
+  object JvLabel7: TJvLabel
+    Left = 16
+    Top = 304
+    Width = 85
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Orlando Arrocha,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'mailto:oarrocha@hotmail.com'
+  end
+  object JvLabel8: TJvLabel
+    Left = 104
+    Top = 304
+    Width = 78
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Carlos Barbosa,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.carlosb.com'
+  end
+  object JvLabel9: TJvLabel
+    Left = 184
+    Top = 304
+    Width = 41
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Retnyg,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://krazz.net/retnyg'
+  end
+  object JvLabel10: TJvLabel
+    Left = 232
+    Top = 304
+    Width = 150
+    Height = 13
+    Caption = 'RXLib Team, Thomas Stutz and'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+  end
+  object JvLabel11: TJvLabel
+    Left = 16
+    Top = 320
+    Width = 77
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Lukas Gebauer.'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.ararat.cz/synapse/'
+  end
+  object JvLabel3: TJvLabel
+    Left = 16
+    Top = 288
+    Width = 92
+    Height = 13
+    Cursor = crHandPoint
+    Caption = 'Wilfried Mestdagh,'
+    Transparent = True
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+    URL = 'http://www.mestdagh.biz'
   end
 end

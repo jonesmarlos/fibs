@@ -358,7 +358,7 @@ begin
   FSock.SendString('AUTH LOGIN' + CRLF);
   if ReadResult <> 334 then
     Exit;
-  FSock.SendString(EncodeBase64(FUsername) + CRLF);
+  FSock.SendString(EncodeBase64(FUserName) + CRLF);
   if ReadResult <> 334 then
     Exit;
   FSock.SendString(EncodeBase64(FPassword) + CRLF);
@@ -376,7 +376,7 @@ begin
   s := copy(FResultString, 5, Length(FResultString) - 4);
   s := DecodeBase64(s);
   s := HMAC_MD5(s, FPassword);
-  s := FUsername + ' ' + StrToHex(s);
+  s := FUserName + ' ' + StrToHex(s);
   FSock.SendString(EncodeBase64(s) + CRLF);
   Result := ReadResult = 235;
 end;
@@ -395,20 +395,20 @@ end;
 
 function TSMTPSend.Helo: Boolean;
 var
-  x: Integer;
+  X: Integer;
 begin
   FSock.SendString('HELO ' + FSystemName + CRLF);
-  x := ReadResult;
-  Result := (x >= 250) and (x <= 259);
+  X := ReadResult;
+  Result := (X >= 250) and (X <= 259);
 end;
 
 function TSMTPSend.Ehlo: Boolean;
 var
-  x: Integer;
+  X: Integer;
 begin
   FSock.SendString('EHLO ' + FSystemName + CRLF);
-  x := ReadResult;
-  Result := (x >= 250) and (x <= 259);
+  X := ReadResult;
+  Result := (X >= 250) and (X <= 259);
 end;
 
 function TSMTPSend.Login: Boolean;
@@ -452,7 +452,7 @@ begin
         Result := False;
         Exit;
       end;
-    if not ((FUsername = '') and (FPassword = '')) then
+    if not ((FUserName = '') and (FPassword = '')) then
     begin
       s := FindCap('AUTH ');
       if s = '' then
@@ -516,21 +516,21 @@ var
   n: Integer;
   s: string;
   T: string;
-  x: Integer;
+  X: Integer;
 begin
   Result := False;
   FSock.SendString('DATA' + CRLF);
   if ReadResult <> 354 then
     Exit;
   T := '';
-  x := 1500;
+  X := 1500;
   for n := 0 to Value.Count - 1 do
   begin
     s := Value[n];
     if Length(s) >= 1 then
       if s[1] = '.' then
         s := '.' + s;
-    if Length(T) + Length(s) >= x then
+    if Length(T) + Length(s) >= X then
     begin
       FSock.SendString(T);
       T := '';
@@ -545,20 +545,20 @@ end;
 
 function TSMTPSend.Etrn(const Value: string): Boolean;
 var
-  x: Integer;
+  X: Integer;
 begin
   FSock.SendString('ETRN ' + Value + CRLF);
-  x := ReadResult;
-  Result := (x >= 250) and (x <= 259);
+  X := ReadResult;
+  Result := (X >= 250) and (X <= 259);
 end;
 
 function TSMTPSend.Verify(const Value: string): Boolean;
 var
-  x: Integer;
+  X: Integer;
 begin
   FSock.SendString('VRFY ' + Value + CRLF);
-  x := ReadResult;
-  Result := (x >= 250) and (x <= 259);
+  X := ReadResult;
+  Result := (X >= 250) and (X <= 259);
 end;
 
 function TSMTPSend.StartTLS: Boolean;

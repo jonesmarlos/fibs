@@ -29,7 +29,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, ComCtrls, Buttons, jpeg, TDLinkLabel;
+  StdCtrls, ExtCtrls, ComCtrls, Buttons, jpeg, JvExControls,
+  JvComponent, JvLinkLabel, JvExStdCtrls, JvHtControls, JvLabel;
 
 type
   TAboutForm = class(TForm)
@@ -39,22 +40,22 @@ type
     LabelRelease: TLabel;
     LabelDesigned: TLabel;
     Label25: TLabel;
-    LabelPrgWebSite: TTDLinkLabel;
     LabelCopyright: TLabel;
     BackJpeg: TImage;
     Bevel1: TBevel;
     LabelAuthor: TLabel;
-    TDLinkLabel1: TTDLinkLabel;
-    TDLinkLabel2: TTDLinkLabel;
-    TDLinkLabel3: TTDLinkLabel;
-    TDLinkLabel4: TTDLinkLabel;
-    TDLinkLabel5: TTDLinkLabel;
-    TDLinkLabel6: TTDLinkLabel;
-    TDLinkLabel7: TTDLinkLabel;
-    Label2: TLabel;
     Label3: TLabel;
-    TDLinkLabel8: TTDLinkLabel;
-    Label1: TLabel;
+    JvLabel1: TJvLabel;
+    JvLabel2: TJvLabel;
+    JvLabel4: TJvLabel;
+    JvLabel5: TJvLabel;
+    JvLabel6: TJvLabel;
+    JvLabel7: TJvLabel;
+    JvLabel8: TJvLabel;
+    JvLabel9: TJvLabel;
+    JvLabel10: TJvLabel;
+    JvLabel11: TJvLabel;
+    JvLabel3: TJvLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -80,8 +81,8 @@ begin
   LabelPrgInfo.caption := PrgInfo;
   LabelRelease.caption := PrgRelease;
   LabelCopyright.caption := PrgCopyright;
-  LabelPrgWebSite.caption := PrgWebSite;
-  LabelPrgWebSite.LinkTo := 'http://' + PrgWebSite;
+  JvLabel2.caption := PrgWebSite;
+  JvLabel2.url := 'http://' + PrgWebSite;
 end;
 
 procedure TAboutForm.FormKeyDown(Sender: TObject; var Key: Word;

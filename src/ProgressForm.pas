@@ -60,7 +60,7 @@ type
     property Progress: Integer read GetProgress write SetProgress;
     property MessageText: string read GetMessageText write SetMessageText;
     property CloseEvent: TNotifyEvent read evCloseEvent write SetCloseEvent;
-  
+
     constructor Create(AOwner: TComponent; AMessage: string; AProgress: Integer = -1; ACloseEvent: TNotifyEvent = nil); reintroduce;
 
     procedure ShowProgress(AMessage: string = ''; AProgress: Integer = -1);
@@ -130,7 +130,7 @@ end;
 constructor TfmProgress.Create(AOwner: TComponent; AMessage: string; AProgress: Integer; ACloseEvent: TNotifyEvent);
 begin
   inherited Create(AOwner);
-  Self.lbMessage.Caption := AMessage;
+  Self.lbMessage.caption := AMessage;
   Self.pbProgress.Visible := AProgress > -1;
   if Self.pbProgress.Visible then
     Self.pbProgress.Position := AProgress;
@@ -162,7 +162,7 @@ end;
 
 procedure TfmProgress.DisableClose;
 begin
-  Inc(Self.iCloseDisabled);
+  inc(Self.iCloseDisabled);
 end;
 
 procedure TfmProgress.EnableClose;
@@ -184,7 +184,7 @@ end;
 
 function TfmProgress.GetMessageText: string;
 begin
-  Result := Self.lbMessage.Caption;
+  Result := Self.lbMessage.caption;
 end;
 
 function TfmProgress.GetProgress: Integer;
@@ -203,7 +203,7 @@ end;
 
 procedure TfmProgress.SetMessageText(Value: string);
 begin
-  Self.lbMessage.Caption := Value;
+  Self.lbMessage.caption := Value;
 end;
 
 procedure TfmProgress.SetProgress(Value: Integer);
@@ -220,9 +220,9 @@ var
 begin
   iHeigh := 48;
   if Self.paFooter.Visible then
-    Inc(iHeigh, 32);
+    inc(iHeigh, 32);
   if Self.pbProgress.Visible then
-    Inc(iHeigh, 16);
+    inc(iHeigh, 16);
   Self.ClientHeight := iHeigh;
 end;
 
@@ -235,4 +235,3 @@ initialization
   fmProgress := nil;
 
 end.
-

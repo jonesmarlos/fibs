@@ -30,11 +30,11 @@ function MoveWindowToMonitor(hnd: HWND; monNum: Byte): Boolean;
 function GetMonitorFromWindow(hnd: HWND): Byte;
 
 // imported API functions
-function GetMonitorInfo(AMonitorHandle: pointer; var ADataRecord: TMONITORINFO): Boolean;
+function GetMonitorInfo(AMonitorHandle: Pointer; var ADataRecord: TMONITORINFO): Boolean;
 stdcall; External 'User32.dll' Name 'GetMonitorInfoA'; overload;
-function MonitorFromPoint(APoint: TPoint; AFlags: DWORD): pointer;
+function MonitorFromPoint(APoint: TPoint; AFlags: DWORD): Pointer;
 stdcall; External 'User32.dll';
-function MonitorFromWindow(AWindowHandle: HWND; AFlags: DWORD): pointer;
+function MonitorFromWindow(AWindowHandle: HWND; AFlags: DWORD): Pointer;
 stdcall; External 'User32.dll';
 
 implementation
@@ -68,7 +68,7 @@ end;
 function GetNumberMonitors: Byte;
 // slower than GuessNumberMonitors
 var
-  LastMon, NewMon: pointer;
+  LastMon, NewMon: Pointer;
   dr: TRect;
 begin
   Result := 0;
@@ -82,7 +82,7 @@ begin
       inc(Result);
       LastMon := NewMon;
     end;
-    dec(dr.Right, 100);
+    Dec(dr.Right, 100);
   end;
 end;
 

@@ -65,7 +65,7 @@ type
     JvGroupBox6: TJvGroupBox;
     JvGroupBox7: TJvGroupBox;
     JvLabel1: TJvLabel;
-    btOk: TButton;
+    btOK: TButton;
     btCancel: TButton;
     edTaskName: TJvEdit;
     edDatabaseName: TJvFilenameEdit;
@@ -113,10 +113,10 @@ uses StrUtils, DateUtils, UDFConst, UDFPresets, ProgressForm, DB, UDFValidation;
 procedure TfmTask.FormShow(Sender: TObject);
 begin
   if Self.bNewTask then
-    Self.Caption := 'New Backup Task'
+    Self.caption := 'New Backup Task'
   else
-    Self.Caption := 'Edit Backup Task';
-  Self.ghHeader.Caption := Self.Caption;
+    Self.caption := 'Edit Backup Task';
+  Self.ghHeader.caption := Self.caption;
   Self.pcOptions.ActivePage := Self.tsBackupTime;
 end;
 
@@ -153,7 +153,7 @@ begin
   Self.edMirrorDir3.Text := FibsRef.qrTaskMIRROR3DIR.Value;
   Self.edUserName.Text := FibsRef.qrTaskUSER.Value;
   Self.edPassword.Text := FibsRef.qrTaskPASSWORD.Value;
-  Self.lbPriority.Caption := 'Priority ' + FibsRef.qrOptionBPRIORTY.Value;
+  Self.lbPriority.caption := 'Priority ' + FibsRef.qrOptionBPRIORTY.Value;
   Self.lbTaskActive.Visible := FibsRef.qrTaskACTIVE.AsInteger = 1;
   sTime := FibsRef.qrTaskBOXES.Value;
   for i := 1 to 24 do
@@ -183,7 +183,7 @@ begin
   Self.cbUseBackupNameParameter.Checked := FibsRef.qrTaskUSEPARAMS.AsBoolean;
   Self.cbExternalShowWindow.Checked := FibsRef.qrTaskSHOWBATCHWIN.AsBoolean;
   Self.cbLocalConnectionClick(nil);
-  Self.btOk.Enabled := (FibsRef.qrTaskACTIVE.AsInteger = 0);
+  Self.btOK.Enabled := (FibsRef.qrTaskACTIVE.AsInteger = 0);
 end;
 
 procedure TfmTask.SaveTask(FibsRef: TdmFibs);
@@ -300,13 +300,13 @@ begin
     iHourCount := 0;
     for i := 0 to 23 do
       if Self.clbTimeHours.Checked[i] then
-        Inc(iHourCount);
+        inc(iHourCount);
     if iHourCount = 0 then
       vaValidation.Add('At least one Hour must be checked!', vtWarning);
     iMinCount := 0;
     for i := 0 to 59 do
       if Self.clbTimeMinutes.Checked[i] then
-        Inc(iMinCount);
+        inc(iMinCount);
     if iMinCount = 0 then
       vaValidation.Add('At least one Minute must be checked!', vtWarning);
     case Self.cbPolicyType.ItemIndex of
@@ -398,4 +398,3 @@ begin
 end;
 
 end.
-

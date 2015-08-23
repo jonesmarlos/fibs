@@ -43,7 +43,7 @@ type
   public
     { Public declarations }
     class procedure ShowPlan(AOwner: TComponent);
-    class procedure ShowTaskPlan(AOwner: TComponent; TaskName: string; AlarmTimeList: TStringList); 
+    class procedure ShowTaskPlan(AOwner: TComponent; TaskName: string; AlarmTimeList: TStringList);
   end;
 
 var
@@ -79,7 +79,7 @@ begin
       fmPlanList.lsPlan.Items.Add(' ' + IntToStr(i + 1) + '.   ' + TStr + ' - ' + CStr)
     end;
     fmPlanList.lsPlan.Items.EndUpdate;
-    fmPlanList.Caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
+    fmPlanList.caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
     fmPlanList.lsPlan.TopIndex := cc - 1;
     fmPlanList.lsPlan.ItemIndex := cc;
     fmPlanList.ShowModal;
@@ -108,10 +108,10 @@ begin
       TStr := TimeToStr(StrToFloat(copy(AlarmTimeList[i], 1, KPos - 1)));
       if TStr = MyDateTimeToStr(CurrentAlarm + StartOfTheDay(Now)) then
         cc := i;
-      fmPlanList.lsPlan.items.Add(' ' + IntToStr(i + 1) + '.   ' + TStr); //+' - '+CStr)
+      fmPlanList.lsPlan.Items.Add(' ' + IntToStr(i + 1) + '.   ' + TStr); //+' - '+CStr)
     end;
-    fmPlanList.lsPlan.items.EndUpdate;
-    fmPlanList.Caption := 'Selected Backup Times of Task "' + TaskName + ' "';
+    fmPlanList.lsPlan.Items.EndUpdate;
+    fmPlanList.caption := 'Selected Backup Times of Task "' + TaskName + ' "';
     fmPlanList.lsPlan.TopIndex := cc - 1;
     fmPlanList.lsPlan.ItemIndex := cc;
     fmPlanList.ShowModal;

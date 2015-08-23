@@ -76,7 +76,7 @@ type
     procedure LoadPreferences(FibsRef: TdmFibs);
     procedure SavePreferences(FibsRef: TdmFibs);
 
-    class function ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): boolean;
+    class function ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): Boolean;
   end;
 
 implementation
@@ -85,7 +85,7 @@ uses Registry, FileCtrl, ProgressForm, UDFConst, DCPbase64, UDFValidation, DB;
 
 {$R *.dfm}
 
-class function TfmPref.ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): boolean;
+class function TfmPref.ShowPrefs(AOwner: TComponent; FibsRef: TdmFibs): Boolean;
 var
   fmPref: TfmPref;
 begin
@@ -102,7 +102,7 @@ end;
 
 procedure TfmPref.LoadPreferences(FibsRef: TdmFibs);
 begin
-  Self.edGBakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
+  Self.edGbakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
   Self.edLogDir.Text := FibsRef.qrOptionLOGDIR.Value;
   Self.edArchiveDir.Text := FibsRef.qrOptionARCHIVEDIR.Value;
   Self.cbBackupPriority.ItemIndex := Self.cbBackupPriority.Items.IndexOf(FibsRef.qrOptionBPRIORTY.AsString);
@@ -112,15 +112,15 @@ begin
   Self.edMailAdress.Text := FibsRef.qrOptionSENDERSMAIL.Value;
   Self.edUserName.Text := FibsRef.qrOptionMAILUSERNAME.Value;
   Self.edPassword.Text := DCPbase64.Base64DecodeStr(FibsRef.qrOptionMAILPASSWORD.AsString);
-  if Length(Trim(Self.edGBakDir.Text)) = 0 then
+  if Length(Trim(Self.edGbakDir.Text)) = 0 then
     if Self.arsFirebird.PathExists('DefaultInstance') then
-      Self.edGBakDir.Text := Self.arsFirebird.ReadString('DefaultInstance') + 'bin';
+      Self.edGbakDir.Text := Self.arsFirebird.ReadString('DefaultInstance') + 'bin';
 end;
 
 procedure TfmPref.SavePreferences(FibsRef: TdmFibs);
 begin
   FibsRef.qrOption.Edit;
-  FibsRef.qrOptionPATHTOGBAK.Value := Self.edGBakDir.Text;
+  FibsRef.qrOptionPATHTOGBAK.Value := Self.edGbakDir.Text;
   FibsRef.qrOptionLOGDIR.Value := Self.edLogDir.Text;
   FibsRef.qrOptionARCHIVEDIR.Value := Self.edArchiveDir.Text;
   FibsRef.qrOptionBPRIORTY.Value := Self.cbBackupPriority.Text;
@@ -153,11 +153,11 @@ var
 begin
   vaValidation := TValidation.Create(Self);
   try
-    if Length(Trim(Self.edGBakDir.Text)) = 0 then
+    if Length(Trim(Self.edGbakDir.Text)) = 0 then
       vaValidation.Add('Directory Name cannot be empty!', vtWarning);
-    if not SysUtils.DirectoryExists(Self.edGBakDir.Text) then
+    if not SysUtils.DirectoryExists(Self.edGbakDir.Text) then
       vaValidation.Add('There is No Directory given name!', vtWarning);
-    if not SysUtils.FileExists(Self.edGBakDir.Text + '\gbak.exe') then
+    if not SysUtils.FileExists(Self.edGbakDir.Text + '\gbak.exe') then
       vaValidation.Add('Gbak.exe cannot be found onto given dir!', vtWarning);
     if Length(Trim(Self.edLogDir.Text)) = 0 then
       vaValidation.Add('LOG Directory Name cannot be empty!', vtWarning);
@@ -173,4 +173,3 @@ begin
 end;
 
 end.
-

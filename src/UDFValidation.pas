@@ -17,8 +17,8 @@ type
     sPrefix: string;
     bUseIncludeOrder: Boolean;
   public
-    property Header: string read sHeader write sHeader;                    
-    property Footer: string read sFooter Write sFooter;
+    property Header: string read sHeader write sHeader;
+    property Footer: string read sFooter write sFooter;
 
     constructor Create(AOwner: TComponent; Header: string = ''; Footer: string = '';
       Prefix: string = ''; UseIncludeOrder: Boolean = False); reintroduce;
@@ -35,7 +35,7 @@ uses
   Dialogs, Controls, SysUtils, StrUtils;
 
 constructor TValidation.Create(AOwner: TComponent; Header: string; Footer: string;
-      Prefix: string; UseIncludeOrder: Boolean);
+  Prefix: string; UseIncludeOrder: Boolean);
 begin
   inherited Create(AOwner);
   Self.slMessages := TStringList.Create;
@@ -64,14 +64,14 @@ var
   bWarningMessage: Boolean;
 begin
   Result := False;
-  bWarningMessage :=  False;
+  bWarningMessage := False;
   slWarning := TStringList.Create;
   slConfirmation := TStringList.Create;
   try
     for iIndex := 0 to Self.slMessages.Count - 1 do
     begin
       if TValidationType(Self.slMessages.Objects[iIndex]) = vtWarning then
-        bWarningMessage := True;    
+        bWarningMessage := True;
       if not Self.bUseIncludeOrder then
         case TValidationType(Self.slMessages.Objects[iIndex]) of
           vtWarning: slWarning.Add(Self.slMessages.Strings[iIndex]);

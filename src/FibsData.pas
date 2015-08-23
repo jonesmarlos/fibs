@@ -94,7 +94,7 @@ type
     procedure DuplicateTask(SetActive: Boolean);
 
     procedure GetTaskBookmark;
-    procedure SetTaskBookmark; 
+    procedure SetTaskBookmark;
     function GetTask: TTask;
     procedure SetTask(Task: TTask);
 
@@ -270,3 +270,4 @@ begin
 end;
 
 end.
+

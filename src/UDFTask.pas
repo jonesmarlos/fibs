@@ -30,7 +30,7 @@ type
   TTaskTrigger = class
   private
     FHour: Integer;
-    FMinute: Integer;  
+    FMinute: Integer;
   end;
 
   TArrayOfTaskTrigger = array of TTaskTrigger;

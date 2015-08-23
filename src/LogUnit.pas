@@ -170,8 +170,8 @@ printer driver. }
       begin
         X_resolution := GetDeviceCaps(Handle, LOGPIXELSX);
         Y_resolution := GetDeviceCaps(Handle, LOGPIXELSY);
-        printorigin.x := GetDeviceCaps(Handle, PHYSICALOFFSETX);
-        printorigin.y := GetDeviceCaps(Handle, PHYSICALOFFSETY);
+        printorigin.X := GetDeviceCaps(Handle, PHYSICALOFFSETX);
+        printorigin.Y := GetDeviceCaps(Handle, PHYSICALOFFSETY);
         pagerect.Left := 0;
         pagerect.Right := GetDeviceCaps(Handle, PHYSICALWIDTH);
         pagerect.Top := 0;
@@ -192,24 +192,24 @@ printer driver. }
       begin
         { Figure textrect in paper coordinates }
         Left := Round(leftmargin * X_resolution);
-        if Left < printorigin.x then
-          Left := printorigin.x;
+        if Left < printorigin.X then
+          Left := printorigin.X;
 
         Top := Round(topmargin * Y_resolution);
-        if Top < printorigin.y then
-          Top := printorigin.y;
+        if Top < printorigin.Y then
+          Top := printorigin.Y;
 
         { Printer.PageWidth and PageHeight return the size of the
           printable area, we need to add the printorigin to get the
           edge of the printable area in paper coordinates. }
         Right := pagerect.Right - Round(rightmargin * X_resolution);
-        max := Printer.PageWidth + printorigin.x;
+        max := Printer.PageWidth + printorigin.X;
         if Right > max then
           Right := max;
 
         Bottom := pagerect.Bottom - Round(bottommargin *
           Y_resolution);
-        max := Printer.PageHeight + printorigin.y;
+        max := Printer.PageHeight + printorigin.Y;
         if Bottom > max then
           Bottom := max;
 
@@ -220,7 +220,7 @@ printer driver. }
       end; { With }
 
       { Convert textrect to canvas coordinates. }
-      OffsetRect(textrect, -printorigin.x, -printorigin.y);
+      OffsetRect(textrect, -printorigin.X, -printorigin.Y);
 
       { Build header and footer rects. }
       headerrect := Rect(textrect.Left, 0,
@@ -264,19 +264,19 @@ printer driver. }
 
     procedure DoPage;
     var
-      y: Integer;
+      Y: Integer;
     begin
-      y := textrect.Top;
+      Y := textrect.Top;
       while (textstart < Lines.Count) and
-        (y <= (textrect.Bottom - charheight)) do
+        (Y <= (textrect.Bottom - charheight)) do
       begin
         { Note: use TextRect instead of TextOut to effect clipping
           of the line on the right margin. It is a bit slower,
           though. The clipping rect would be
           Rect( textrect.left, y, textrect.right, y+charheight). }
-        Printer.Canvas.TextOut(textrect.Left, y, Lines[textstart]);
+        Printer.Canvas.TextOut(textrect.Left, Y, Lines[textstart]);
         inc(textstart);
-        inc(y, lineheight);
+        inc(Y, lineheight);
       end; { While }
     end; { DoPage }
   begin { PrintPage }

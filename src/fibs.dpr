@@ -96,7 +96,7 @@ begin
     begin
       RunningAsService := False;
       Application.CreateForm(TfmFibs, fmFibs);
-  // Check Datafiles are not corrupt nor old version.
+      // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         dmFibs.Free;

@@ -111,7 +111,7 @@ end;
 function GetServiceStartType(ServiceName: string): DWORD;
 var
   Mgr, Svc: Integer;
-  Config: pointer;
+  Config: Pointer;
   size: DWORD;
 begin
   { Results

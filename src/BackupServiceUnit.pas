@@ -127,7 +127,7 @@ function BackupStartService(DisplayName: string): Boolean;
 var
   Mgr, Svc: Integer;
   UserName, ServiceStartName: string;
-  Config: pointer;
+  Config: Pointer;
   size: DWORD;
   n: Integer;
 begin
