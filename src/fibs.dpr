@@ -31,7 +31,7 @@ uses
   BackupForm in 'BackupForm.pas' {fmBackup},
   UDFUtils in 'UDFUtils.pas',
   PlanListForm in 'PlanListForm.pas' {fmPlanList},
-  AboutUnit in 'AboutUnit.pas' {AboutForm},
+  AboutForm in 'AboutForm.pas' {fmAbout},
   LogUnit in 'LogUnit.pas' {LogForm},
   RetMonitorTools in 'RetMonitorTools.pas',
   BackupServiceUnit in 'BackupServiceUnit.pas',
@@ -96,7 +96,7 @@ begin
     begin
       RunningAsService := False;
       Application.CreateForm(TfmFibs, fmFibs);
-      // Check Datafiles are not corrupt nor old version.
+  // Check Datafiles are not corrupt nor old version.
       if DataFilesInvalid then
       begin
         dmFibs.Free;

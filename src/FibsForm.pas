@@ -149,7 +149,7 @@ implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
   ProgressForm, BackupForm, UDFUtils, PlanListForm,
-  AboutUnit, LogUnit, UDFPresets, DateUtils,
+  AboutForm, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
 {$R *.DFM}
@@ -945,12 +945,7 @@ end;
 
 procedure TfmFibs.MenuAboutClick(Sender: TObject);
 begin
-  AboutForm := TAboutForm.Create(Self);
-  try
-    AboutForm.ShowModal;
-  finally
-    AboutForm.Free;
-  end;
+  TfmAbout.ShowAbout(Self);
 end;
 
 procedure TfmFibs.MenuTimeSettingsClick(Sender: TObject);
