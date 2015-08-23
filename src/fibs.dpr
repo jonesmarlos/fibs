@@ -36,7 +36,6 @@ uses
   RetMonitorTools in 'RetMonitorTools.pas',
   BackupServiceUnit in 'BackupServiceUnit.pas',
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',
-  smtpsend in 'Synapse\smtpsend.pas',
   PortUnit in 'PortUnit.pas',
   EmailUnit in 'EmailUnit.pas';
 
