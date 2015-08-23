@@ -28,7 +28,7 @@ uses
   TaskForm in 'TaskForm.pas' {fmTask},
   ProgressForm in 'ProgressForm.pas' {fmProgress},
   BackupUnit in 'BackupUnit.pas',
-  ManualBackupUnit in 'ManualBackupUnit.pas' {ManualBackupForm},
+  BackupForm in 'BackupForm.pas' {fmBackup},
   FunctionsUnit in 'FunctionsUnit.pas',
   PlanListUnit in 'PlanListUnit.pas' {PlanListForm},
   AboutUnit in 'AboutUnit.pas' {AboutForm},

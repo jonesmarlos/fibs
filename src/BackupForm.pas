@@ -29,249 +29,98 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, Spin, CheckLst, DBCtrls;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, Spin, CheckLst, DBCtrls,
+  FibsData, JvExStdCtrls, JvCheckBox, JvExExtCtrls, JvBevel;
 
 type
   TfmBackup = class(TForm)
-    BitBtn1: TBitBtn;
-    BitBtn2: TBitBtn;
-    Label5: TLabel;
-    Label6: TLabel;
-    EditDestinationDir: TEdit;
-    EditDatabaseName: TEdit;
-    Label7: TLabel;
-    Label8: TLabel;
-    EditUserName: TEdit;
-    EditPassword: TEdit;
-    Label3: TLabel;
-    EditMirrorDir: TEdit;
-    Label11: TLabel;
-    EditTaskName: TEdit;
-    Label1: TLabel;
-    EditGBakDir: TEdit;
-    Bevel1: TBevel;
-    Label13: TLabel;
-    CLBGbakOptions: TCheckListBox;
-    DBCheckBox1: TDBCheckBox;
-    LabelCompDegree: TLabel;
-    EditCompDeg: TEdit;
-    Label2: TLabel;
-    EditPriority: TEdit;
-    Label4: TLabel;
-    EditMirror2Dir: TEdit;
-    Label9: TLabel;
-    EditMirror3Dir: TEdit;
-    DBCheckBox2: TDBCheckBox;
-    EditMailTo: TEdit;
-    Label10: TLabel;
-    procedure BitBtn1Click(Sender: TObject);
-    procedure FormShow(Sender: TObject);
+    lbBackupDir: TLabel;
+    lbDatabaseName: TLabel;
+    edBackupDir: TEdit;
+    edDatabaseName: TEdit;
+    lbUserName: TLabel;
+    lbPassword: TLabel;
+    edUserName: TEdit;
+    edPassword: TEdit;
+    lbMirrorDir1: TLabel;
+    edMirrorDir1: TEdit;
+    lbTaskName: TLabel;
+    edTaskName: TEdit;
+    lbGbakDir: TLabel;
+    edGbakDir: TEdit;
+    lbGbakOptions: TLabel;
+    clbGbakOptions: TCheckListBox;
+    lbCompressLevel: TLabel;
+    edCompressLevel: TEdit;
+    lbBackupPriority: TLabel;
+    edBackupPriority: TEdit;
+    lbMirrorDir2: TLabel;
+    edMirrorDir2: TEdit;
+    lbMirrorDir3: TLabel;
+    edMirrorDir3: TEdit;
+    edMailTo: TEdit;
+    lbMailTo: TLabel;
+    cbValidateDatabase: TJvCheckBox;
+    cbCreateZipBackup: TJvCheckBox;
+    JvBevel1: TJvBevel;
+    btBackupNow: TButton;
+    btCancel: TButton;
   private
     { Private declarations }
   public
     { Public declarations }
-  end;
+    procedure LoadTask(FibsRef: TdmFibs);
 
-var
-  fmBackup: TfmBackup;
+    class function ShowBackup(AOwner: TComponent; FibsRef: TdmFibs): Boolean;
+  end;
 
 implementation
 
 {$R *.dfm}
-uses DateUtils, UDFConst, FibsData, ProgressForm, UDFPresets, FunctionsUnit;
+uses DateUtils, UDFConst, ProgressForm, UDFPresets, FunctionsUnit, DCPbase64,
+  DB;
 
-procedure TfmBackup.BitBtn1Click(Sender: TObject);
+procedure TfmBackup.LoadTask(FibsRef: TdmFibs);
 var
-  bd, MD, DD, gd, ld: string;
+  sOptions: string;
+  i: Integer;
 begin
-  if EditTaskName.Text = '' then
-  begin
-    MessageDlg('Task Name cannot be empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
-    Exit;
-  end;
-  if dmFibs.qrTaskLOCALCONN.AsBoolean = True then
-  begin
-    DD := FunctionsUnit.RemoveDatabaseSequenceTokens(EditDatabaseName.Text);
-    if (DD = '') then
-    begin
-      MessageDlg('Database Path cannot be empty!', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end
+  Self.edTaskName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(FibsRef.qrTaskTASKNAME.Value);
+  Self.edDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(FibsRef.qrTaskDBNAME.Value);
+  Self.edBackupDir.Text := FibsRef.qrTaskBACKUPDIR.Value;
+  Self.edMirrorDir1.Text := FibsRef.qrTaskMIRRORDIR.Value;
+  Self.edMirrorDir2.Text := FibsRef.qrTaskMIRROR2DIR.Value;
+  Self.edMirrorDir3.Text := FibsRef.qrTaskMIRROR3DIR.Value;
+  Self.edGbakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
+  Self.edUserName.Text := FibsRef.qrTaskUSER.Value;
+  Self.edPassword.Text := DCPbase64.Base64DecodeStr(FibsRef.qrTaskPASSWORD.AsString);
+  Self.cbValidateDatabase.Checked := FibsRef.qrTaskDOVAL.AsBoolean;
+  Self.cbCreateZipBackup.Checked := FibsRef.qrTaskZIPBACKUP.AsBoolean;
+  Self.edCompressLevel.Text := FibsRef.qrTaskCOMPRESS.Value;
+  Self.edBackupPriority.Text := FibsRef.qrOptionBPRIORTY.Value;
+  Self.edMailTo.Text := FibsRef.qrTaskMAILTO.Value;
+  sOptions := FibsRef.qrTaskBOPTIONS.Value;
+  for i := 0 to TotalGBakOptions - 1 do
+    if (sOptions[i + 1] = '1') then
+      Self.clbGbakOptions.State[i] := cbChecked
     else
-      if FileExists(DD) = False then
-      begin
-        MessageDlg('Database doesn''t exist onto given path!' + #13#10 + '(' + DD + ')', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end;
-  end;
-  bd := Trim(EditDestinationDir.Text);
-  if (bd = '') then
-  begin
-    MessageDlg('Backup Directory cannot be empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
-    Exit;
-  end
-  else
-    if DirectoryExists(bd) = False then
-    begin
-      MessageDlg('Backup directory is not exist !' + #13#10 + '(' + bd + ')', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end;
-
-  if IsFtpPath(EditMirrorDir.Text) = False then
-  begin
-    MD := Trim(EditMirrorDir.Text);
-    if Trim(MD) = '' then
-    begin
-      //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
-      // dikkat !!! mrNone yok ..exit yok..
-    end
-    else
-      if DirectoryExists(MD) = False then
-      begin
-        MessageDlg('Mirror directory is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end
-      else
-        if (MD = bd) then
-        begin
-          MessageDlg('Mirror directory must be different than Backup Directory!', mtError, [mbOk], 0);
-          ModalResult := mrNone;
-          Exit;
-        end;
-  end
-  else
-  begin
-    if CheckFtpPath(EditMirrorDir.Text) = False then
-    begin
-      ModalResult := mrNone;
-      Exit;
-    end;
-  end;
-
-  if IsFtpPath(EditMirror2Dir.Text) = False then
-  begin
-    MD := Trim(EditMirror2Dir.Text);
-    if Trim(MD) = '' then
-    begin
-      //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
-      // dikkat !!! mrNone yok ..exit yok..
-    end
-    else
-      if DirectoryExists(MD) = False then
-      begin
-        MessageDlg('Mirror directory 2 is not exist !' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end
-      else
-        if (MD = bd) then
-        begin
-          MessageDlg('Mirror directory 2 must be different than Backup Directory!', mtError, [mbOk], 0);
-          ModalResult := mrNone;
-          Exit;
-        end;
-  end
-  else
-  begin
-    if CheckFtpPath(EditMirror2Dir.Text) = False then
-    begin
-      ModalResult := mrNone;
-      Exit;
-    end;
-  end;
-
-  if IsFtpPath(EditMirror3Dir.Text) = False then
-  begin
-    MD := Trim(EditMirror3Dir.Text);
-    if Trim(MD) = '' then
-    begin
-      //    MesajDlg('Mirror path is empty !'#13#10'Mirroring has been disabled !',  'c',PrgName);
-      // dikkat !!! mrNone yok ..exit yok..
-    end
-    else
-      if DirectoryExists(MD) = False then
-      begin
-        MessageDlg('Mirror directory 3 is not exist!' + #13#10 + '(' + MD + ')', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end
-      else
-        if (MD = bd) then
-        begin
-          MessageDlg('Mirror directory 3 must be different than Backup Directory!', mtError, [mbOk], 0);
-          ModalResult := mrNone;
-          Exit;
-        end;
-  end
-  else
-  begin
-    if CheckFtpPath(EditMirror3Dir.Text) = False then
-    begin
-      ModalResult := mrNone;
-      Exit;
-    end;
-  end;
-
-  gd := Trim(EditGBakDir.Text);
-  if gd = '' then
-  begin
-    MessageDlg('GBAK Directory is empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone; //1.0.1
-    Exit;
-  end
-  else
-    if DirectoryExists(gd) = False then
-    begin
-      MessageDlg('Gbak Directory doesn''t exists!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end
-    else
-      if FileExists(gd + '\gbak.exe') = False then
-      begin
-        MessageDlg('Gbak.exe cannot be found onto given Gbak Dir!' + #13#10 + '(' + gd + ')', mtError, [mbOk], 0);
-        ModalResult := mrNone;
-        Exit;
-      end;
-  ld := Trim(dmFibs.qrOptionLOGDIR.Value);
-  if (ld = '') then
-  begin
-    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
-    Exit;
-  end
-  else
-    if DirectoryExists(ld) = False then
-    begin
-      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + ld + ')', mtError, [mbOk], 0);
-      ModalResult := mrNone;
-      Exit;
-    end;
-
-  if EditUserName.Text = '' then
-  begin
-    MessageDlg('User Name cannot be empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
-    Exit;
-  end;
-  if EditPassword.Text = '' then
-  begin
-    MessageDlg('Password cannot be empty!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
-    Exit;
-  end;
+      Self.clbGbakOptions.State[i] := cbUnChecked;
 end;
 
-procedure TfmBackup.FormShow(Sender: TObject);
+class function TfmBackup.ShowBackup(AOwner: TComponent;
+  FibsRef: TdmFibs): Boolean;
+var
+  fmBackup: TfmBackup;
 begin
-  Self.EditTaskName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditTaskName.Text);
-  Self.EditDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditDatabaseName.Text);
+  Result := False;
+  fmBackup := TfmBackup.Create(AOwner);
+  try
+    fmBackup.LoadTask(FibsRef);
+    Result := fmBackup.ShowModal = mrOk;
+  finally
+    fmBackup.Release;
+  end;
 end;
 
 end.
+

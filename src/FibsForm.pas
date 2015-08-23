@@ -150,7 +150,7 @@ var
 implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, BackupUnit,
-  ProgressForm, ManualBackupUnit, FunctionsUnit, PlanListUnit,
+  ProgressForm, BackupForm, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
@@ -1314,56 +1314,39 @@ end;
 
 procedure TfmFibs.MenuBackupNowClick(Sender: TObject);
 var
-  s, TN, GP, UN, PW, DN, DD, MD, MD2, MD3: string; //1.0.1 bd,mxd,ld
-  DoVal, ZBU: Boolean;
-  i: Integer;
-  passw: string;
+  sTaskName,
+    sGbakDir,
+    sUserName,
+    sPassword,
+    sDatabaseName,
+    sBackupDir,
+    sMirrorDir1,
+    sMirrorDir2,
+    sMirrorDir3,
+    sCompressLevel: string;
+  bDoValidate,
+    bCompressBackup: Boolean;
 begin
   if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to execute!', mtError, [mbOk], 0);
-    ModalResult := mrNone;
     Exit;
   end;
-
-  ManualBackupForm := TManualBackupForm.Create(Self);
-  ManualBackupForm.EditTaskName.Text := dmFibs.qrTaskTASKNAME.Value;
-  ManualBackupForm.EditDatabaseName.Text := dmFibs.qrTaskDBNAME.Value;
-  ManualBackupForm.EditDestinationDir.Text := dmFibs.qrTaskBACKUPDIR.Value;
-  ManualBackupForm.EditMirrorDir.Text := dmFibs.qrTaskMIRRORDIR.Value;
-  ManualBackupForm.EditMirror2Dir.Text := dmFibs.qrTaskMIRROR2DIR.Value;
-  ManualBackupForm.EditMirror3Dir.Text := dmFibs.qrTaskMIRROR3DIR.Value;
-  ManualBackupForm.EditGBakDir.Text := dmFibs.qrOptionPATHTOGBAK.Value;
-  ManualBackupForm.EditUserName.Text := dmFibs.qrTaskUSER.Value;
-  ManualBackupForm.EditPassword.Text := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
-  ManualBackupForm.EditCompDeg.Text := dmFibs.qrTaskCOMPRESS.Value;
-  ManualBackupForm.EditPriority.Text := dmFibs.qrOptionBPRIORTY.Value;
-  ManualBackupForm.EditMailTo.Text := dmFibs.qrTaskMAILTO.Value;
-  s := dmFibs.qrTaskBOPTIONS.Value;
-  for i := 0 to TotalGBakOptions - 1 do
-    if (s[i + 1] = '1') then
-      ManualBackupForm.CLBGbakOptions.State[i] := cbChecked
-    else
-      ManualBackupForm.CLBGbakOptions.State[i] := cbUnChecked;
-  try
-    if ManualBackupForm.ShowModal = mrOk then
-    begin
-      TN := ManualBackupForm.EditTaskName.Text;
-      DN := ManualBackupForm.EditDatabaseName.Text;
-      DD := ManualBackupForm.EditDestinationDir.Text;
-      MD := ManualBackupForm.EditMirrorDir.Text;
-      MD2 := ManualBackupForm.EditMirror2Dir.Text;
-      MD3 := ManualBackupForm.EditMirror3Dir.Text;
-      UN := ManualBackupForm.EditUserName.Text;
-      PW := ManualBackupForm.EditPassword.Text;
-      GP := ManualBackupForm.EditGBakDir.Text;
-      ZBU := ManualBackupForm.DBCheckBox1.State = cbChecked;
-      DoVal := ManualBackupForm.DBCheckBox2.State = cbChecked;
-      ManualBackUp(Now, TN, GP, UN, PW, DN, DD, MD, MD2, MD3,
-        dmFibs.qrTaskCOMPRESS.Value, ZBU, DoVal);
-    end;
-  finally
-    ManualBackupForm.Free;
+  if TfmBackup.ShowBackup(Self, dmFibs) then
+  begin
+    sTaskName := dmFibs.qrTaskTASKNAME.Value;
+    sDatabaseName := dmFibs.qrTaskDBNAME.Value;
+    sBackupDir := dmFibs.qrTaskBACKUPDIR.Value;
+    sMirrorDir1 := dmFibs.qrTaskMIRRORDIR.Value;
+    sMirrorDir2 := dmFibs.qrTaskMIRROR2DIR.Value;
+    sMirrorDir3 := dmFibs.qrTaskMIRROR3DIR.Value;
+    sUserName := dmFibs.qrTaskUSER.Value;
+    sPassword := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
+    sGbakDir := dmFibs.qrOptionPATHTOGBAK.Value;
+    bCompressBackup := dmFibs.qrTaskZIPBACKUP.AsBoolean;
+    sCompressLevel := dmFibs.qrTaskCOMPRESS.Value;
+    bDoValidate := dmFibs.qrTaskDOVAL.AsBoolean;
+    Self.ManualBackUp(Now, sTaskName, sGbakDir, sUserName, sPassword, sDatabaseName, sBackupDir, sMirrorDir1, sMirrorDir2, sMirrorDir3, sCompressLevel, bCompressBackup, bDoValidate);
   end;
 end;
 

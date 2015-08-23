@@ -105,9 +105,6 @@ type
     class function EditTask(AOwner: TComponent; FibsRef: TdmFibs; NewTask: Boolean): Boolean;
   end;
 
-var
-  fmTask: TfmTask;
-
 implementation
 
 {$R *.dfm}
@@ -232,7 +229,7 @@ begin
   FibsRef.qrTaskZIPBACKUP.AsBoolean := Self.cbCompressBackup.Checked;
   FibsRef.qrTaskCOMPRESS.Value := Self.cbCompressLevel.Text;
   FibsRef.qrTaskPVAL.Value := Self.edPolicyValue.Text;
-  FibsRef.qrTaskPUNIT.Value := Self.cbPolicyType.Text; 
+  FibsRef.qrTaskPUNIT.Value := Self.cbPolicyType.Text;
   FibsRef.qrTaskDELETEALL.Value := IfThen(Self.cbPolicyDeleteOfCBackup.Checked, 'T', 'F');
   FibsRef.qrTaskMAILTO.Value := Self.edMailTo.Text;
   FibsRef.qrTaskBATCHFILE.Value := Self.edExternalFile.Text;
