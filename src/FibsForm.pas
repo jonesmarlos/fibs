@@ -149,7 +149,7 @@ var
 
 implementation
 
-uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, BackupUnit,
+uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
   ProgressForm, BackupForm, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;

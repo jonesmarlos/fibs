@@ -27,7 +27,7 @@ uses
   PrefForm in 'PrefForm.pas' {fmPref},
   TaskForm in 'TaskForm.pas' {fmTask},
   ProgressForm in 'ProgressForm.pas' {fmProgress},
-  BackupUnit in 'BackupUnit.pas',
+  UDFBackup in 'UDFBackup.pas',
   BackupForm in 'BackupForm.pas' {fmBackup},
   FunctionsUnit in 'FunctionsUnit.pas',
   PlanListUnit in 'PlanListUnit.pas' {PlanListForm},
