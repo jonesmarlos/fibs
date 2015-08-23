@@ -150,7 +150,7 @@ var
 implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
-  ProgressForm, BackupForm, UDFUtils, PlanListUnit,
+  ProgressForm, BackupForm, UDFUtils, PlanListForm,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
@@ -941,45 +941,8 @@ begin
 end;
 
 procedure TfmFibs.MenuPlanClick(Sender: TObject);
-var
-  TStr, CStr: string;
-  cc, i, KPos, NPos: Integer;
-var
-  ts: TStrings;
 begin
-  if dmFibs.qrTask.RecordCount < 1 then
-  begin
-    MessageDlg('No backup task to be seen the backup executing times!', mtError, [mbOk], 0);
-    Exit;
-  end;
-  ts := TStringList.Create;
-  ts.BeginUpdate;
-  cc := 0;
-  for i := 0 to TimeList.Count - 1 do
-  begin
-    KPos := Pos(' - ', TimeList[i]);
-    NPos := Pos(' + ', TimeList[i]);
-    TStr := MyDateTimeToStr(StrToFloat(copy(TimeList[i], 1, KPos - 1)) + StartOfTheDay(Now));
-    if TStr = MyDateTimeToStr(CurrentAlarm + StartOfTheDay(Now)) then
-      cc := i;
-    CStr := RightStr(TimeList[i], Length(TimeList[i]) - NPos - 2);
-    ts.Add(' ' + IntToStr(i + 1) + '.   ' + TStr + ' - ' + CStr)
-  end;
-  ts.EndUpdate;
-
-  PlanListForm := TPlanListForm.Create(Self);
-  PlanListForm.caption := 'Backup Executing Times in Today (' + DateToStr(Now) + ')';
-  PlanListForm.PlanList.items.BeginUpdate;
-  PlanListForm.PlanList.items.AddStrings(ts);
-  PlanListForm.PlanList.items.EndUpdate;
-  ts.Free;
-  PlanListForm.PlanList.TopIndex := cc - 1;
-  PlanListForm.PlanList.ItemIndex := cc;
-  try
-    PlanListForm.ShowModal;
-  finally
-    PlanListForm.Free;
-  end;
+  TfmPlanList.ShowPlan(Self);
 end;
 
 procedure TfmFibs.MenuAboutClick(Sender: TObject);
@@ -993,40 +956,14 @@ begin
 end;
 
 procedure TfmFibs.MenuTimeSettingsClick(Sender: TObject);
-var
-  s, TStr: string;
-  cc, i, KPos, NPos: Integer;
 begin
   if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No backup task to be seen the backup time settings!', mtError, [mbOk], 0);
     Exit;
   end;
-  PlanListForm := TPlanListForm.Create(Self);
-  PlanListForm.caption := 'Selected Backup Times of Task "' + dmFibs.qrTaskTASKNAME.Value + ' "';
-  PlanListForm.PlanList.Clear;
-  PlanListForm.PlanList.items.BeginUpdate;
-
-  GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
-  s := AlarmTimeList.Text;
-  cc := 0;
-  for i := 0 to AlarmTimeList.Count - 1 do
-  begin
-    KPos := Pos(' - ', AlarmTimeList[i]);
-    NPos := Pos(' + ', AlarmTimeList[i]);
-    TStr := TimeToStr(StrToFloat(copy(AlarmTimeList[i], 1, KPos - 1)));
-    if TStr = MyDateTimeToStr(CurrentAlarm + StartOfTheDay(Now)) then
-      cc := i;
-    PlanListForm.PlanList.items.Add(' ' + IntToStr(i + 1) + '.   ' + TStr); //+' - '+CStr)
-  end;
-  PlanListForm.PlanList.items.EndUpdate;
-  PlanListForm.PlanList.TopIndex := cc - 1;
-  PlanListForm.PlanList.ItemIndex := cc;
-  try
-    PlanListForm.ShowModal;
-  finally
-    PlanListForm.Free;
-  end;
+  Self.GetAlarmTimeList(dmFibs.qrTaskBOXES.Value);
+  TfmPlanList.ShowTaskPlan(Self, dmFibs.qrTaskTASKNAME.AsString, UDFConst.AlarmTimeList);
 end;
 
 procedure TfmFibs.MenuLogClick(Sender: TObject);

@@ -30,7 +30,7 @@ uses
   UDFBackup in 'UDFBackup.pas',
   BackupForm in 'BackupForm.pas' {fmBackup},
   UDFUtils in 'UDFUtils.pas',
-  PlanListUnit in 'PlanListUnit.pas' {PlanListForm},
+  PlanListForm in 'PlanListForm.pas' {fmPlanList},
   AboutUnit in 'AboutUnit.pas' {AboutForm},
   LogUnit in 'LogUnit.pas' {LogForm},
   RetMonitorTools in 'RetMonitorTools.pas',
