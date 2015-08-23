@@ -23,7 +23,7 @@
 {                                                                            }
 {****************************************************************************}
 
-unit ManualBackupUnit;
+unit BackupForm;
 
 interface
 
@@ -32,7 +32,7 @@ uses
   Dialogs, StdCtrls, Buttons, ExtCtrls, Spin, CheckLst, DBCtrls;
 
 type
-  TManualBackupForm = class(TForm)
+  TfmBackup = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     Label5: TLabel;
@@ -73,14 +73,14 @@ type
   end;
 
 var
-  ManualBackupForm: TManualBackupForm;
+  fmBackup: TfmBackup;
 
 implementation
 
 {$R *.dfm}
 uses DateUtils, UDFConst, FibsData, ProgressForm, UDFPresets, FunctionsUnit;
 
-procedure TManualBackupForm.BitBtn1Click(Sender: TObject);
+procedure TfmBackup.BitBtn1Click(Sender: TObject);
 var
   bd, MD, DD, gd, ld: string;
 begin
@@ -268,7 +268,7 @@ begin
   end;
 end;
 
-procedure TManualBackupForm.FormShow(Sender: TObject);
+procedure TfmBackup.FormShow(Sender: TObject);
 begin
   Self.EditTaskName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditTaskName.Text);
   Self.EditDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(Self.EditDatabaseName.Text);

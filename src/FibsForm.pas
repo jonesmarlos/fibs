@@ -606,7 +606,7 @@ begin
       ' -password ' + Password;
     SequenceIncremented := dmFibs.CheckDatabaseSequenceIncrement;
     ArchiveDir := dmFibs.qrOptionARCHIVEDIR.Value;
-    Backup := TBackUp.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
+    Backup := TBackupTask.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
       FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
       FullMirror3Path, FullLogPath, BackupNo, CompDegree, SmtpServer,
       SendersMail, MailUserName, MailPassword, MailTo, BatchFile,
@@ -763,7 +763,7 @@ begin
     ' -password ' + Password;
   SequenceIncremented := dmFibs.CheckDatabaseSequenceIncrement;
   ArchiveDir := dmFibs.qrOptionARCHIVEDIR.Value;
-  Backup := TBackUp.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
+  Backup := TBackupTask.Create(AAlarmDateTime, komut, VKomut, currdir, TaskName, BackUpOptions,
     FullDBPath, FullBUPath, FullMirrorPath, FullMirror2Path,
     FullMirror3Path, FullLogPath, BackupNo, ACompDegree, SmtpServer,
     SendersMail, MailUserName, MailPassword, MailTo, BatchFile,

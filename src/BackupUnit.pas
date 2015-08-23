@@ -34,11 +34,11 @@ uses
 
 type
 
-  TBackUp = class(TThread)
+  TBackupTask = class(TThread)
   private
     FSettings: TFormatSettings; // Thread-safe string formatting context.
     FPriority: TThreadPriority; // Scheduling priority of TBackup.
-    FCompDegree: string; // GZip compression degree.
+    FCompressLevel: string; // GZip compression degree.
     FDeletedBU: string; // Filenames of the backup files deleted by "Backup Preserve Policy".
     FDeletedMR: string; // Filenames of the #1 Mirror files deleted by "Backup Preserve Policy".
     FDeletedMR2: string; // Filenames of the #2 Mirror files deleted by "Backup Preserve Policy".
@@ -86,7 +86,7 @@ type
     FLogFile: string; // Fully qualified filename of Log file for current task.
     FBackupOptions: string; // GBak switches
     FTempOrBackupFileSize: string; // Size of backup file in bytes
-    fmBackupProgress: TfmProgress; // Message Dialog which shows the current process
+    FBackupProgress: TfmProgress; // Message Dialog which shows the current process
     FSequenceIncremented: Boolean;
     FArchiveDir: string;
   protected
@@ -139,7 +139,7 @@ uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, smtpsend, Function
 //By Lance leonard
 //http://www.techtricks.com/delphi/sendmail.php
 
-function TBackUp.ConvertFileTime(LFT: TFileTime): TDateTime;
+function TBackupTask.ConvertFileTime(LFT: TFileTime): TDateTime;
 var
   FDFT: DWORD;
   w: Word;
@@ -149,7 +149,7 @@ begin
     Result := FileDateToDateTime(FDFT);
 end;
 
-function TBackUp.ExtractFilePathEx(const AFullPath: string): string;
+function TBackupTask.ExtractFilePathEx(const AFullPath: string): string;
 begin
   if AnsiLowerCase(AnsiLeftStr(Trim(AFullPath), 6)) = 'ftp://' then
   begin
@@ -159,7 +159,7 @@ begin
     Result := ExtractFilePath(AFullPath);
 end;
 
-function TBackUp.GetTempPath: string;
+function TBackupTask.GetTempPath: string;
 var
   Buffer: array[0..MAX_PATH] of Char;
 begin
@@ -167,7 +167,7 @@ begin
   Result := Buffer;
 end;
 
-function TBackUp.GetTempBackupFileSize(const ATempFile: string): string;
+function TBackupTask.GetTempBackupFileSize(const ATempFile: string): string;
 var
   hFile: TFileStream;
 begin
@@ -184,12 +184,12 @@ begin
     Result := ATempFile + ' is not exists !!';
 end;
 
-function TBackUp.CreateEmail(const EmailAddr, cc, Subject, Body, Attach: string): Boolean;
+function TBackupTask.CreateEmail(const EmailAddr, cc, Subject, Body, Attach: string): Boolean;
 begin
   EmailUnit.SendEmail(FSendersMail, EmailAddr, Subject, FSmtpServer, Body, FMailUserName, FMailPassword);
 end;
 
-function TBackUp.DeleteOldest(ACurrentDir, ADirInfo: string): string;
+function TBackupTask.DeleteOldest(ACurrentDir, ADirInfo: string): string;
 begin
   if AnsiLowerCase(AnsiLeftStr(Trim(ACurrentDir), 6)) = 'ftp://' then
     Result := DeleteRemoteOldest(ACurrentDir, ADirInfo)
@@ -197,7 +197,7 @@ begin
     Result := DeleteLocalOldest(ACurrentDir, ADirInfo);
 end;
 
-function TBackUp.DeleteRemoteOldest(ACurrentDir, ADirInfo: string): string;
+function TBackupTask.DeleteRemoteOldest(ACurrentDir, ADirInfo: string): string;
 begin
   Result := 'No Backup File has been deleted in ' + ADirInfo + ' because of not supporting the remote file deletion on FTP Mirrors yet !!'#13#10'   ';
 end;
@@ -390,7 +390,7 @@ begin
 end;
 }
 
-function TBackUp.DeleteLocalOldest(ACurrentDir, ADirInfo: string): string;
+function TBackupTask.DeleteLocalOldest(ACurrentDir, ADirInfo: string): string;
 var
   SearchRec: TSearchRec;
   ts: TStringList;
@@ -532,7 +532,7 @@ begin
   end;
 end;
 
-function TBackUp.CreateTemporaryFilename(const TempDirectory: string; var ATempFileName: string): Boolean;
+function TBackupTask.CreateTemporaryFilename(const TempDirectory: string; var ATempFileName: string): Boolean;
 const
   TMP_FILE_PREFIX = '~'; {Must be 3 characters or less}
 var
@@ -547,7 +547,7 @@ begin
   end;
 end;
 
-function TBackUp.IsConnectedToInternet: Boolean;
+function TBackupTask.IsConnectedToInternet: Boolean;
 var
   dwConnectionTypes: DWORD;
 begin
@@ -559,7 +559,7 @@ end;
 
 //Author Talat Dogan. I've inspirated Thomas Stutz.
 
-function TBackUp.FtpUploadFileEX(InternetAccessType: DWORD; ProxyName, ProxyByPass, strHost, strUser, strPwd: string; InternetService, port: Integer; LocalFilePath, RemoteDir, RemoteFilePath: string; TransferType, ConnectionType: DWORD; var AErrorMesaj: string): Boolean;
+function TBackupTask.FtpUploadFileEX(InternetAccessType: DWORD; ProxyName, ProxyByPass, strHost, strUser, strPwd: string; InternetService, port: Integer; LocalFilePath, RemoteDir, RemoteFilePath: string; TransferType, ConnectionType: DWORD; var AErrorMesaj: string): Boolean;
 var
   hNet, hFTP: HINTERNET;
   PutFile: Boolean;
@@ -627,7 +627,7 @@ begin
   Result := True;
 end;
 
-function TBackUp.MirrorFileEx(ASourceFile: string; var ADestFile, AFtpErrorMesaj: string; AConnectionType: DWORD): LongBool;
+function TBackupTask.MirrorFileEx(ASourceFile: string; var ADestFile, AFtpErrorMesaj: string; AConnectionType: DWORD): LongBool;
 var
   FtpUserName, FtpPassword, FtpHost, FtpDir, FtpFile: string;
   FtpPort, FColPos, FAtPos, FDirPos, LLDirPos, LenPath: Integer;
@@ -667,7 +667,7 @@ begin
     Result := CopyFile(PChar(ASourceFile), PChar(ADestFile), False);
 end;
 
-function TBackUp.WriteLog(ALogInfo: string): Integer;
+function TBackupTask.WriteLog(ALogInfo: string): Integer;
 var
   F: TextFile;
   LogDir: string;
@@ -687,7 +687,7 @@ begin
   end;
 end;
 
-function TBackUp.ProgramRunWait(CommandLine, CurrentDir: string; Wait: Boolean): Boolean;
+function TBackupTask.ProgramRunWait(CommandLine, CurrentDir: string; Wait: Boolean): Boolean;
 var
   StartupInfo: TStartupInfo;
   ProcessInfo: TProcessInformation;
@@ -737,7 +737,7 @@ begin
     Result := False;
 end;
 
-function TBackUp.ProgramRunWaitRedirected(TempFileName, CommandLine, DatabaseToVal, CurrentDir: string; var Info: string; Wait: Boolean): Boolean;
+function TBackupTask.ProgramRunWaitRedirected(TempFileName, CommandLine, DatabaseToVal, CurrentDir: string; var Info: string; Wait: Boolean): Boolean;
 var
   StartupInfo: TStartupInfo;
   ProcessInfo: TProcessInformation;
@@ -815,7 +815,7 @@ begin
   end;
 end;
 
-constructor TBackUp.Create(AAlarm: TDateTime;
+constructor TBackupTask.Create(AAlarm: TDateTime;
   AParams, VParams, ADir, ATaskName, ABackupOptions,
   ADatabaseFile, ABackupFile, AMirrorFile, AMirrorFile2,
   AMirrorFile3, ALogFile, ABackupNo, ACompDegree,
@@ -829,7 +829,7 @@ begin
   inherited Create(True);
   GetLocaleFormatSettings(SysLocale.DefaultLCID, FSettings);
   FPriority := ABackupPriority;
-  FCompDegree := ACompDegree;
+  FCompressLevel := ACompDegree;
   FDeleteAll := ADeleteAll;
   FPreserveCount := APCount;
   FPreserveUnit := APUnit;
@@ -881,67 +881,67 @@ begin
   Priority := FPriority;
 end;
 
-procedure TBackUp.ShowPD;
+procedure TBackupTask.ShowPD;
 begin
-  Self.fmBackupProgress := TfmProgress.CreateProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
+  Self.FBackupProgress := TfmProgress.CreateProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
 end;
 
-procedure TBackUp.RefreshPD10;
+procedure TBackupTask.RefreshPD10;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is GZipping..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is GZipping..');
 end;
 
-procedure TBackUp.RefreshPD11;
+procedure TBackupTask.RefreshPD11;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Database is Validating..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Database is Validating..');
 end;
 
-procedure TBackUp.RefreshPD12;
+procedure TBackupTask.RefreshPD12;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
 end;
 
-procedure TBackUp.RefreshPD13;
+procedure TBackupTask.RefreshPD13;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Sending EMail Notification..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Sending EMail Notification..');
 end;
 
-procedure TBackUp.RefreshPD20;
+procedure TBackupTask.RefreshPD20;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #1..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #1..');
 end;
 
-procedure TBackUp.RefreshPD22;
+procedure TBackupTask.RefreshPD22;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #2..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #2..');
 end;
 
-procedure TBackUp.RefreshPD23;
+procedure TBackupTask.RefreshPD23;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #3..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #3..');
 end;
 
-procedure TBackUp.RefreshPD30;
+procedure TBackupTask.RefreshPD30;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Out-of-Criteria files is deleting in backup dir and mirrors dir(s)..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Out-of-Criteria files is deleting in backup dir and mirrors dir(s)..');
 end;
 
-procedure TBackUp.RefreshPD31;
+procedure TBackupTask.RefreshPD31;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10 + FExternalFile + 'is starting to be done extra task.');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10 + FExternalFile + 'is starting to be done extra task.');
 end;
 
-procedure TBackUp.RefreshPD40;
+procedure TBackupTask.RefreshPD40;
 begin
-  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Writing in LOG..');
+  Self.FBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Writing in LOG..');
 end;
 
-procedure TBackUp.HidePD;
+procedure TBackupTask.HidePD;
 begin
-  Self.fmBackupProgress.CloseProgress(True);
+  Self.FBackupProgress.CloseProgress(True);
 end;
 
-procedure TBackUp.Execute;
+procedure TBackupTask.Execute;
 var
   AStartTime, AEndTime: TDateTime;
   BackupInfoStr: string;
@@ -1096,16 +1096,16 @@ begin
       Synchronize(RefreshPD10);
       try
         CompLevel := 65;
-        if FCompDegree = 'None' then
+        if FCompressLevel = 'None' then
           CompLevel := 0
         else
-          if FCompDegree = 'Fastest' then
+          if FCompressLevel = 'Fastest' then
             CompLevel := 2
           else
-            if FCompDegree = 'Default' then
+            if FCompressLevel = 'Default' then
               CompLevel := 5
             else
-              if FCompDegree = 'Maximum' then
+              if FCompressLevel = 'Maximum' then
                 CompLevel := 9;
         try
           Self.FZippedBackupFile := ChangeFileExt(Self.FBackupFile, '.GZ');
@@ -1501,7 +1501,7 @@ end;
 
 // There is one more StrToOEM  function in the JRZip Unit
 
-function TBackUp.StrToOEM(s: string): string;
+function TBackupTask.StrToOEM(s: string): string;
 var
   i: Integer;
 begin

@@ -1,6 +1,6 @@
-object ManualBackupForm: TManualBackupForm
-  Left = 439
-  Top = 86
+object fmBackup: TfmBackup
+  Left = 475
+  Top = 173
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = ' Backup and Mirror Now..'
