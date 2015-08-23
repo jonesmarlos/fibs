@@ -39,7 +39,7 @@ function MakeFull(ADir, AExt: string): string;
 
 implementation
 
-uses Windows, SysUtils, Forms, Dialogs, StrUtils, UDFConst, MesajUnit;
+uses Windows, SysUtils, Forms, Dialogs, StrUtils, UDFConst, ProgressForm;
 
 function DataFilesExists: Boolean;
 begin

@@ -140,6 +140,8 @@ type
     procedure ActivateAllLeavedActive;
     procedure SetApplicationPriorty;
   public
+
+    procedure CancelProgress(Sender: TObject);
   end;
 
 var
@@ -148,7 +150,7 @@ var
 implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, BackupUnit,
-  MesajUnit, ManualBackupUnit, FunctionsUnit, PlanListUnit,
+  ProgressForm, ManualBackupUnit, FunctionsUnit, PlanListUnit,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
@@ -1135,11 +1137,10 @@ end;
 procedure TfmFibs.ActivateOne;
 var
   i: Integer;
-  PD: TMesajForm;
   Mirr, Mirr2, Mirr3: string;
   bValidMirrors: Boolean;
 begin
-  PD := ShowProsesDlg('Tasks are being activating..'#13#10'Please Wait..', 'c', PrgName);
+  ShowProgress('Tasks are being activating..'#13#10'Please Wait..');
   dmFibs.qrTask.DisableControls;
   try
     if dmFibs.qrTaskACTIVE.AsInteger = 0 then
@@ -1170,7 +1171,7 @@ begin
     end;
   finally
     dmFibs.qrTask.EnableControls;
-    HideProsesDlg(PD);
+    CloseProgress;
   end;
 end;
 
@@ -1178,7 +1179,6 @@ procedure TfmFibs.ActivateAll;
 var
   i: Integer;
   Book: Integer;
-  PD: TMesajForm;
   Mirr, Mirr2, Mirr3: string;
   bValidMirrors: Boolean;
 
@@ -1188,7 +1188,7 @@ var
     Result := (ADir = '') or ((DirectoryExists(ADir) or IsFtpPath(ADir)));
   end;
 begin
-  PD := ShowProsesDlg('Tasks are being activating..'#13#10'Please Wait..', 'c', PrgName);
+  ShowProgress('Tasks are being activating..'#13#10'Please Wait..');
   dmFibs.qrTask.DisableControls;
   Book := dmFibs.qrTaskTASKNO.AsInteger;
   try
@@ -1222,7 +1222,7 @@ begin
   finally
     dmFibs.qrTask.Locate('TASKNO', Book, []);
     dmFibs.qrTask.EnableControls;
-    HideProsesDlg(PD);
+    CloseProgress;
   end;
 end;
 
@@ -1279,9 +1279,8 @@ end;
 procedure TfmFibs.DeactivateAll;
 var
   Book: Integer;
-  PD: TMesajForm;
 begin
-  PD := ShowProsesDlg('Tasks are being deactivating..'#13#10'Please Wait..', 'c', PrgName);
+  ShowProgress('Tasks are being deactivating..'#13#10'Please Wait..');
   dmFibs.qrTask.DisableControls;
   Book := dmFibs.qrTaskTASKNO.AsInteger;
   try
@@ -1301,7 +1300,7 @@ begin
   finally
     dmFibs.qrTask.Locate('TASKNO', Book, []);
     dmFibs.qrTask.EnableControls;
-    HideProsesDlg(PD);
+    CloseProgress;
   end;
 end;
 
@@ -1530,6 +1529,11 @@ end;
 procedure TfmFibs.miTaskBackupClick(Sender: TObject);
 begin
   Self.MenuBackupNowClick(nil);
+end;
+
+procedure TfmFibs.CancelProgress(Sender: TObject);
+begin
+  ShowMessage('Cancelled');
 end;
 
 end.

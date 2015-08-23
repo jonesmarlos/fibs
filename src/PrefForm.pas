@@ -32,15 +32,14 @@ uses
   Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, DBCtrls, ComCtrls,
   FibsData, JvComponentBase, JvAppStorage, JvAppRegistryStorage,
   JvToolEdit, JvExMask, JvDotNetControls, JvExControls, JvComponent,
-  JvGroupHeader, JvExExtCtrls, JvBevel;
+  JvGroupHeader, JvExExtCtrls, JvBevel, JvExStdCtrls, JvCombobox,
+  JvCheckBox;
 
 type
   TfmPref = class(TForm)
     lbGbakDir: TLabel;
     lbLogDir: TLabel;
     lbBackupPriority: TLabel;
-    cbAutoRun: TDBCheckBox;
-    cbBackupPriority: TDBComboBox;
     lbMailServer: TLabel;
     edSMTPServer: TEdit;
     edMailAdress: TEdit;
@@ -54,7 +53,6 @@ type
     lbSenderEmailInfo: TLabel;
     lbUserNameInfo: TLabel;
     lbPasswordInfo: TLabel;
-    cbFtpPassive: TDBCheckBox;
     lbArchiveDir: TLabel;
     arsAutoRun: TJvAppRegistryStorage;
     arsFirebird: TJvAppRegistryStorage;
@@ -67,6 +65,9 @@ type
     JvBevel1: TJvBevel;
     btCancel: TButton;
     btOK: TButton;
+    cbBackupPriority: TJvComboBox;
+    cbAutoRun: TJvCheckBox;
+    cbFtpPassive: TJvCheckBox;
     procedure btOkClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -80,7 +81,7 @@ type
 
 implementation
 
-uses Registry, FileCtrl, MesajUnit, UDFConst, DCPbase64, UDFValidation;
+uses Registry, FileCtrl, ProgressForm, UDFConst, DCPbase64, UDFValidation, DB;
 
 {$R *.dfm}
 
@@ -104,6 +105,9 @@ begin
   Self.edGBakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
   Self.edLogDir.Text := FibsRef.qrOptionLOGDIR.Value;
   Self.edArchiveDir.Text := FibsRef.qrOptionARCHIVEDIR.Value;
+  Self.cbBackupPriority.ItemIndex := Self.cbBackupPriority.Items.IndexOf(FibsRef.qrOptionBPRIORTY.AsString);
+  Self.cbAutoRun.Checked := FibsRef.qrOptionAUTORUN.AsBoolean;
+  Self.cbFtpPassive.Checked := FibsRef.qrOptionFTPCONNTYPE.AsBoolean;
   Self.edSMTPServer.Text := FibsRef.qrOptionSMTPSERVER.Value;
   Self.edMailAdress.Text := FibsRef.qrOptionSENDERSMAIL.Value;
   Self.edUserName.Text := FibsRef.qrOptionMAILUSERNAME.Value;
@@ -119,15 +123,23 @@ begin
   FibsRef.qrOptionPATHTOGBAK.Value := Self.edGBakDir.Text;
   FibsRef.qrOptionLOGDIR.Value := Self.edLogDir.Text;
   FibsRef.qrOptionARCHIVEDIR.Value := Self.edArchiveDir.Text;
+  FibsRef.qrOptionBPRIORTY.Value := Self.cbBackupPriority.Text;
+  FibsRef.qrOptionAUTORUN.AsBoolean := Self.cbAutoRun.Checked;
+  FibsRef.qrOptionFTPCONNTYPE.AsBoolean := Self.cbFtpPassive.Checked;
   FibsRef.qrOptionSMTPSERVER.Value := Self.edSMTPServer.Text;
   FibsRef.qrOptionSENDERSMAIL.Value := Self.edMailAdress.Text;
   FibsRef.qrOptionMAILUSERNAME.Value := Self.edUserName.Text;
   FibsRef.qrOptionMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(Self.edPassword.Text);
   FibsRef.qrOption.Post;
-  if Self.cbAutoRun.Checked then
-    Self.arsAutoRun.WriteString('FIBS_Backup_Scheduler', System.ParamStr(0))
-  else
-    Self.arsAutoRun.DeleteValue('FIBS_Backup_Scheduler');
+  try
+    if Self.cbAutoRun.Checked then
+      Self.arsAutoRun.WriteString('FIBS_Backup_Scheduler', System.ParamStr(0))
+    else
+      Self.arsAutoRun.DeleteValue('FIBS_Backup_Scheduler');
+  except
+    on E: Exception do
+      MessageDlg('Could not save in the Windows registry!' + #13#10 + E.Message, mtError, [mbOk], 0);
+  end;
 end;
 
 procedure TfmPref.FormCreate(Sender: TObject);

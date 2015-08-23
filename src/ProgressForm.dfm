@@ -1,0 +1,73 @@
+object fmProgress: TfmProgress
+  Left = 495
+  Top = 308
+  BorderIcons = []
+  BorderStyle = bsToolWindow
+  ClientHeight = 96
+  ClientWidth = 400
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsStayOnTop
+  OldCreateOrder = True
+  Position = poMainFormCenter
+  OnClose = FormClose
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 13
+  object paCenter: TPanel
+    Left = 0
+    Top = 0
+    Width = 400
+    Height = 64
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 0
+    object lbMessage: TJvLabel
+      Left = 8
+      Top = 8
+      Width = 384
+      Height = 30
+      AutoSize = False
+      Caption = 'lbMessage'
+      HotTrackFont.Charset = ANSI_CHARSET
+      HotTrackFont.Color = clWindowText
+      HotTrackFont.Height = -11
+      HotTrackFont.Name = 'Tahoma'
+      HotTrackFont.Style = []
+    end
+    object pbProgress: TJvSpecialProgress
+      Left = 8
+      Top = 40
+      Width = 384
+      Height = 16
+      Caption = 'pbProgress'
+      EndColor = clHighlight
+      Position = 50
+      Solid = True
+      StartColor = clHotLight
+      TextCentered = True
+      TextOption = toPercent
+    end
+  end
+  object paFooter: TPanel
+    Left = 0
+    Top = 64
+    Width = 400
+    Height = 32
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    object btClose: TButton
+      Left = 296
+      Top = 0
+      Width = 96
+      Height = 25
+      Caption = '&Cancel'
+      TabOrder = 0
+    end
+  end
+end

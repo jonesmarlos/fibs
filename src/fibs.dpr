@@ -26,7 +26,7 @@ uses
   FibsForm in 'FibsForm.pas' {fmFibs},
   PrefForm in 'PrefForm.pas' {fmPref},
   TaskForm in 'TaskForm.pas' {fmTask},
-  MesajUnit in 'MesajUnit.pas' {MesajForm},
+  ProgressForm in 'ProgressForm.pas' {fmProgress},
   BackupUnit in 'BackupUnit.pas',
   ManualBackupUnit in 'ManualBackupUnit.pas' {ManualBackupForm},
   FunctionsUnit in 'FunctionsUnit.pas',

@@ -366,7 +366,7 @@ object fmTask: TfmTask
           Height = 21
           BevelKind = bkFlat
           Style = csDropDownList
-          ItemHeight = 13
+          ItemHeight = 0
           ItemIndex = 0
           TabOrder = 1
           Text = 'None'
@@ -398,7 +398,7 @@ object fmTask: TfmTask
           Height = 21
           BevelKind = bkFlat
           Style = csDropDownList
-          ItemHeight = 13
+          ItemHeight = 0
           ItemIndex = 0
           TabOrder = 0
           Text = 'Backups'
@@ -412,7 +412,7 @@ object fmTask: TfmTask
           Left = 104
           Top = 16
           Width = 32
-          Height = 21
+          Height = 19
           BevelInner = bvNone
           BevelKind = bkFlat
           BevelOuter = bvNone

@@ -213,45 +213,6 @@ object fmPref: TfmPref
     Anchors = [akLeft, akRight, akBottom]
     Shape = bsTopLine
   end
-  object cbAutoRun: TDBCheckBox
-    Left = 16
-    Top = 136
-    Width = 405
-    Height = 17
-    Caption = 
-      'Automatically launch FIBS  when Windows starts,  if it'#39's not ins' +
-      'talled as a service. '
-    Color = clBtnFace
-    Ctl3D = True
-    DataField = 'AUTORUN'
-    DataSource = dmFibs.dsOption
-    ParentColor = False
-    ParentCtl3D = False
-    TabOrder = 0
-    ValueChecked = '1'
-    ValueUnchecked = '0'
-  end
-  object cbBackupPriority: TDBComboBox
-    Left = 112
-    Top = 104
-    Width = 96
-    Height = 21
-    Style = csDropDownList
-    BevelKind = bkFlat
-    Ctl3D = False
-    DataField = 'BPRIORTY'
-    DataSource = dmFibs.dsOption
-    ItemHeight = 13
-    Items.Strings = (
-      'Idle'
-      'Lowest'
-      'Lower'
-      'Normal'
-      'Higher'
-      'Highest')
-    ParentCtl3D = False
-    TabOrder = 1
-  end
   object edSMTPServer: TEdit
     Left = 112
     Top = 224
@@ -259,7 +220,7 @@ object fmPref: TfmPref
     Height = 19
     Ctl3D = False
     ParentCtl3D = False
-    TabOrder = 2
+    TabOrder = 0
   end
   object edMailAdress: TEdit
     Left = 112
@@ -268,7 +229,7 @@ object fmPref: TfmPref
     Height = 19
     Ctl3D = False
     ParentCtl3D = False
-    TabOrder = 3
+    TabOrder = 1
   end
   object edUserName: TEdit
     Left = 112
@@ -277,7 +238,7 @@ object fmPref: TfmPref
     Height = 19
     Ctl3D = False
     ParentCtl3D = False
-    TabOrder = 4
+    TabOrder = 2
   end
   object edPassword: TEdit
     Left = 112
@@ -287,21 +248,7 @@ object fmPref: TfmPref
     Ctl3D = False
     ParentCtl3D = False
     PasswordChar = '*'
-    TabOrder = 5
-  end
-  object cbFtpPassive: TDBCheckBox
-    Left = 16
-    Top = 152
-    Width = 301
-    Height = 17
-    Caption = 'Use "Passive" mode FTP connection'
-    Color = clBtnFace
-    DataField = 'FTPCONNTYPE'
-    DataSource = dmFibs.dsOption
-    ParentColor = False
-    TabOrder = 6
-    ValueChecked = '1'
-    ValueUnchecked = '0'
+    TabOrder = 3
   end
   object edGbakDir: TJvDirectoryEdit
     Left = 112
@@ -313,7 +260,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 7
+    TabOrder = 4
     Text = 'edGbakDir'
   end
   object edLogDir: TJvDirectoryEdit
@@ -326,7 +273,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 8
+    TabOrder = 5
     Text = 'edLogDir'
   end
   object edArchiveDir: TJvDirectoryEdit
@@ -339,7 +286,7 @@ object fmPref: TfmPref
     ParentCtl3D = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 9
+    TabOrder = 6
     Text = 'edArchiveDir'
   end
   object btCancel: TButton
@@ -351,7 +298,7 @@ object fmPref: TfmPref
     Cancel = True
     Caption = '&Cancel'
     ModalResult = 2
-    TabOrder = 10
+    TabOrder = 7
   end
   object btOK: TButton
     Left = 280
@@ -362,7 +309,56 @@ object fmPref: TfmPref
     Caption = '&OK'
     Default = True
     ModalResult = 1
+    TabOrder = 8
+  end
+  object cbBackupPriority: TJvComboBox
+    Left = 112
+    Top = 104
+    Width = 128
+    Height = 21
+    BevelKind = bkFlat
+    Style = csDropDownList
+    ItemHeight = 13
+    ItemIndex = 3
+    TabOrder = 9
+    Text = 'Normal'
+    Items.Strings = (
+      'Idle'
+      'Lowest'
+      'Lower'
+      'Normal'
+      'Higher'
+      'Highest')
+  end
+  object cbAutoRun: TJvCheckBox
+    Left = 16
+    Top = 136
+    Width = 413
+    Height = 17
+    Caption = 
+      'Automatically launch FIBS  when Windows starts,  if it'#39's not ins' +
+      'talled as a service. '
+    TabOrder = 10
+    LinkedControls = <>
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
+  end
+  object cbFtpPassive: TJvCheckBox
+    Left = 16
+    Top = 152
+    Width = 191
+    Height = 17
+    Caption = 'Use "Passive" mode FTP connection'
     TabOrder = 11
+    LinkedControls = <>
+    HotTrackFont.Charset = ANSI_CHARSET
+    HotTrackFont.Color = clWindowText
+    HotTrackFont.Height = -11
+    HotTrackFont.Name = 'Tahoma'
+    HotTrackFont.Style = []
   end
   object arsAutoRun: TJvAppRegistryStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -380,7 +376,7 @@ object fmPref: TfmPref
     Root = 'SOFTWARE\Firebird Project\Firebird Server\Instances'
     SubStorages = <>
     Left = 432
-    Top = 120
+    Top = 200
   end
   object arsEmail: TJvAppRegistryStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'

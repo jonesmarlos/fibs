@@ -30,7 +30,7 @@ unit BackupUnit;
 interface
 
 uses
-  Windows, Classes, SysUtils, MesajUnit;
+  Windows, Classes, SysUtils, ProgressForm;
 
 type
 
@@ -86,7 +86,7 @@ type
     FLogFile: string; // Fully qualified filename of Log file for current task.
     FBackupOptions: string; // GBak switches
     FTempOrBackupFileSize: string; // Size of backup file in bytes
-    PD: TMesajForm; // Message Dialog which shows the current process
+    fmBackupProgress: TfmProgress; // Message Dialog which shows the current process
     FSequenceIncremented: Boolean;
     FArchiveDir: string;
   protected
@@ -883,64 +883,62 @@ end;
 
 procedure TBackUp.ShowPD;
 begin
-  PD := ShowProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..', 'c', '');
+  Self.fmBackupProgress := TfmProgress.CreateProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
 end;
 
 procedure TBackUp.RefreshPD10;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is GZipping..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is GZipping..');
 end;
 
 procedure TBackUp.RefreshPD11;
 begin
-  //  RefreshProsesDlg('Back up task "'+FTaskName+'" is executing'#13#10'BackUp File is GZipping..'+#13#10'MakeZip OK','c',PD);
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'Database is Validating..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Database is Validating..');
 end;
 
 procedure TBackUp.RefreshPD12;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp is preparing..');
 end;
 
 procedure TBackUp.RefreshPD13;
 begin
-  //  RefreshProsesDlg('Back up task "'+FTaskName+'" is executing'#13#10'BackUp File is GZipping..'+#13#10'CloseZip OK','c',PD);
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'Sending EMail Notification..' + #13#10'', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Sending EMail Notification..');
 end;
 
 procedure TBackUp.RefreshPD20;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #1..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #1..');
 end;
 
 procedure TBackUp.RefreshPD22;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #2..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #2..');
 end;
 
 procedure TBackUp.RefreshPD23;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #3..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'BackUp File is mirroring to Mirror #3..');
 end;
 
 procedure TBackUp.RefreshPD30;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'Out-of-Criteria files is deleting in backup dir and mirrors dir(s)..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Out-of-Criteria files is deleting in backup dir and mirrors dir(s)..');
 end;
 
 procedure TBackUp.RefreshPD31;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10 + FExternalFile + 'is starting to be done extra task.', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10 + FExternalFile + 'is starting to be done extra task.');
 end;
 
 procedure TBackUp.RefreshPD40;
 begin
-  RefreshProsesDlg('Back up task "' + FTaskName + '" is executing'#13#10'Writing in LOG..', 'c', PD);
+  Self.fmBackupProgress.ShowProgress('Back up task "' + FTaskName + '" is executing'#13#10'Writing in LOG..');
 end;
 
 procedure TBackUp.HidePD;
 begin
-  HideProsesDlg(PD);
+  Self.fmBackupProgress.CloseProgress(True);
 end;
 
 procedure TBackUp.Execute;
