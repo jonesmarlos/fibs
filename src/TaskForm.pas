@@ -30,7 +30,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Spin, CheckLst, DBCtrls, ComCtrls, EditBtn, Mask, StdCtrls,
-  ExtCtrls, Buttons, Menus, FunctionsUnit, FibsData, JvExControls,
+  ExtCtrls, Buttons, Menus, UDFUtils, FibsData, JvExControls,
   JvComponent, JvGroupHeader, JvExStdCtrls, JvGroupBox, JvLabel, JvEdit,
   JvExMask, JvToolEdit, JvCheckBox, JvCombobox;
 

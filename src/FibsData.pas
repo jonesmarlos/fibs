@@ -106,7 +106,7 @@ var
 
 implementation
 
-uses Variants, UDFConst, IBDatabase, FunctionsUnit, StrUtils, DCPbase64;
+uses Variants, UDFConst, IBDatabase, UDFUtils, StrUtils, DCPbase64;
 
 {$R *.dfm}
 
@@ -185,7 +185,7 @@ begin
   try
     try
       // Test a connection with next sequence
-      dbDatabase.DatabaseName := FunctionsUnit.RemoveDatabaseSequenceTokens(FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString));
+      dbDatabase.DatabaseName := UDFUtils.RemoveDatabaseSequenceTokens(FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString));
       dbDatabase.Params.Add('user_name=' + self.AlarmTableUSER.AsString);
       dbDatabase.Params.Add('password=' + self.AlarmTablePASSWORD.Text);
       dbDatabase.LoginPrompt := false;
@@ -196,8 +196,8 @@ begin
       if dbDatabase.TestConnected then
       begin
         Self.AlarmTable.Edit;
-        Self.AlarmTableTASKNAME.AsString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableTASKNAME.AsString);
-        Self.AlarmTableDBNAME.AsString := FunctionsUnit.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString);
+        Self.AlarmTableTASKNAME.AsString := UDFUtils.IncrementDatabaseSequence(self.AlarmTableTASKNAME.AsString);
+        Self.AlarmTableDBNAME.AsString := UDFUtils.IncrementDatabaseSequence(self.AlarmTableDBNAME.AsString);
         Self.AlarmTable.Post;
         Result := True;
       end;

@@ -29,7 +29,7 @@ uses
   ProgressForm in 'ProgressForm.pas' {fmProgress},
   UDFBackup in 'UDFBackup.pas',
   BackupForm in 'BackupForm.pas' {fmBackup},
-  FunctionsUnit in 'FunctionsUnit.pas',
+  UDFUtils in 'UDFUtils.pas',
   PlanListUnit in 'PlanListUnit.pas' {PlanListForm},
   AboutUnit in 'AboutUnit.pas' {AboutForm},
   LogUnit in 'LogUnit.pas' {LogForm},

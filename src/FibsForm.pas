@@ -150,7 +150,7 @@ var
 implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
-  ProgressForm, BackupForm, FunctionsUnit, PlanListUnit,
+  ProgressForm, BackupForm, UDFUtils, PlanListUnit,
   AboutUnit, LogUnit, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
@@ -777,7 +777,7 @@ begin
   except
   end;
   if SequenceIncremented then
-    if MessageDlg('A new database sequence [' + FormatFloat('0000', FunctionsUnit.GetDatabaseSequence(dmFibs.qrTaskDBNAME.AsString)) + '] is found. Backup now?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    if MessageDlg('A new database sequence [' + FormatFloat('0000', UDFUtils.GetDatabaseSequence(dmFibs.qrTaskDBNAME.AsString)) + '] is found. Backup now?', mtConfirmation, [mbYes, mbNo], 0) = mrYes then
       Self.ManualBackUp(AAlarmDateTime, dmFibs.qrTaskTASKNAME.AsString, GBakPath, UserName, Password, dmFibs.qrTaskDBNAME.AsString, BUPath, MirrorPath, Mirror2Path, Mirror3Path, ACompDegree, ADoZip, ADoValidate);}
 end;
 
@@ -1041,7 +1041,7 @@ begin
     MessageDlg('No task log to be viewed!', mtError, [mbOk], 0);
     Exit;
   end;
-  TaskName := FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskTASKNAME.Value);
+  TaskName := UDFUtils.RemoveDatabaseSequenceTokens(dmFibs.qrTaskTASKNAME.Value);
   DBNameExt := ExtractFileName(dmFibs.qrTaskDBNAME.Value);
   LogName := 'LOG_' + TaskName;
   LogNameExt := 'LOG_' + TaskName + '.TXT';
@@ -1109,11 +1109,11 @@ begin
     begin
       if dmFibs.qrTaskACTIVE.AsInteger = 1 then
       begin
-        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
+        if FileExistsRem(UDFUtils.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
         begin
-          if FunctionsUnit.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
+          if UDFUtils.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
           begin
-            bValidMirrors := FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
+            bValidMirrors := UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
             bValidMirrors := (not ActiveTaskValidMirrorDirectory) or bValidMirrors;
             if bValidMirrors then
             begin
@@ -1145,11 +1145,11 @@ begin
   try
     if dmFibs.qrTaskACTIVE.AsInteger = 0 then
     begin
-      if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
+      if FileExistsRem(UDFUtils.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
       begin
-        if FunctionsUnit.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
+        if UDFUtils.IsValidDirectory(dmFibs.qrTaskBACKUPDIR.Value) then
         begin
-          bValidMirrors := FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and FunctionsUnit.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
+          bValidMirrors := UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRRORDIR.Value) and UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRROR2DIR.Value) and UDFUtils.IsValidDirectory(dmFibs.qrTaskMIRROR3DIR.Value);
           bValidMirrors := (not ActiveTaskValidMirrorDirectory) or bValidMirrors;
           if bValidMirrors then
           begin
@@ -1197,7 +1197,7 @@ begin
     begin
       if dmFibs.qrTaskACTIVE.AsInteger = 0 then
       begin
-        if FileExistsRem(FunctionsUnit.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
+        if FileExistsRem(UDFUtils.RemoveDatabaseSequenceTokens(dmFibs.qrTaskDBNAME.Value), dmFibs.qrTaskLOCALCONN.AsBoolean) then
         begin
           if DirectoryExists(dmFibs.qrTaskBACKUPDIR.Value) then
           begin

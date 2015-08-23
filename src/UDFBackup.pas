@@ -134,7 +134,7 @@ type
 
 implementation
 
-uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, smtpsend, FunctionsUnit, EmailUnit;
+uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, smtpsend, UDFUtils, EmailUnit;
 
 //By Lance leonard
 //http://www.techtricks.com/delphi/sendmail.php
@@ -859,21 +859,21 @@ begin
   FGFixParams := VParams;
   FTempValFileName := GetTempPath + '~fibs_gfixout_' + FBackupNo + '.tmp';
   FDir := ADir;
-  FTaskName := FunctionsUnit.RemoveDatabaseSequenceTokens(ATaskName);
+  FTaskName := UDFUtils.RemoveDatabaseSequenceTokens(ATaskName);
 
-  FDatabaseFile := FunctionsUnit.RemoveDatabaseSequenceTokens(ADatabaseFile);
+  FDatabaseFile := UDFUtils.RemoveDatabaseSequenceTokens(ADatabaseFile);
   //Beta-13   if Pos(' ',ADatabaseFile)>0 then FDatabaseFile:='"'+ADatabaseFile+'"';
     //Dikkat sadece yukarý satýr Ver. 1.0.4
 
   FErrorInfo := '';
 
-  FBackupFile := FunctionsUnit.RemoveDatabaseSequenceTokens(ABackupFile);
+  FBackupFile := UDFUtils.RemoveDatabaseSequenceTokens(ABackupFile);
   //Beta-13  if Pos(' ',ABackupFile)>0 then FBackupFile:='"'+ABackupFile+'"';
 
-  FMirrorFile := FunctionsUnit.RemoveDatabaseSequenceTokens(AMirrorFile);
-  FMirrorFile2 := FunctionsUnit.RemoveDatabaseSequenceTokens(AMirrorFile2);
-  FMirrorFile3 := FunctionsUnit.RemoveDatabaseSequenceTokens(AMirrorFile3);
-  FLogFile := FunctionsUnit.RemoveDatabaseSequenceTokens(ALogFile);
+  FMirrorFile := UDFUtils.RemoveDatabaseSequenceTokens(AMirrorFile);
+  FMirrorFile2 := UDFUtils.RemoveDatabaseSequenceTokens(AMirrorFile2);
+  FMirrorFile3 := UDFUtils.RemoveDatabaseSequenceTokens(AMirrorFile3);
+  FLogFile := UDFUtils.RemoveDatabaseSequenceTokens(ALogFile);
   FBackupOptions := ABackupOptions;
   FSequenceIncremented := ASequenceIncremented;
   FArchiveDir := AArchiveDir;

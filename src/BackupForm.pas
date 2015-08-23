@@ -77,7 +77,7 @@ type
 implementation
 
 {$R *.dfm}
-uses DateUtils, UDFConst, ProgressForm, UDFPresets, FunctionsUnit, DCPbase64,
+uses DateUtils, UDFConst, ProgressForm, UDFPresets, UDFUtils, DCPbase64,
   DB;
 
 procedure TfmBackup.LoadTask(FibsRef: TdmFibs);
@@ -85,8 +85,8 @@ var
   sOptions: string;
   i: Integer;
 begin
-  Self.edTaskName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(FibsRef.qrTaskTASKNAME.Value);
-  Self.edDatabaseName.Text := FunctionsUnit.RemoveDatabaseSequenceTokens(FibsRef.qrTaskDBNAME.Value);
+  Self.edTaskName.Text := UDFUtils.RemoveDatabaseSequenceTokens(FibsRef.qrTaskTASKNAME.Value);
+  Self.edDatabaseName.Text := UDFUtils.RemoveDatabaseSequenceTokens(FibsRef.qrTaskDBNAME.Value);
   Self.edBackupDir.Text := FibsRef.qrTaskBACKUPDIR.Value;
   Self.edMirrorDir1.Text := FibsRef.qrTaskMIRRORDIR.Value;
   Self.edMirrorDir2.Text := FibsRef.qrTaskMIRROR2DIR.Value;

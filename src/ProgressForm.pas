@@ -83,7 +83,7 @@ var
 implementation
 
 {$R *.DFM}
-uses ConstUnit;
+uses UDFConst;
 
 procedure ShowProgress(AMessage: string; AProgress: Integer; ACloseEvent: TNotifyEvent);
 begin
