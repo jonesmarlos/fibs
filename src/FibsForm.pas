@@ -149,7 +149,7 @@ implementation
 
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
   ProgressForm, BackupForm, UDFUtils, PlanListForm,
-  AboutForm, LogUnit, UDFPresets, DateUtils,
+  AboutForm, LogForm, UDFPresets, DateUtils,
   RetMonitorTools, BackupServiceUnit, DB, DCPbase64;
 
 {$R *.DFM}
@@ -960,62 +960,13 @@ begin
 end;
 
 procedure TfmFibs.MenuLogClick(Sender: TObject);
-var
-  F: TextFile;
-  s: string;
-  TaskName, DBNameExt, LogDir, LogName, LogNameExt, LogPath: string;
-  i: Integer;
 begin
   if dmFibs.qrTask.RecordCount < 1 then
   begin
     MessageDlg('No task log to be viewed!', mtError, [mbOk], 0);
     Exit;
   end;
-  TaskName := UDFUtils.RemoveDatabaseSequenceTokens(dmFibs.qrTaskTASKNAME.Value);
-  DBNameExt := ExtractFileName(dmFibs.qrTaskDBNAME.Value);
-  LogName := 'LOG_' + TaskName;
-  LogNameExt := 'LOG_' + TaskName + '.TXT';
-  LogDir := dmFibs.qrOptionLOGDIR.Value;
-  LogPath := MakeFull(LogDir, LogNameExt);
-  if (LogPath = '') then
-  begin
-    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
-    Exit;
-  end
-  else
-    if DirectoryExists(LogDir) = False then
-    begin
-      MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + LogDir + ')', mtError, [mbOk], 0);
-      Exit;
-    end;
-  if FileExists(LogPath) = False then
-  begin
-    MessageDlg('LOG File for Task "' + TaskName + '" is not exist!' + #13#10 + 'Log File will be created after executing a backup task.', mtError, [mbOk], 0);
-    Exit;
-  end;
-  LogForm := TLogForm.Create(Self);
-  LogForm.caption := '  Task " ' + TaskName + ' " LOG';
-  LogForm.LogFile := LogNameExt;
-  LogForm.LabelLogPath.caption := 'Log File: ' + LogPath;
-  try
-    i := 1;
-    AssignFile(F, LogPath);
-    Reset(F);
-    LogForm.StringGrid1.Cols[0].BeginUpdate;
-    while not eof(F) do
-    begin
-      LogForm.StringGrid1.RowCount := i;
-      Readln(F, s);
-      LogForm.StringGrid1.Cols[0][i - 1] := s;
-      inc(i);
-    end;
-    LogForm.StringGrid1.Cols[0].EndUpdate;
-    CloseFile(F);
-    LogForm.StringGrid1.TopRow := LogForm.StringGrid1.RowCount - 1;
-    LogForm.ShowModal;
-  finally
-    LogForm.Free;
-  end;
+  TfmLog.ShowLog(Self, dmFibs);
 end;
 
 procedure TfmFibs.ActivateAllLeavedActive;

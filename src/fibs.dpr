@@ -32,7 +32,7 @@ uses
   UDFUtils in 'UDFUtils.pas',
   PlanListForm in 'PlanListForm.pas' {fmPlanList},
   AboutForm in 'AboutForm.pas' {fmAbout},
-  LogUnit in 'LogUnit.pas' {LogForm},
+  LogForm in 'LogForm.pas' {fmLog},
   RetMonitorTools in 'RetMonitorTools.pas',
   BackupServiceUnit in 'BackupServiceUnit.pas',
   ServiceUtilsUnit in 'ServiceUtilsUnit.pas',

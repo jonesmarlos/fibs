@@ -23,23 +23,22 @@
 {                                                                            }
 {****************************************************************************}
 
-unit LogUnit;
+unit LogForm;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, Grids, StdCtrls;
+  Dialogs, Buttons, Grids, StdCtrls, FibsData;
 
 type
-  TLogForm = class(TForm)
-    SpeedButton1: TSpeedButton;
-    StringGrid1: TStringGrid;
-    LabelLogPath: TLabel;
-    SBprint: TSpeedButton;
-    PrintDialog1: TPrintDialog;
-    procedure SpeedButton1Click(Sender: TObject);
-    procedure SBprintClick(Sender: TObject);
+  TfmLog = class(TForm)
+    grLogText: TStringGrid;
+    lbLogPath: TLabel;
+    dlgPrint: TPrintDialog;
+    btClose: TButton;
+    btPrint: TButton;
+    procedure btPrintClick(Sender: TObject);
   private
     { Private declarations }
     Tarih: string;
@@ -50,16 +49,15 @@ type
   public
     { Public declarations }
     LogFile: string;
-  end;
 
-var
-  LogForm: TLogForm;
+    class procedure ShowLog(AOwner: TComponent; FibsRef: TdmFibs);
+  end;
 
 implementation
 
 {$R *.dfm}
 
-uses Printers, ProgressForm, UDFConst;
+uses Printers, ProgressForm, UDFConst, UDFUtils, UDFPresets;
 
 type
   THeaderFooterProc = procedure(aCanvas: TCanvas; aPageCount: Integer;
@@ -325,7 +323,7 @@ begin { PrintStrings }
     Result := 0;
 end; { PrintStrings }
 
-procedure TLogForm.PrintFooter(aCanvas: TCanvas; aPageCount: Integer;
+procedure TfmLog.PrintFooter(aCanvas: TCanvas; aPageCount: Integer;
   aTextrect: TRect; var Continue: Boolean);
 var
   s: string;
@@ -351,7 +349,7 @@ begin
   end;
 end;
 
-procedure TLogForm.PrintHeader(aCanvas: TCanvas; aPageCount: Integer;
+procedure TfmLog.PrintHeader(aCanvas: TCanvas; aPageCount: Integer;
   aTextrect: TRect; var Continue: Boolean);
 var
   res: Integer;
@@ -375,33 +373,69 @@ begin
   end;
 end;
 
-procedure TLogForm.SpeedButton1Click(Sender: TObject);
-begin
-  Close;
-end;
-
-procedure TLogForm.SBprintClick(Sender: TObject);
+procedure TfmLog.btPrintClick(Sender: TObject);
 var
   pc: Integer;
 begin
-  //  Tarih:=DateTimeTostr(Now);
   DateTimeTostring(Tarih, 'dd mmmm yyyy, dddd   hh:nn:ss', Now);
-  pc := PrintStrings(StringGrid1.Cols[0], 0.75, 0.5, 0.75, 1, 6, StringGrid1.Font, True, PrintHeader, PrintFooter);
+  pc := PrintStrings(Self.grLogText.Cols[0], 0.75, 0.5, 0.75, 1, 6, Self.grLogText.Font, True, PrintHeader, PrintFooter);
   if pc > 0 then
   begin
-    PrintDialog1.FromPage := 1;
-    PrintDialog1.ToPage := pc;
+    Self.dlgPrint.FromPage := 1;
+    Self.dlgPrint.ToPage := pc;
   end;
-  if PrintDialog1.Execute then
+  if Self.dlgPrint.Execute then
   begin
-    PrintStrings(StringGrid1.Cols[0],
+    PrintStrings(Self.grLogText.Cols[0],
       0.75, 0.5, 0.75, 1,
       6,
-      StringGrid1.Font,
+      Self.grLogText.Font,
       False,
       PrintHeader, PrintFooter);
   end;
+end;
 
+class procedure TfmLog.ShowLog(AOwner: TComponent; FibsRef: TdmFibs);
+var
+  fmLog: TfmLog;
+  slLogFile: TStringList;
+  sTaskName, sLogDir, sLogName, sLogNameExt, sLogPath: string;
+begin
+  sTaskName := UDFUtils.RemoveDatabaseSequenceTokens(FibsRef.qrTaskTASKNAME.Value);
+  sLogName := 'LOG_' + sTaskName;
+  sLogNameExt := 'LOG_' + sTaskName + '.TXT';
+  sLogDir := FibsRef.qrOptionLOGDIR.Value;
+  sLogPath := UDFPresets.MakeFull(sLogDir, sLogNameExt);
+  if Length(Trim(sLogPath)) = 0 then
+  begin
+    MessageDlg('LOG Directory is empty!', mtError, [mbOk], 0);
+    Exit;
+  end;
+  if not SysUtils.DirectoryExists(sLogDir) then
+  begin
+    MessageDlg('Given LOG Directory doesn''t exists!' + #13#10 + '(' + sLogDir + ')', mtError, [mbOk], 0);
+    Exit;
+  end;
+  if not SysUtils.FileExists(sLogPath) then
+  begin
+    MessageDlg('LOG File for Task "' + sTaskName + '" is not exist!' + #13#10 + 'Log File will be created after executing a backup task.', mtError, [mbOk], 0);
+    Exit;
+  end;
+  slLogFile := TStringList.Create;
+  fmLog := TfmLog.Create(AOwner);
+  try
+    fmLog.Caption := 'Task " ' + sTaskName + ' " LOG';
+    fmLog.LogFile := sLogNameExt;
+    fmLog.lbLogPath.Caption := 'Log File: ' + sLogPath;
+    fmLog.grLogText.Cols[0].BeginUpdate;
+    fmLog.grLogText.Cols[0].LoadFromFile(sLogPath);
+    fmLog.grLogText.Cols[0].EndUpdate;
+    fmLog.grLogText.TopRow := fmLog.grLogText.RowCount - 1;
+    fmLog.ShowModal;
+  finally
+    slLogFile.Free;
+    fmLog.Release;
+  end;
 end;
 
 end.
