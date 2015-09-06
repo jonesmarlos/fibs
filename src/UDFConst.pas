@@ -32,13 +32,13 @@ interface
 uses Classes, SysUtils;
 
 const
-  PrgName: string = 'FIBS 2.0.4';
+  PrgName: string = 'FIBS 2.1.1';
   PrgInfo: string = 'Firebird-Interbase Backup Scheduler';
-  PrgCopyright: string = '(c) 2005-2014, Talat Dogan';
+  PrgCopyright: string = '(c) 2005-2015, Talat Dogan';
   PrgWebSite: string = 'www.talatdogan.com';
 
-  ReleaseInfo = '2.0.4';
-  ReleaseDate = '03.03.2014';
+  ReleaseInfo = '2.1.1';
+  ReleaseDate = '30.08.2015';
   PrgRelease: string = 'Release : ' + ReleaseInfo + ' - ' + ReleaseDate;
 
   // ****************  See end of the unit for revision notes ******************//

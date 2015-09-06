@@ -163,7 +163,7 @@ object fmTask: TfmTask
     Top = 232
     Width = 544
     Height = 224
-    ActivePage = tsBackupTime
+    ActivePage = tsOtherOptions
     TabOrder = 0
     object tsBackupTime: TTabSheet
       Caption = '             Backup Time             '
@@ -366,7 +366,7 @@ object fmTask: TfmTask
           Height = 21
           BevelKind = bkFlat
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           ItemIndex = 0
           TabOrder = 1
           Text = 'None'
@@ -398,7 +398,7 @@ object fmTask: TfmTask
           Height = 21
           BevelKind = bkFlat
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           ItemIndex = 0
           TabOrder = 0
           Text = 'Backups'
@@ -467,9 +467,15 @@ object fmTask: TfmTask
         object JvLabel1: TJvLabel
           Left = 8
           Top = 48
-          Width = 44
+          Width = 319
           Height = 13
-          Caption = 'JvLabel1'
+          Caption = 'You may enter more than one mail address delimited by column(;).'
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowFrame
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsItalic]
+          ParentFont = False
           Visible = False
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText

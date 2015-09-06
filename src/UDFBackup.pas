@@ -134,7 +134,7 @@ type
 
 implementation
 
-uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, UDFUtils, EmailUnit;
+uses WinInet, ShellApi, Forms, StrUtils, DateUtils, UDFConst, UDFUtils, UDFEmail;
 
 //By Lance leonard
 //http://www.techtricks.com/delphi/sendmail.php
@@ -186,7 +186,7 @@ end;
 
 function TBackupTask.CreateEmail(const EmailAddr, cc, Subject, Body, Attach: string): Boolean;
 begin
-  EmailUnit.SendEmail(FSendersMail, EmailAddr, Subject, FSmtpServer, Body, FMailUserName, FMailPassword);
+  UDFEmail.SendEmail(FSendersMail, EmailAddr, Subject, FSmtpServer, Body, FMailUserName, FMailPassword);
 end;
 
 function TBackupTask.DeleteOldest(ACurrentDir, ADirInfo: string): string;
