@@ -9,7 +9,6 @@
 program fibs;
 
 uses
-  ExceptionLog,
   Windows,
   Messages,
   SysUtils,
@@ -17,7 +16,6 @@ uses
   Dialogs,
   WinSvc,
   Classes,
-  DCPbase64,
   UDFConst in 'UDFConst.pas',
   UDFPresets in 'UDFPresets.pas',
   UDFTask in 'UDFTask.pas',

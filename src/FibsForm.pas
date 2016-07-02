@@ -30,7 +30,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Mask, Buttons, ActiveX, ShellApi, Menus, ExtCtrls, Grids, DBGrids,
-  DBCtrls, ThdTimer, FibsData, JvComponentBase, JvTrayIcon, JvThreadTimer;
+  DBCtrls, FibsData, JvComponentBase, JvTrayIcon, JvThreadTimer;
 
 const
   WM_ICONTRAY = WM_USER + 1; // User-defined message
@@ -150,7 +150,7 @@ implementation
 uses Registry, Variants, StrUtils, PrefForm, TaskForm, UDFConst, UDFBackup,
   ProgressForm, BackupForm, UDFUtils, PlanListForm,
   AboutForm, LogForm, UDFPresets, DateUtils,
-  UDFServiceBackup, DB, DCPbase64;
+  UDFServiceBackup, DB, Soap.EncdDecd;
 
 {$R *.DFM}
 
@@ -471,7 +471,7 @@ begin
     TaskName := dmFibs.qrTaskTASKNAME.Value;
     GBakPath := dmFibs.qrOptionPATHTOGBAK.Value;
     UserName := dmFibs.qrTaskUSER.Value;
-    Password := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
+    Password := Soap.EncdDecd.DecodeString(dmFibs.qrTaskPASSWORD.AsString);
     DoValidate := dmFibs.qrTaskDOVAL.AsBoolean;
     BatchFile := dmFibs.qrTaskBATCHFILE.Value;
     ShowBatchWin := dmFibs.qrTaskSHOWBATCHWIN.AsBoolean;
@@ -480,7 +480,7 @@ begin
     SmtpServer := dmFibs.qrOptionSMTPSERVER.Value;
     SendersMail := dmFibs.qrOptionSENDERSMAIL.Value;
     MailUserName := dmFibs.qrOptionMAILUSERNAME.Value;
-    MailPassword := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
+    MailPassword := Soap.EncdDecd.DecodeString(dmFibs.qrOptionMAILPASSWORD.AsString);
 
     MailTo := dmFibs.qrTaskMAILTO.Value;
     FtpConnType := StrToIntDef(dmFibs.qrOptionFTPCONNTYPE.AsString, 0);
@@ -714,7 +714,7 @@ begin
   SmtpServer := dmFibs.qrOptionSMTPSERVER.Value;
   SendersMail := dmFibs.qrOptionSENDERSMAIL.Value;
   MailUserName := dmFibs.qrOptionMAILUSERNAME.Value;
-  MailPassword := DCPbase64.Base64DecodeStr(dmFibs.qrOptionMAILPASSWORD.AsString);
+  MailPassword := Soap.EncdDecd.DecodeString(dmFibs.qrOptionMAILPASSWORD.AsString);
 
   BatchFile := dmFibs.qrTaskBATCHFILE.Value;
   ShowBatchWin := dmFibs.qrTaskSHOWBATCHWIN.AsBoolean;
@@ -1222,7 +1222,7 @@ begin
     sMirrorDir2 := dmFibs.qrTaskMIRROR2DIR.Value;
     sMirrorDir3 := dmFibs.qrTaskMIRROR3DIR.Value;
     sUserName := dmFibs.qrTaskUSER.Value;
-    sPassword := DCPbase64.Base64DecodeStr(dmFibs.qrTaskPASSWORD.AsString);
+    sPassword := Soap.EncdDecd.DecodeString(dmFibs.qrTaskPASSWORD.AsString);
     sGbakDir := dmFibs.qrOptionPATHTOGBAK.Value;
     bCompressBackup := dmFibs.qrTaskZIPBACKUP.AsBoolean;
     sCompressLevel := dmFibs.qrTaskCOMPRESS.Value;

@@ -28,14 +28,14 @@ unit FibsData;
 interface
 
 uses
-  SysUtils, Classes, DB, DBClient, SdfData, UDFTask;
+  SysUtils, Classes, DB, DBClient, JvCsvData, UDFTask;
 
 type
   TdmFibs = class(TDataModule)
     dsTask: TDataSource;
     dsOption: TDataSource;
-    qrTask: TSdfDataSet;
-    qrOption: TSdfDataSet;
+    qrTask: TJvCsvDataSet;
+    qrOption: TJvCsvDataSet;
     qrOptionPATHTOGBAK: TStringField;
     qrOptionLOGDIR: TStringField;
     qrOptionTASKNO: TStringField;
@@ -106,7 +106,7 @@ var
 
 implementation
 
-uses Variants, UDFConst, IBDatabase, UDFUtils, StrUtils, DCPbase64;
+uses Variants, UDFConst, IBDatabase, UDFUtils, StrUtils, Soap.EncdDecd;
 
 {$R *.dfm}
 
@@ -144,36 +144,36 @@ end;
 
 procedure TdmFibs.qrOptionAfterPost(DataSet: TDataSet);
 begin
-  Self.qrOption.SaveFileAs(DataFilesPath + '\prefs.dat');
+  Self.qrOption.SaveToFile(DataFilesPath + '\prefs.dat');
 end;
 
 procedure TdmFibs.qrTaskAfterPost(DataSet: TDataSet);
 begin
-  Self.qrTask.SaveFileAs(DataFilesPath + '\tasks.dat');
+  Self.qrTask.SaveToFile(DataFilesPath + '\tasks.dat');
 end;
 
 procedure TdmFibs.qrTaskPASSWORDGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
-  Text := DCPbase64.Base64DecodeStr(Self.qrTaskPASSWORD.AsString);
+  Text := Soap.EncdDecd.DecodeString(Self.qrTaskPASSWORD.AsString);
 end;
 
 procedure TdmFibs.qrTaskPASSWORDSetText(Sender: TField;
   const Text: string);
 begin
-  Self.qrTaskPASSWORD.AsString := DCPbase64.Base64EncodeStr(Text);
+  Self.qrTaskPASSWORD.AsString := Soap.EncdDecd.EncodeString(Text);
 end;
 
 procedure TdmFibs.qrOptionMAILPASSWORDSetText(Sender: TField;
   const Text: string);
 begin
-  Self.qrOptionMAILPASSWORD.AsString := DCPbase64.Base64EncodeStr(Text);
+  Self.qrOptionMAILPASSWORD.AsString := Soap.EncdDecd.EncodeString(Text);
 end;
 
 procedure TdmFibs.qrOptionMAILPASSWORDGetText(Sender: TField;
   var Text: string; DisplayText: Boolean);
 begin
-  Text := DCPbase64.Base64DecodeStr(Self.qrOptionMAILPASSWORD.AsString);
+  Text := Soap.EncdDecd.DecodeString(Self.qrOptionMAILPASSWORD.AsString);
 end;
 
 function TdmFibs.CheckDatabaseSequenceIncrement: Boolean;

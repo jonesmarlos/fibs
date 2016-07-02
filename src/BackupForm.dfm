@@ -146,6 +146,8 @@ object fmBackup: TfmBackup
     Width = 448
     Height = 8
     Shape = bsTopLine
+    Edges = [beTop]
+    Inner = bvRaised
   end
   object edBackupDir: TEdit
     Left = 112

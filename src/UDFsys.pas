@@ -68,9 +68,9 @@ begin
     if (host = '') then
     begin
       SetLength(host, MAX_PATH);
-      GetHostName(PChar(host), MAX_PATH);
+      WinSock.GetHostName(PAnsiChar(host), MAX_PATH);
     end;
-    HostEnt := GetHostByName(PChar(host));
+    HostEnt := WinSock.GetHostByName(PAnsiChar(host));
     if HostEnt <> nil then
     begin
       SockAddr.sin_addr.S_addr := Longint(PLongint(HostEnt^.h_addr_list^)^);

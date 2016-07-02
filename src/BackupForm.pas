@@ -77,7 +77,7 @@ type
 implementation
 
 {$R *.dfm}
-uses DateUtils, UDFConst, ProgressForm, UDFPresets, UDFUtils, DCPbase64,
+uses DateUtils, UDFConst, ProgressForm, UDFPresets, UDFUtils, Soap.EncdDecd,
   DB;
 
 procedure TfmBackup.LoadTask(FibsRef: TdmFibs);
@@ -93,7 +93,7 @@ begin
   Self.edMirrorDir3.Text := FibsRef.qrTaskMIRROR3DIR.Value;
   Self.edGbakDir.Text := FibsRef.qrOptionPATHTOGBAK.Value;
   Self.edUserName.Text := FibsRef.qrTaskUSER.Value;
-  Self.edPassword.Text := DCPbase64.Base64DecodeStr(FibsRef.qrTaskPASSWORD.AsString);
+  Self.edPassword.Text := Soap.EncdDecd.DecodeString(FibsRef.qrTaskPASSWORD.AsString);
   Self.cbValidateDatabase.Checked := FibsRef.qrTaskDOVAL.AsBoolean;
   Self.cbCreateZipBackup.Checked := FibsRef.qrTaskZIPBACKUP.AsBoolean;
   Self.edCompressLevel.Text := FibsRef.qrTaskCOMPRESS.Value;

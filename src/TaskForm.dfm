@@ -367,7 +367,6 @@ object fmTask: TfmTask
           BevelKind = bkFlat
           Style = csDropDownList
           ItemHeight = 13
-          ItemIndex = 0
           TabOrder = 1
           Text = 'None'
           Items.Strings = (
@@ -375,6 +374,7 @@ object fmTask: TfmTask
             'Fastest'
             'Default'
             'Maximum')
+          ItemIndex = 0
         end
       end
       object JvGroupBox5: TJvGroupBox
@@ -399,7 +399,6 @@ object fmTask: TfmTask
           BevelKind = bkFlat
           Style = csDropDownList
           ItemHeight = 13
-          ItemIndex = 0
           TabOrder = 0
           Text = 'Backups'
           Items.Strings = (
@@ -407,6 +406,7 @@ object fmTask: TfmTask
             'Hour'#39's Backup'
             'Day'#39's Backup'
             'Month'#39's Backup')
+          ItemIndex = 0
         end
         object edPolicyValue: TJvEdit
           Left = 104
@@ -417,8 +417,7 @@ object fmTask: TfmTask
           BevelKind = bkFlat
           BevelOuter = bvNone
           Flat = True
-          ParentCtl3D = False
-          Modified = False
+          ParentFlat = False
           AutoSize = False
           TabOrder = 1
           Text = 'edPolicyValue'
@@ -476,6 +475,7 @@ object fmTask: TfmTask
           Font.Name = 'Tahoma'
           Font.Style = [fsItalic]
           ParentFont = False
+          Transparent = True
           Visible = False
           HotTrackFont.Charset = ANSI_CHARSET
           HotTrackFont.Color = clWindowText
@@ -489,8 +489,7 @@ object fmTask: TfmTask
           Width = 504
           Height = 19
           Flat = True
-          ParentCtl3D = False
-          Modified = False
+          ParentFlat = False
           TabOrder = 0
           Text = 'edMailTo'
         end
@@ -508,7 +507,7 @@ object fmTask: TfmTask
           Width = 504
           Height = 19
           Flat = True
-          ParentCtl3D = False
+          ParentFlat = False
           Filter = 
             'Batch Files (*.BAT)|*.BAT|Exe Files (*.EXE)|*.EXE|All files (*.*' +
             ')|*.*'
@@ -574,8 +573,7 @@ object fmTask: TfmTask
     Width = 240
     Height = 19
     Flat = True
-    ParentCtl3D = False
-    Modified = False
+    ParentFlat = False
     TabOrder = 3
     Text = 'edTaskName'
     OnKeyPress = edTaskNameKeyPress
@@ -586,7 +584,7 @@ object fmTask: TfmTask
     Width = 448
     Height = 19
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     TabOrder = 4
     Text = 'edDatabaseName'
@@ -599,7 +597,7 @@ object fmTask: TfmTask
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     TabOrder = 5
     Text = 'edBackupDir'
@@ -611,7 +609,7 @@ object fmTask: TfmTask
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     TabOrder = 6
     Text = 'edMirrorDir1'
@@ -623,7 +621,7 @@ object fmTask: TfmTask
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     TabOrder = 7
     Text = 'edMirrorDir2'
@@ -635,7 +633,7 @@ object fmTask: TfmTask
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     TabOrder = 8
     Text = 'edMirrorDir3'
@@ -661,8 +659,7 @@ object fmTask: TfmTask
     Width = 128
     Height = 19
     Flat = True
-    ParentCtl3D = False
-    Modified = False
+    ParentFlat = False
     TabOrder = 10
     Text = 'edUserName'
   end
@@ -672,8 +669,7 @@ object fmTask: TfmTask
     Width = 128
     Height = 19
     Flat = True
-    ParentCtl3D = False
-    Modified = False
+    ParentFlat = False
     ThemedPassword = True
     TabOrder = 11
     Text = 'edPassword'

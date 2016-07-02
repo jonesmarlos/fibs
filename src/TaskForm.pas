@@ -29,7 +29,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Spin, CheckLst, DBCtrls, ComCtrls, EditBtn, Mask, StdCtrls,
+  Dialogs, Spin, CheckLst, DBCtrls, ComCtrls, Mask, StdCtrls,
   ExtCtrls, Buttons, Menus, UDFUtils, FibsData, JvExControls,
   JvComponent, JvGroupHeader, JvExStdCtrls, JvGroupBox, JvLabel, JvEdit,
   JvExMask, JvToolEdit, JvCheckBox, JvCombobox;

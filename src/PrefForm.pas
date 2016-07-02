@@ -81,7 +81,7 @@ type
 
 implementation
 
-uses Registry, FileCtrl, ProgressForm, UDFConst, DCPbase64, UDFValidation, DB;
+uses Registry, FileCtrl, ProgressForm, UDFConst, UDFValidation, DB, Soap.EncdDecd;
 
 {$R *.dfm}
 
@@ -111,7 +111,7 @@ begin
   Self.edSMTPServer.Text := FibsRef.qrOptionSMTPSERVER.Value;
   Self.edMailAdress.Text := FibsRef.qrOptionSENDERSMAIL.Value;
   Self.edUserName.Text := FibsRef.qrOptionMAILUSERNAME.Value;
-  Self.edPassword.Text := DCPbase64.Base64DecodeStr(FibsRef.qrOptionMAILPASSWORD.AsString);
+  Self.edPassword.Text := Soap.EncdDecd.DecodeString(FibsRef.qrOptionMAILPASSWORD.AsString);
   if Length(Trim(Self.edGbakDir.Text)) = 0 then
     if Self.arsFirebird.PathExists('DefaultInstance') then
       Self.edGbakDir.Text := Self.arsFirebird.ReadString('DefaultInstance') + 'bin';
@@ -129,7 +129,7 @@ begin
   FibsRef.qrOptionSMTPSERVER.Value := Self.edSMTPServer.Text;
   FibsRef.qrOptionSENDERSMAIL.Value := Self.edMailAdress.Text;
   FibsRef.qrOptionMAILUSERNAME.Value := Self.edUserName.Text;
-  FibsRef.qrOptionMAILPASSWORD.Value := DCPbase64.Base64EncodeStr(Self.edPassword.Text);
+  FibsRef.qrOptionMAILPASSWORD.Value := Soap.EncdDecd.EncodeString(Self.edPassword.Text);
   FibsRef.qrOption.Post;
   try
     if Self.cbAutoRun.Checked then

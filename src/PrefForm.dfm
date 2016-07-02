@@ -212,6 +212,8 @@ object fmPref: TfmPref
     Height = 8
     Anchors = [akLeft, akRight, akBottom]
     Shape = bsTopLine
+    Edges = [beTop]
+    Inner = bvRaised
   end
   object edSMTPServer: TEdit
     Left = 112
@@ -257,7 +259,7 @@ object fmPref: TfmPref
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 4
@@ -270,7 +272,7 @@ object fmPref: TfmPref
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 5
@@ -283,7 +285,7 @@ object fmPref: TfmPref
     Height = 19
     DialogKind = dkWin32
     Flat = True
-    ParentCtl3D = False
+    ParentFlat = False
     ButtonFlat = True
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 6
@@ -318,8 +320,6 @@ object fmPref: TfmPref
     Height = 21
     BevelKind = bkFlat
     Style = csDropDownList
-    ItemHeight = 13
-    ItemIndex = 3
     TabOrder = 9
     Text = 'Normal'
     Items.Strings = (
@@ -329,6 +329,7 @@ object fmPref: TfmPref
       'Normal'
       'Higher'
       'Highest')
+    ItemIndex = 3
   end
   object cbAutoRun: TJvCheckBox
     Left = 16

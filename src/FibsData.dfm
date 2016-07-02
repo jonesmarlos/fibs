@@ -2,8 +2,6 @@ object dmFibs: TdmFibs
   OldCreateOrder = True
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 438
-  Top = 244
   Height = 275
   Width = 450
   object dsTask: TDataSource
@@ -16,36 +14,7 @@ object dmFibs: TdmFibs
     Left = 80
     Top = 56
   end
-  object qrTask: TSdfDataSet
-    FileMustExist = False
-    ReadOnly = False
-    FileName = '.\tasks.dat'
-    Schema.Strings = (
-      'TASKNO=10'
-      'TASKNAME=30'
-      'DBNAME=100'
-      'BACKUPDIR=100'
-      'MIRRORDIR=100'
-      'MIRROR2DIR=100'
-      'MIRROR3DIR=100'
-      'USER=20'
-      'PASSWORD=24'
-      'ROLE=32'
-      'PVAL=10'
-      'PUNIT=16'
-      'ZIPBACKUP=5'
-      'BOPTIONS=32'
-      'DELETEALL=1'
-      'BOXES=115'
-      'COMPRESS=10'
-      'LOCALCONN=5'
-      'BCOUNTER=6'
-      'ACTIVE=1'
-      'DOVAL=5'
-      'MAILTO=250'
-      'BATCHFILE=250'
-      'SHOWBATCHWIN=5'
-      'USEPARAMS=5')
+  object qrTask: TJvCsvDataSet
     FieldDefs = <
       item
         Name = 'TASKNO'
@@ -125,7 +94,7 @@ object dmFibs: TdmFibs
       item
         Name = 'BOXES'
         DataType = ftString
-        Size = 84
+        Size = 115
       end
       item
         Name = 'COMPRESS'
@@ -150,7 +119,7 @@ object dmFibs: TdmFibs
       item
         Name = 'DOVAL'
         DataType = ftString
-        Size = 1
+        Size = 5
       end
       item
         Name = 'MAILTO'
@@ -172,10 +141,20 @@ object dmFibs: TdmFibs
         DataType = ftString
         Size = 5
       end>
+    FileName = 'D:\GitHub\fibs\bin\tasks.dat'
     AfterInsert = qrTaskAfterInsert
     AfterPost = qrTaskAfterPost
-    Delimiter = ';'
-    FirstLineAsSchema = False
+    CsvFieldDef = 
+      'TASKNO:$10,TASKNAME:$30,DBNAME:$100,BACKUPDIR:$100,MIRRORDIR:$10' +
+      '0,MIRROR2DIR:$100,MIRROR3DIR:$100,USER:$20,PASSWORD:$24,ROLE:$32' +
+      ',PVAL:$10,PUNIT:$16,ZIPBACKUP:$5,BOPTIONS:$32,DELETEALL:$1,BOXES' +
+      ':$115,COMPRESS:$10,LOCALCONN:$5,BCOUNTER:$6,ACTIVE:$1,DOVAL:$5,M' +
+      'AILTO:$250,BATCHFILE:$250,SHOWBATCHWIN:$5,USEPARAMS:$5'
+    HasHeaderRow = False
+    ValidateHeaderRow = False
+    Separator = ';'
+    AutoBackupCount = 0
+    StoreDefs = True
     Left = 20
     Top = 8
     object qrTaskTASKNO: TStringField
@@ -281,22 +260,7 @@ object dmFibs: TdmFibs
       Size = 5
     end
   end
-  object qrOption: TSdfDataSet
-    FileMustExist = False
-    ReadOnly = False
-    FileName = '.\prefs.dat'
-    Schema.Strings = (
-      'PATHTOGBAK=100'
-      'TASKNO=10'
-      'LOGDIR=100'
-      'BPRIORTY=10'
-      'AUTORUN=1'
-      'SMTPSERVER=250'
-      'SENDERSMAIL=250'
-      'MAILUSERNAME=80'
-      'MAILPASSWORD=80'
-      'FTPCONNTYPE=1'
-      'ARCHIVEDIR=100')
+  object qrOption: TJvCsvDataSet
     FieldDefs = <
       item
         Name = 'PATHTOGBAK'
@@ -353,9 +317,17 @@ object dmFibs: TdmFibs
         DataType = ftString
         Size = 100
       end>
+    FileName = 'D:\GitHub\fibs\bin\prefs.dat'
     AfterPost = qrOptionAfterPost
-    Delimiter = ';'
-    FirstLineAsSchema = False
+    CsvFieldDef = 
+      'PATHTOGBAK:$100,TASKNO:$10,LOGDIR:$100,BPRIORTY:$10,AUTORUN:$1,S' +
+      'MTPSERVER:$250,SENDERSMAIL:$250,MAILUSERNAME,MAILPASSWORD,FTPCON' +
+      'NTYPE:$1,ARCHIVEDIR:$100'
+    HasHeaderRow = False
+    ValidateHeaderRow = False
+    Separator = ';'
+    AutoBackupCount = 0
+    StoreDefs = True
     Left = 80
     Top = 8
     object qrOptionPATHTOGBAK: TStringField
@@ -398,7 +370,7 @@ object dmFibs: TdmFibs
     end
     object qrOptionFTPCONNTYPE: TStringField
       FieldName = 'FTPCONNTYPE'
-      Size = 5
+      Size = 1
     end
     object qrOptionARCHIVEDIR: TStringField
       FieldName = 'ARCHIVEDIR'
